@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD;
 
+import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardException;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,7 +9,7 @@ class TicTacToeTest {
     private TicTacToe ticTacToe;
 
     @BeforeEach
-    final void initializeTicTac() {
+    final void initializeTicTac() throws IncorrectBoardException {
         ticTacToe = new TicTacToe();
     }
 
@@ -111,10 +112,44 @@ class TicTacToeTest {
             ticTacToe.markField(1, 2); //O
             ticTacToe.markField(1, 0); //X
             ticTacToe.markField(1, 1); //O
-            ticTacToe.markField(2, 2); //X
-            ticTacToe.markField(2, 0); //O
             String winner = ticTacToe.markField(2, 1); //X
             assertEquals(TicTacToe.NO_WINNER_MSG, winner);
+        }
+
+        @Test
+        void whenAllBoxesFiledAndNoWinnerThenDraw() {
+            ticTacToe.markField(0, 0); //X
+            ticTacToe.markField(0, 1); //O
+            ticTacToe.markField(0, 2); //X
+            ticTacToe.markField(1, 2); //O
+            ticTacToe.markField(1, 0); //X
+            ticTacToe.markField(1, 1); //O
+            ticTacToe.markField(2, 1); //X
+            ticTacToe.markField(2, 0); //O
+            String winner = ticTacToe.markField(2, 2); //X
+            assertEquals(TicTacToe.DRAW_MSG, winner);
+        }
+
+        @Test
+        void whenAllBoxesFiledAndIsWinnerThenWinner() {
+            ticTacToe.markField(0, 0); //X
+            ticTacToe.markField(0, 1); //O
+            ticTacToe.markField(0, 2); //X
+            ticTacToe.markField(1, 2); //O
+            ticTacToe.markField(1, 0); //X
+            ticTacToe.markField(1, 1); //O
+            ticTacToe.markField(2, 1); //X
+            ticTacToe.markField(2, 2); //O
+            String winner = ticTacToe.markField(2, 0); //X
+            assertEquals(TicTacToe.WINNER_MSG_PREFIX + "X", winner);
+        }
+    }
+
+    @Nested
+    class InitializationTest {
+        @Test
+        void whenIncorrectBoardSizeThenIncorrectBoardException() {
+            assertThrows(IncorrectBoardException.class, () -> ticTacToe = new TicTacToe(2));
         }
     }
 }
