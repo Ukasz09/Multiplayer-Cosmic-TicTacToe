@@ -91,6 +91,7 @@ public class TicTacToe {
         while (actualPlayerMarkCount < 3 && (tmpX < DEFAULT_BOARD_SIZE && tmpY < DEFAULT_BOARD_SIZE && tmpX >= 0 && tmpY >= 0)) {
             if (board[tmpX][tmpY] == playerInLastTurn)
                 actualPlayerMarkCount += 1;
+            else break;
             tmpX += 1;
             tmpY += 1;
         }
@@ -101,6 +102,7 @@ public class TicTacToe {
         while (actualPlayerMarkCount < 3 && (tmpX < DEFAULT_BOARD_SIZE && tmpY < DEFAULT_BOARD_SIZE && tmpX >= 0 && tmpY >= 0)) {
             if (board[tmpX][tmpY] == playerInLastTurn)
                 actualPlayerMarkCount += 1;
+            else break;
             tmpX -= 1;
             tmpY -= 1;
         }
@@ -117,6 +119,7 @@ public class TicTacToe {
         while (actualPlayerMarkCount < 3 && (tmpX < DEFAULT_BOARD_SIZE && tmpY < DEFAULT_BOARD_SIZE && tmpX >= 0 && tmpY >= 0)) {
             if (board[tmpX][tmpY] == playerInLastTurn)
                 actualPlayerMarkCount += 1;
+            else break;
             tmpX += 1;
             tmpY -= 1;
         }
@@ -127,6 +130,7 @@ public class TicTacToe {
         while (actualPlayerMarkCount < 3 && (tmpX < DEFAULT_BOARD_SIZE && tmpY < DEFAULT_BOARD_SIZE && tmpX >= 0 && tmpY >= 0)) {
             if (board[tmpX][tmpY] == playerInLastTurn)
                 actualPlayerMarkCount += 1;
+            else break;
             tmpX -= 1;
             tmpY += 1;
         }

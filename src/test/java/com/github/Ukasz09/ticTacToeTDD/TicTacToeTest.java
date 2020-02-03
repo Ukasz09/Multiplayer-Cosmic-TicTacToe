@@ -152,4 +152,9 @@ class TicTacToeTest {
             assertThrows(IncorrectBoardException.class, () -> ticTacToe = new TicTacToe(2));
         }
     }
+
+    @Nested
+    class LineFilledTests{
+       //todo:
+    }
 }
