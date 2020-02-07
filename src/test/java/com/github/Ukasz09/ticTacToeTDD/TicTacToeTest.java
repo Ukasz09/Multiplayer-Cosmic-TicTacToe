@@ -10,19 +10,19 @@ class TicTacToeTest {
 
     @BeforeEach
     final void initializeTicTac() throws IncorrectBoardException {
-        ticTacToe = new TicTacToe();
+        ticTacToe = new TicTacToe(3);
     }
 
     @Nested
     class MarkFieldTest {
         @Test
         void whenXOutsideBoardThenRuntimeException() {
-            assertThrows(RuntimeException.class, () -> ticTacToe.markField(6, 2));
+            assertThrows(RuntimeException.class, () -> ticTacToe.markField(ticTacToe.getBoardSize(), 2));
         }
 
         @Test
         void whenYOutsideBoardThenRuntimeException() {
-            assertThrows(RuntimeException.class, () -> ticTacToe.markField(1, 3));
+            assertThrows(RuntimeException.class, () -> ticTacToe.markField(1, ticTacToe.getBoardSize()));
         }
 
         @Test
@@ -117,7 +117,8 @@ class TicTacToeTest {
         }
 
         @Test
-        void whenAllBoxesFiledAndNoWinnerThenDraw() {
+        void givenBoardSize3WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardException {
+            ticTacToe=new TicTacToe(3);
             ticTacToe.markField(0, 0); //X
             ticTacToe.markField(0, 1); //O
             ticTacToe.markField(0, 2); //X
@@ -126,8 +127,8 @@ class TicTacToeTest {
             ticTacToe.markField(1, 1); //O
             ticTacToe.markField(2, 1); //X
             ticTacToe.markField(2, 0); //O
-            String winner = ticTacToe.markField(2, 2); //X
-            assertEquals(TicTacToe.DRAW_MSG, winner);
+            String lastTurn = ticTacToe.markField(2, 2); //X
+            assertEquals(TicTacToe.DRAW_MSG, lastTurn);
         }
 
         @Test
@@ -154,7 +155,7 @@ class TicTacToeTest {
     }
 
     @Nested
-    class LineFilledTests{
-       //todo:
+    class LineFilledTests {
+        //todo:
     }
 }
