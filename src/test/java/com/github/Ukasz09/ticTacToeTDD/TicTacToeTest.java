@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD;
 
-import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardException;
+import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardSizeException;
+import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectFieldException;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,26 +10,26 @@ class TicTacToeTest {
     private TicTacToe ticTacToe;
 
     @BeforeEach
-    final void initializeTicTac() throws IncorrectBoardException {
+    final void initializeTicTac() throws IncorrectBoardSizeException {
         ticTacToe = new TicTacToe(3);
     }
 
     @Nested
     class MarkFieldTest {
         @Test
-        void whenXOutsideBoardThenRuntimeException() {
-            assertThrows(RuntimeException.class, () -> ticTacToe.markField(ticTacToe.getBoardSize(), 2));
+        void whenXOutsideBoardThenException() {
+            assertThrows(IncorrectFieldException.class, () -> ticTacToe.markField(ticTacToe.getBoardSize(), 2));
         }
 
         @Test
-        void whenYOutsideBoardThenRuntimeException() {
-            assertThrows(RuntimeException.class, () -> ticTacToe.markField(1, ticTacToe.getBoardSize()));
+        void whenYOutsideBoardThenException() {
+            assertThrows(IncorrectFieldException.class, () -> ticTacToe.markField(1, ticTacToe.getBoardSize()));
         }
 
         @Test
-        void whenOccupiedThenRuntimeException() {
+        void whenOccupiedThenException() throws IncorrectFieldException {
             ticTacToe.markField(1, 2);
-            assertThrows(RuntimeException.class, () -> ticTacToe.markField(1, 2));
+            assertThrows(IncorrectFieldException.class, () -> ticTacToe.markField(1, 2));
         }
     }
 
@@ -40,13 +41,13 @@ class TicTacToeTest {
         }
 
         @Test
-        void givenLastTurnWasXWhenNextPlayerThenO() {
+        void givenLastTurnWasXWhenNextPlayerThenO() throws IncorrectFieldException {
             ticTacToe.markField(1, 1);
             assertEquals('O', ticTacToe.nextPlayer());
         }
 
         @Test
-        void givenLastTurnWasOWhenNextPlayerThenX() {
+        void givenLastTurnWasOWhenNextPlayerThenX() throws IncorrectFieldException {
             ticTacToe.markField(1, 1);
             ticTacToe.markField(0, 0);
             assertEquals('X', ticTacToe.nextPlayer());
@@ -56,13 +57,13 @@ class TicTacToeTest {
     @Nested
     class WinnerTest {
         @Test
-        void whenFirstTurnThenNoWinner() {
+        void whenFirstTurnThenNoWinner() throws IncorrectFieldException {
             String winner = ticTacToe.markField(0, 0);
             assertEquals(TicTacToe.NO_WINNER_MSG, winner);
         }
 
         @Test
-        void whenHorizontalLineThenWinner() {
+        void whenHorizontalLineThenWinner() throws IncorrectFieldException {
             ticTacToe.markField(0, 0); //X
             ticTacToe.markField(1, 1); //O
             ticTacToe.markField(0, 1); //X
@@ -72,7 +73,7 @@ class TicTacToeTest {
         }
 
         @Test
-        void whenVerticalLineThenWinner() {
+        void whenVerticalLineThenWinner() throws IncorrectFieldException {
             ticTacToe.markField(0, 0); //X
             ticTacToe.markField(1, 1); //O
             ticTacToe.markField(0, 2); //X
@@ -83,7 +84,7 @@ class TicTacToeTest {
         }
 
         @Test
-        void whenRightDiagonalLineThenWinner() {
+        void whenRightDiagonalLineThenWinner() throws IncorrectFieldException {
             ticTacToe.markField(0, 0); //X
             ticTacToe.markField(1, 0); //O
             ticTacToe.markField(1, 1); //X
@@ -94,7 +95,7 @@ class TicTacToeTest {
 
 
         @Test
-        void whenLeftDiagonalLineThenWinner() {
+        void whenLeftDiagonalLineThenWinner() throws IncorrectFieldException {
             ticTacToe.markField(0, 1); //X
             ticTacToe.markField(0, 2); //O
             ticTacToe.markField(1, 2); //X
@@ -105,7 +106,7 @@ class TicTacToeTest {
         }
 
         @Test
-        void whenNoFullLineThenNoWinner() {
+        void whenNoFullLineThenNoWinner() throws IncorrectFieldException {
             ticTacToe.markField(0, 0); //X
             ticTacToe.markField(0, 1); //O
             ticTacToe.markField(0, 2); //X
@@ -117,8 +118,8 @@ class TicTacToeTest {
         }
 
         @Test
-        void givenBoardSize3WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardException {
-            ticTacToe=new TicTacToe(3);
+        void givenBoardSize3WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardSizeException, IncorrectFieldException {
+            ticTacToe = new TicTacToe(3);
             ticTacToe.markField(0, 0); //X
             ticTacToe.markField(0, 1); //O
             ticTacToe.markField(0, 2); //X
@@ -132,7 +133,7 @@ class TicTacToeTest {
         }
 
         @Test
-        void whenAllBoxesFiledAndIsWinnerThenWinner() {
+        void whenAllBoxesFiledAndIsWinnerThenWinner() throws IncorrectFieldException {
             ticTacToe.markField(0, 0); //X
             ticTacToe.markField(0, 1); //O
             ticTacToe.markField(0, 2); //X
@@ -150,7 +151,7 @@ class TicTacToeTest {
     class InitializationTest {
         @Test
         void whenIncorrectBoardSizeThenIncorrectBoardException() {
-            assertThrows(IncorrectBoardException.class, () -> ticTacToe = new TicTacToe(2));
+            assertThrows(IncorrectBoardSizeException.class, () -> ticTacToe = new TicTacToe(2));
         }
     }
 

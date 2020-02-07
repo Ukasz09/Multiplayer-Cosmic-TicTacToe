@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD;
 
-import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardException;
+import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardSizeException;
+import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectFieldException;
 
 import java.util.Arrays;
 
@@ -15,17 +16,17 @@ public class TicTacToe {
     private int boardSize = DEFAULT_BOARD_SIZE;
     private char[][] board;
 
-    public TicTacToe() throws IncorrectBoardException {
+    public TicTacToe() throws IncorrectBoardSizeException {
         initializeBoard(DEFAULT_BOARD_SIZE);
     }
 
-    public TicTacToe(int boardSize) throws IncorrectBoardException {
+    public TicTacToe(int boardSize) throws IncorrectBoardSizeException {
         initializeBoard(boardSize);
     }
 
-    private void initializeBoard(int boardSize) throws IncorrectBoardException {
+    private void initializeBoard(int boardSize) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
-            throw new IncorrectBoardException();
+            throw new IncorrectBoardSizeException();
 
         this.boardSize = boardSize;
         board = new char[boardSize][boardSize];
@@ -33,23 +34,23 @@ public class TicTacToe {
             Arrays.fill(chars, EMPTY_BOARD_MARK);
     }
 
-    public String markField(int x, int y) {
+    public String markField(int x, int y) throws IncorrectFieldException {
         playerInLastTurn = nextPlayer();
-        checkAxisIsCorrect(x, 'X');
-        checkAxisIsCorrect(y, 'Y');
+        checkAxisIsCorrect(x);
+        checkAxisIsCorrect(y);
         checkFieldIsNotMarked(x, y);
         setBox(x, y, playerInLastTurn);
         return getWinner(x, y);
     }
 
-    private void checkAxisIsCorrect(int axis, char axisDirection) {
-        if (axis < 0 || axis > boardSize - 1)
-            throw new RuntimeException(axisDirection + "is outside the board");
+    private void checkAxisIsCorrect(int offset) throws IncorrectFieldException {
+        if (offset < 0 || offset > boardSize - 1)
+            throw new IncorrectFieldException("Offset=" + offset + " is outside the board");
     }
 
-    private void checkFieldIsNotMarked(int x, int y) {
+    private void checkFieldIsNotMarked(int x, int y) throws IncorrectFieldException {
         if (board[x][y] != EMPTY_BOARD_MARK)
-            throw new RuntimeException("Field is already occupied");
+            throw new IncorrectFieldException("Field is already occupied");
     }
 
     private void setBox(int x, int y, char sign) {
@@ -68,7 +69,7 @@ public class TicTacToe {
     }
 
     private boolean isWin(int lastX, int lastY) {
-        return checkHorizontalLineFilled(lastX) || checkVerticalLineFilled(lastY) || checkDiagonalLineFilled(lastX, lastY);
+        return checkHorizontalLineFilled(lastX) || checkVerticalLineFilled(lastY) || checkDiagonalLineFilled(lastX, lastY, playerInLastTurn);
     }
 
     private boolean checkHorizontalLineFilled(int lastX) {
@@ -80,64 +81,70 @@ public class TicTacToe {
     }
 
     /**
-     * @param byPlayer   -  which player filled line we check
-     * @param lastOffset - if horizontal then lastXOffset else lastYOffset
+     * @param byWhichPlayer -  which player filled line we check
+     * @param lastOffset    - if horizontal then lastXOffset else lastYOffset
      */
-    private boolean straightLineIsFilled(boolean horizontal, int lastOffset, char byPlayer) {
+    private boolean straightLineIsFilled(boolean horizontal, int lastOffset, char byWhichPlayer) {
         int tmpOffset = 0;
         int actualPlayerMarkCount = 0;
-
         while (tmpOffset < DEFAULT_BOARD_SIZE) {
             boolean isMarkedByPlayer;
             if (horizontal)
-                isMarkedByPlayer = board[lastOffset][tmpOffset] == byPlayer;
-            else isMarkedByPlayer = board[tmpOffset][lastOffset] == byPlayer;
+                isMarkedByPlayer = board[lastOffset][tmpOffset] == byWhichPlayer;
+            else isMarkedByPlayer = board[tmpOffset][lastOffset] == byWhichPlayer;
+
             if (isMarkedByPlayer)
                 actualPlayerMarkCount += 1;
             else actualPlayerMarkCount = 0;
 
             if (actualPlayerMarkCount >= 3)
                 return true;
-
             tmpOffset += 1;
         }
         return false;
     }
 
-    private boolean checkDiagonalLineFilled(int lastX, int lastY) {
-        return diagonalIsFilled(true, lastX, lastY) || diagonalIsFilled(false, lastX, lastY);
+    private boolean checkDiagonalLineFilled(int lastX, int lastY, char byWhichPlayer) {
+        return diagonalIsFilled(true, lastX, lastY, byWhichPlayer) || diagonalIsFilled(false, lastX, lastY, byWhichPlayer);
     }
 
-    private boolean diagonalIsFilled(boolean right, int lastX, int lastY) {
-        int actualPlayerMarkCount = 0;
-        int tmpX = lastX, tmpY = lastY;
-        //down
-        while (actualPlayerMarkCount < 3 && (tmpX < DEFAULT_BOARD_SIZE && tmpY < DEFAULT_BOARD_SIZE && tmpX >= 0 && tmpY >= 0)) {
-            if (board[tmpX][tmpY] == playerInLastTurn)
-                actualPlayerMarkCount += 1;
-            else break;
-            tmpX += 1;
-            if (right)
-                tmpY += 1;
-            else tmpY -= 1;
-        }
-
-        //up
-        tmpX = lastX - 1;
-        if (right)
-            tmpY = lastY - 1;
-        else tmpY = lastY + 1;
-        while (actualPlayerMarkCount < 3 && (tmpX < DEFAULT_BOARD_SIZE && tmpY < DEFAULT_BOARD_SIZE && tmpX >= 0 && tmpY >= 0)) {
-            if (board[tmpX][tmpY] == playerInLastTurn)
-                actualPlayerMarkCount += 1;
-            else break;
-            tmpX -= 1;
-            if (right)
-                tmpY -= 1;
-            else tmpY += 1;
-        }
+    private boolean diagonalIsFilled(boolean right, int lastX, int lastY, char byWhichPlayer) {
+        int actualPlayerMarkCount = markedQtyInDiagonalFromGivenFields(true, right, lastX, lastY, byWhichPlayer);
+        int startedOffsetY = right ? lastY - 1 : lastY + 1;
+        actualPlayerMarkCount += markedQtyInDiagonalFromGivenFields(false, right, lastX - 1, startedOffsetY, byWhichPlayer);
 
         return actualPlayerMarkCount >= 3;
+    }
+
+    private int markedQtyInDiagonalFromGivenFields(boolean down, boolean right, int startedOffsetX, int startedOffsetY, char byWhichPlayer) {
+        int actualPlayerMarkCount = 0;
+        while (actualPlayerMarkCount < 3 && !pointIsOutsideTheBoard(startedOffsetX, startedOffsetY)) {
+            if (board[startedOffsetX][startedOffsetY] != byWhichPlayer)
+                return actualPlayerMarkCount;
+            actualPlayerMarkCount += 1;
+            if (down) {
+                startedOffsetX += 1;
+                startedOffsetY += right ? 1 : (-1);
+            } else {
+                startedOffsetX -= 1;
+                startedOffsetY += right ? -1 : (+1);
+            }
+        }
+        return actualPlayerMarkCount;
+    }
+
+    private boolean pointIsOutsideTheBoard(int offsetX, int offsetY) {
+        try {
+            checkAxisIsCorrect(offsetX);
+        } catch (IncorrectFieldException e) {
+            return true;
+        }
+        try {
+            checkAxisIsCorrect(offsetY);
+        } catch (IncorrectFieldException e) {
+            return true;
+        }
+        return false;
     }
 
     private boolean cantDoAnyMove() {

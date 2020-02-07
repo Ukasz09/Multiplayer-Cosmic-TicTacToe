@@ -1,13 +1,13 @@
 package com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions;
 
-public class IncorrectBoardException extends Exception {
+public class IncorrectBoardSizeException extends TicTacToeExceptions {
     private static final String DEFAULT_MSG = "Incorrect board size";
 
-    public IncorrectBoardException() {
+    public IncorrectBoardSizeException() {
         super(DEFAULT_MSG);
     }
 
-    public IncorrectBoardException(String message) {
+    public IncorrectBoardSizeException(String message) {
         super(message);
     }
 }
