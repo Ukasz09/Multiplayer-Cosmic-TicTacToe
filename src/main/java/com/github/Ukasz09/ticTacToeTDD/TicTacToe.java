@@ -4,10 +4,7 @@ import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardSizeExc
 import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectFieldException;
 import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectPlayerException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TicTacToe {
     public static final String NO_WINNER_MSG = "Game over. No winner";
@@ -17,8 +14,8 @@ public class TicTacToe {
     public static final char[] DEFAULT_PLAYERS_IDENTIFIERS = {'X', 'O'};
     private static final char EMPTY_BOARD_MARK = '\0';
 
-    private char playerInLastTurn = 'O'; //todo: usunac
-    private Map<Character, Player> players;
+    private int actualPlayerOffset = 1;
+    private List<Player> players;
     private int boardSize = DEFAULT_BOARD_SIZE;
     private char[][] board;
 
@@ -35,13 +32,12 @@ public class TicTacToe {
 
     public TicTacToe(int boardSize, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
         initializeBoard(boardSize);
-        players = new HashMap<>();
+        players = new ArrayList<>();
         for (Player player : playersToInitialize) {
-            if (players.containsKey(player.getIdentifier()))
+            if (players.contains(player))
                 throw new IncorrectPlayerException();
-            players.put(player.getIdentifier(), player);
+            players.add(player);
         }
-
     }
 
 
@@ -56,20 +52,24 @@ public class TicTacToe {
     }
 
     public boolean addPlayer(char identifier) {
-        if (players.containsKey(identifier))
-            return false;
         Player newPlayer = new Player(identifier);
-        players.put(newPlayer.getIdentifier(), newPlayer);
+        if (players.contains(newPlayer))
+            return false;
+        players.add(newPlayer);
         return true;
     }
 
     public String markField(int x, int y) throws IncorrectFieldException {
-        playerInLastTurn = nextPlayer();
+        changePlayerToNext();
         checkAxisIsCorrect(x);
         checkAxisIsCorrect(y);
         checkFieldIsNotMarked(x, y);
-        setBox(x, y, playerInLastTurn);
+        setBox(x, y, (players.get(actualPlayerOffset)).getIdentifier());
         return getWinner(x, y);
+    }
+
+    public void changePlayerToNext() {
+        actualPlayerOffset = ((actualPlayerOffset + 1) % players.size());
     }
 
     private void checkAxisIsCorrect(int offset) throws IncorrectFieldException {
@@ -86,27 +86,22 @@ public class TicTacToe {
         board[x][y] = sign;
     }
 
-    //todo: dodac klase playera
-    public char nextPlayer() {
-        return (playerInLastTurn == 'X') ? 'O' : 'X';
-    }
-
     private String getWinner(int lastX, int lastY) {
         if (isWin(lastX, lastY))
-            return (WINNER_MSG_PREFIX + playerInLastTurn);
+            return (WINNER_MSG_PREFIX + (players.get(actualPlayerOffset)).getIdentifier());
         return cantDoAnyMove() ? DRAW_MSG : NO_WINNER_MSG;
     }
 
     private boolean isWin(int lastX, int lastY) {
-        return checkHorizontalLineFilled(lastX) || checkVerticalLineFilled(lastY) || checkDiagonalLineFilled(lastX, lastY, playerInLastTurn);
+        return checkHorizontalLineFilled(lastX) || checkVerticalLineFilled(lastY) || checkDiagonalLineFilled(lastX, lastY, (players.get(actualPlayerOffset)).getIdentifier());
     }
 
     private boolean checkHorizontalLineFilled(int lastX) {
-        return straightLineIsFilled(true, lastX, playerInLastTurn);
+        return straightLineIsFilled(true, lastX, (players.get(actualPlayerOffset)).getIdentifier());
     }
 
     private boolean checkVerticalLineFilled(int lastY) {
-        return straightLineIsFilled(false, lastY, playerInLastTurn);
+        return straightLineIsFilled(false, lastY, (players.get(actualPlayerOffset)).getIdentifier());
     }
 
     /**
@@ -188,11 +183,11 @@ public class TicTacToe {
         return boardSize;
     }
 
-    public char getPlayerInLastTurn() {
-        return playerInLastTurn;
+    public char getLastPlayerId() {
+        return (players.get(actualPlayerOffset)).getIdentifier();
     }
 
-    public int getPlayersQty(){
+    public int getPlayersQty() {
         return players.size();
     }
 }

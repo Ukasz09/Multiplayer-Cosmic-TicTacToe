@@ -37,21 +37,24 @@ class TicTacToeTest {
     @Nested
     class NextPlayerChoiceTest {
         @Test
-        void givenFirstTurnWhenNextPlayerThenX() {
-            assertEquals('X', ticTacToe.nextPlayer());
+        void givenFirstTurnWhenNextPlayerThenX() throws IncorrectFieldException {
+            ticTacToe.markField(0,0); //X
+            assertEquals('X', ticTacToe.getLastPlayerId());
         }
 
         @Test
-        void givenLastTurnWasXWhenNextPlayerThenO() throws IncorrectFieldException {
-            ticTacToe.markField(1, 1);
-            assertEquals('O', ticTacToe.nextPlayer());
+        void givenWasXWhenNextPlayerThenO() throws IncorrectFieldException {
+            ticTacToe.markField(1, 1); //X
+            ticTacToe.markField(1, 2); //O
+            assertEquals('O', ticTacToe.getLastPlayerId());
         }
 
         @Test
-        void givenLastTurnWasOWhenNextPlayerThenX() throws IncorrectFieldException {
-            ticTacToe.markField(1, 1);
-            ticTacToe.markField(0, 0);
-            assertEquals('X', ticTacToe.nextPlayer());
+        void givenWasOWhenNextPlayerThenX() throws IncorrectFieldException {
+            ticTacToe.markField(1, 1); //X
+            ticTacToe.markField(0, 0); //O
+            ticTacToe.markField(0, 2); //X
+            assertEquals('X', ticTacToe.getLastPlayerId());
         }
     }
 
