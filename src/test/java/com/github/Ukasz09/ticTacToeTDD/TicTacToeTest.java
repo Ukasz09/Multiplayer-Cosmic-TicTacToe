@@ -2,6 +2,7 @@ package com.github.Ukasz09.ticTacToeTDD;
 
 import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectFieldException;
+import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectPlayerException;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,8 +11,8 @@ class TicTacToeTest {
     private TicTacToe ticTacToe;
 
     @BeforeEach
-    final void initializeTicTac() throws IncorrectBoardSizeException {
-        ticTacToe = new TicTacToe(3);
+    final void initializeTicTac() throws IncorrectBoardSizeException, IncorrectPlayerException {
+        ticTacToe = new TicTacToe();
     }
 
     @Nested
@@ -118,7 +119,7 @@ class TicTacToeTest {
         }
 
         @Test
-        void givenBoardSize3WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardSizeException, IncorrectFieldException {
+        void givenBoardSize3WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardSizeException, IncorrectFieldException, IncorrectPlayerException {
             ticTacToe = new TicTacToe(3);
             ticTacToe.markField(0, 0); //X
             ticTacToe.markField(0, 1); //O
@@ -152,6 +153,29 @@ class TicTacToeTest {
         @Test
         void whenIncorrectBoardSizeThenIncorrectBoardException() {
             assertThrows(IncorrectBoardSizeException.class, () -> ticTacToe = new TicTacToe(2));
+        }
+
+        @Test
+        void whenAddedPlayerWithTheSameIdentifierThenFalse() {
+            ticTacToe.addPlayer('W');
+            assertFalse(ticTacToe.addPlayer('W'));
+        }
+
+        @Test
+        void whenAdded2PlayersWithDifferentIdentifierThenTrueAndProperSize() {
+            ticTacToe.addPlayer('W');
+            assertTrue(ticTacToe.addPlayer('Z'));
+            assertEquals(TicTacToe.DEFAULT_PLAYERS_IDENTIFIERS.length + 2, ticTacToe.getPlayersQty());
+        }
+
+        @Test
+        void givenConstructorWithPlayersWhenPlayerWithTheSameIdentifierThenException() {
+            Player[] players = {
+                    new Player('X'),
+                    new Player('O'),
+                    new Player('X')
+            };
+            assertThrows(IncorrectPlayerException.class, () -> ticTacToe = new TicTacToe(3, players));
         }
     }
 

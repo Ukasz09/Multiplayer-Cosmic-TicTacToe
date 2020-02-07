@@ -2,27 +2,48 @@ package com.github.Ukasz09.ticTacToeTDD;
 
 import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectFieldException;
+import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectPlayerException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TicTacToe {
     public static final String NO_WINNER_MSG = "Game over. No winner";
     public static final String DRAW_MSG = "Game over. It's draw";
     public static final String WINNER_MSG_PREFIX = "Game over. Winner is player: ";
     public static final int DEFAULT_BOARD_SIZE = 3;
+    public static final char[] DEFAULT_PLAYERS_IDENTIFIERS = {'X', 'O'};
     private static final char EMPTY_BOARD_MARK = '\0';
 
-    private char playerInLastTurn = 'O';
+    private char playerInLastTurn = 'O'; //todo: usunac
+    private Map<Character, Player> players;
     private int boardSize = DEFAULT_BOARD_SIZE;
     private char[][] board;
 
-    public TicTacToe() throws IncorrectBoardSizeException {
-        initializeBoard(DEFAULT_BOARD_SIZE);
+    public TicTacToe() throws IncorrectBoardSizeException, IncorrectPlayerException {
+        this(DEFAULT_BOARD_SIZE);
     }
 
-    public TicTacToe(int boardSize) throws IncorrectBoardSizeException {
-        initializeBoard(boardSize);
+    public TicTacToe(int boardSize) throws IncorrectBoardSizeException, IncorrectPlayerException {
+        this(boardSize, new Player[]{
+                new Player(DEFAULT_PLAYERS_IDENTIFIERS[0]),
+                new Player(DEFAULT_PLAYERS_IDENTIFIERS[1])
+        });
     }
+
+    public TicTacToe(int boardSize, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
+        initializeBoard(boardSize);
+        players = new HashMap<>();
+        for (Player player : playersToInitialize) {
+            if (players.containsKey(player.getIdentifier()))
+                throw new IncorrectPlayerException();
+            players.put(player.getIdentifier(), player);
+        }
+
+    }
+
 
     private void initializeBoard(int boardSize) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
@@ -32,6 +53,14 @@ public class TicTacToe {
         board = new char[boardSize][boardSize];
         for (char[] chars : board)
             Arrays.fill(chars, EMPTY_BOARD_MARK);
+    }
+
+    public boolean addPlayer(char identifier) {
+        if (players.containsKey(identifier))
+            return false;
+        Player newPlayer = new Player(identifier);
+        players.put(newPlayer.getIdentifier(), newPlayer);
+        return true;
     }
 
     public String markField(int x, int y) throws IncorrectFieldException {
@@ -161,5 +190,9 @@ public class TicTacToe {
 
     public char getPlayerInLastTurn() {
         return playerInLastTurn;
+    }
+
+    public int getPlayersQty(){
+        return players.size();
     }
 }
