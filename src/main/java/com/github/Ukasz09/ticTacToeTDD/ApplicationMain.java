@@ -1,42 +1,36 @@
 package com.github.Ukasz09.ticTacToeTDD;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
-
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.Background;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.GameBackground;
-import javafx.animation.AnimationTimer;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.Logger;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.GameLogic;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.TicTacToeExceptions;
+import com.github.Ukasz09.ticTacToeTDD.controller.GameController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class ApplicationMain extends Application {
-    private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
-
-    private ViewManager manager;
-    private Background ticTacToeBoard; //todo: tmp
+    private GameController gameController;
+    GameView gameView;
+    GameLogic gameLogic;
 
     public ApplicationMain() {
-        manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, true);
+        initializeGameController();
+    }
+
+    private void initializeGameController() {
+        gameView = new GameView();
+        try {
+            gameLogic = new GameLogic();
+        } catch (TicTacToeExceptions err) {
+            Logger.logError(getClass(), "Critical game logic implementation error!");
+            System.exit(-1);
+        }
+        gameController = new GameController(gameView, gameLogic);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage = manager.getMainStage();
-        initializeApplication();
-
-        class gameAnimationTimer extends AnimationTimer {
-            @Override
-            public void handle(long currentNanoTime) {
-                ticTacToeBoard.render();
-            }
-        }
-        new gameAnimationTimer().start();
-        primaryStage.show();
-    }
-
-    private void initializeApplication() {
-        ticTacToeBoard = new GameBackground();
-        ticTacToeBoard.playBackgroundSound();
+        gameController.startGame();
     }
 
     public static void main(String[] args) {

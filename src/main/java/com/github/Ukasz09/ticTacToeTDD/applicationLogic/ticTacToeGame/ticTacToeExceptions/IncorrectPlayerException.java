@@ -1,6 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions;
 
-public class IncorrectPlayerException extends TicTacToeExceptions {
+public class IncorrectPlayerException extends TicTacToeExceptions{
     private static final String DEFAULT_MSG = "Incorrect player appeared";
 
     public IncorrectPlayerException() {

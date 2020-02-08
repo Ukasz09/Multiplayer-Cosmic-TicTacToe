@@ -1,12 +1,10 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectBoardSizeException;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectFieldException;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectPlayerException;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.*;
 
 import java.util.*;
 
-public class TicTacToe {
+public class GameLogic {
     public static final String NO_WINNER_MSG = "Game over. No winner";
     public static final String DRAW_MSG = "Game over. It's draw";
     public static final String WINNER_MSG_PREFIX = "Game over. Winner is player: ";
@@ -20,18 +18,18 @@ public class TicTacToe {
     private int boardSize = DEFAULT_BOARD_SIZE;
     private char[][] board;
 
-    public TicTacToe() throws IncorrectBoardSizeException, IncorrectPlayerException {
+    public GameLogic() throws IncorrectPlayerException, IncorrectBoardSizeException {
         this(DEFAULT_BOARD_SIZE);
     }
 
-    public TicTacToe(int boardSize) throws IncorrectBoardSizeException, IncorrectPlayerException {
+    public GameLogic(int boardSize) throws IncorrectBoardSizeException, IncorrectPlayerException {
         this(boardSize, new Player[]{
                 new Player(DEFAULT_PLAYERS_IDENTIFIERS[0]),
                 new Player(DEFAULT_PLAYERS_IDENTIFIERS[1])
         });
     }
 
-    public TicTacToe(int boardSize, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
+    public GameLogic(int boardSize, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
         initializeBoard(boardSize);
         initializePlayers(playersToInitialize);
     }
