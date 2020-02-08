@@ -1,9 +1,9 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.properties.FrameStatePositions;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.properties.ImagesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.states.IKindOfState;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.FrameStatePositions;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.states.IKindOfState;
 
 public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphic {
     private ImageSheetProperty spriteSheetProperty;

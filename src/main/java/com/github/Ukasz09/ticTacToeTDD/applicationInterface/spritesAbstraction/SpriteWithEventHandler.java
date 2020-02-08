@@ -1,6 +1,6 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.properties.ImagesProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.Logger;
 import javafx.event.EventHandler;
 import javafx.event.EventType;

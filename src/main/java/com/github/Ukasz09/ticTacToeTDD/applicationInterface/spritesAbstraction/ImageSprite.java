@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction;
 
 import javafx.scene.image.Image;
 

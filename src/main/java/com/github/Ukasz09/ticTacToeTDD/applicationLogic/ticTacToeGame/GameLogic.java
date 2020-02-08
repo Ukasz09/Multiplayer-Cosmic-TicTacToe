@@ -30,11 +30,11 @@ public class GameLogic {
     }
 
     public GameLogic(int boardSize, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
-        initializeBoard(boardSize);
+        resetBoard(boardSize);
         initializePlayers(playersToInitialize);
     }
 
-    private void initializeBoard(int boardSize) throws IncorrectBoardSizeException {
+    public void resetBoard(int boardSize) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
 

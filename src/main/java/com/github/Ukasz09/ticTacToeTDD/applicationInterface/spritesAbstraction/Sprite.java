@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 
