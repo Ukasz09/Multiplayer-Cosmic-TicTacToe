@@ -1,8 +1,10 @@
-package com.github.Ukasz09.ticTacToeTDD;
+package com.github.Ukasz09.ticTacToeTDD.applicationLogic;
 
-import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardSizeException;
-import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectFieldException;
-import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectPlayerException;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.Player;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.TicTacToe;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectBoardSizeException;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectFieldException;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectPlayerException;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;

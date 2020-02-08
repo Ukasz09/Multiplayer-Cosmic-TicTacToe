@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD;
+package com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame;
 
 import java.util.Objects;
 

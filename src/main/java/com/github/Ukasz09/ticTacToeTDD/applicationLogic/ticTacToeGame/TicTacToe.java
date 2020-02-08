@@ -1,8 +1,8 @@
-package com.github.Ukasz09.ticTacToeTDD;
+package com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame;
 
-import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectBoardSizeException;
-import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectFieldException;
-import com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions.IncorrectPlayerException;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectBoardSizeException;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectFieldException;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.IncorrectPlayerException;
 
 import java.util.*;
 
@@ -10,6 +10,7 @@ public class TicTacToe {
     public static final String NO_WINNER_MSG = "Game over. No winner";
     public static final String DRAW_MSG = "Game over. It's draw";
     public static final String WINNER_MSG_PREFIX = "Game over. Winner is player: ";
+
     public static final int DEFAULT_BOARD_SIZE = 3;
     public static final char[] DEFAULT_PLAYERS_IDENTIFIERS = {'X', 'O'};
     private static final char EMPTY_BOARD_MARK = '\0';
@@ -32,14 +33,8 @@ public class TicTacToe {
 
     public TicTacToe(int boardSize, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
         initializeBoard(boardSize);
-        players = new ArrayList<>();
-        for (Player player : playersToInitialize) {
-            if (players.contains(player))
-                throw new IncorrectPlayerException();
-            players.add(player);
-        }
+        initializePlayers(playersToInitialize);
     }
-
 
     private void initializeBoard(int boardSize) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
@@ -49,6 +44,15 @@ public class TicTacToe {
         board = new char[boardSize][boardSize];
         for (char[] chars : board)
             Arrays.fill(chars, EMPTY_BOARD_MARK);
+    }
+
+    private void initializePlayers(Player[] playersToInitialize) throws IncorrectPlayerException {
+        players = new ArrayList<>();
+        for (Player player : playersToInitialize) {
+            if (players.contains(player))
+                throw new IncorrectPlayerException();
+            players.add(player);
+        }
     }
 
     public boolean addPlayer(char identifier) {

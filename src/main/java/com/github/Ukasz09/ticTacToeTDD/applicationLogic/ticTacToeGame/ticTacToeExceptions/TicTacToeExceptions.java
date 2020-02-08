@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.ticTacToeExceptions;
+package com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions;
 
 public abstract class TicTacToeExceptions extends Exception {
     public TicTacToeExceptions(String message) {
