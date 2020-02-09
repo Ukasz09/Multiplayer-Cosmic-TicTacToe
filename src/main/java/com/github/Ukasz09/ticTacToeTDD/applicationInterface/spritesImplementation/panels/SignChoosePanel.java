@@ -9,29 +9,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class SignChoosePanel extends Panel {
+public class SignChoosePanel extends ChoosePanel {
     private static final String LABEL_TEXT = "Choose your game sign!";
 
-    private CenteredPane signsPane;
-    private LabelPane labelPane;
-
     public SignChoosePanel() {
-        super(new SignChooseBackground());
-        initializePanel();
-    }
-
-    private void initializePanel() {
-        labelPane = new LabelPane(LABEL_TEXT);
-        signsPane = new CenteredPane();
-
+        super(new SignChooseBackground(), LABEL_TEXT);
         addSignButtonsToPanel();
-        setCenter(signsPane);
-        setTop(labelPane);
     }
 
     private void addSignButtonsToPanel() {
-        Button button = new Button("XDDDD");
-        signsPane.getChildren().add(button);
+        Button button = new Button("XDDDD"); //todo: tmp
+        getContentPanel().getChildren().add(button);
     }
 
     @Override

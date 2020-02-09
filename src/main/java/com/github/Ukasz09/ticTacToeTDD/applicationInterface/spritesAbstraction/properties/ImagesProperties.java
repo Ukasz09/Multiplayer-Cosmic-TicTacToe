@@ -14,6 +14,7 @@ public class ImagesProperties {
     }
 
     public static Image signChooseBackground() {
-        return woodBackground1();
+        String imagePath = "images/backgrounds/backgroundNightSky1.jpg";
+        return new Image(imagePath);
     }
 }
