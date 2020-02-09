@@ -19,7 +19,11 @@ public abstract class ChoosePanel extends Panel {
         setTop(labelPane);
     }
 
-    public CenteredPane getContentPanel() {
+    public CenteredPane getContentPane() {
         return contentPanel;
+    }
+
+    public double getLabelPaneHeight() {
+        return labelPane.getMinHeight();
     }
 }

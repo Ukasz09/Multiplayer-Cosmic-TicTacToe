@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
+import javafx.scene.Node;
 
 public abstract class Sprite implements IDrawingGraphic {
     protected ViewManager manager;
@@ -46,5 +47,13 @@ public abstract class Sprite implements IDrawingGraphic {
 
     protected static double getHeightAfterScaling(double heightBeforeScaling) {
         return heightBeforeScaling * ViewManager.getInstance().getBottomFrameBorder();
+    }
+
+    public void setPositionX(double positionX) {
+        this.positionX = positionX;
+    }
+
+    public void setPositionY(double positionY) {
+        this.positionY = positionY;
     }
 }

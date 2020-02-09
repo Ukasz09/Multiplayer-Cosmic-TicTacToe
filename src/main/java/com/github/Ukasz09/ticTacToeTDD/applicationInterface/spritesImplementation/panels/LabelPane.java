@@ -3,6 +3,8 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementati
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.FontProperties;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Effect;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -10,7 +12,7 @@ import javafx.scene.text.Font;
 import java.awt.*;
 
 public class LabelPane extends CenteredPane {
-    private static final double LABEL_HEIGHT_TO_SCREEN_PROPORTION = 1 / 7d;
+    private static final double LABEL_HEIGHT_TO_SCREEN_PROPORTION = 1 / 5d;
     private static final double FONT_SIZE_TO_SCREEN_PROPORTION = 8 / 108d;
     private static final String FONT_COLOR = "lightgray";
 
@@ -40,7 +42,9 @@ public class LabelPane extends CenteredPane {
         textField.setMinHeight(getMinHeight());
         textField.setAlignment(Pos.CENTER);
         textField.setBackground(Background.EMPTY);
+        textField.setFocusTraversable(false);
         setTextFieldFont();
+
     }
 
     private void setTextFieldFont() {
