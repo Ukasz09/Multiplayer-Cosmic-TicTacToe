@@ -1,6 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds;
 
-import com.github.Ukasz09.ticTacToeTDD.SoundResource;
+import com.github.Ukasz09.ticTacToeTDD.ResourceTemplate;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -21,7 +21,7 @@ public class SoundsPlayer {
     }
 
     private void makeSound() {
-        java.net.URL soundURL = SoundResource.class.getResource(soundPath);
+        java.net.URL soundURL = ResourceTemplate.class.getResource(soundPath);
         Media media = new Media(soundURL.toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(volume);

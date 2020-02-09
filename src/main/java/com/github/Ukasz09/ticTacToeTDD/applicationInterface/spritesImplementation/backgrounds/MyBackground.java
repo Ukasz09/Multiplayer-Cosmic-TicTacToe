@@ -25,15 +25,20 @@ public abstract class MyBackground {
         manager.getGraphicContext().drawImage(backgroundImage, 0, 0, manager.getRightFrameBorder(), manager.getBottomFrameBorder());
     }
 
-    public void playBackgroundSound() {
+    public boolean playBackgroundSound() {
+        if (backgroundSound == null)
+            return false;
         backgroundSound.playSound();
         backgroundSoundIsPlaying = true;
+        return true;
     }
 
-    public void stopBackgroundSound() {
-        if (backgroundSoundIsPlaying) {
+    public boolean stopBackgroundSound() {
+        if (backgroundSoundIsPlaying && backgroundSound != null) {
             backgroundSound.stopSound();
             backgroundSoundIsPlaying = false;
+            return true;
         }
+        return false;
     }
 }

@@ -5,12 +5,12 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPropert
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
 import javafx.scene.image.Image;
 
-public class GameMyBackground extends MyBackground {
+public class GameBackground extends MyBackground {
     private static final double DEFAULT_VOLUME = 0.5;
     private static final Image DEFAULT_IMAGE = ImagesProperties.woodBackground1();
     private static final SoundsPlayer DEFAULT_MUSIC = SoundsProperties.gameBackground(DEFAULT_VOLUME);
 
-    public GameMyBackground() {
+    public GameBackground() {
         super(DEFAULT_IMAGE, DEFAULT_MUSIC);
     }
 }
