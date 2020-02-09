@@ -1,11 +1,13 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.IDrawingGraphic;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.GameBoard;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.panels.SignChoosePanel;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.panels.buttons.SignButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.*;
 
 import javafx.animation.AnimationTimer;
@@ -16,6 +18,7 @@ public class GameView {
     private ViewManager manager;
     private IDrawingGraphic actualScene;
 
+    //todo: game panel zrobic, ktory bedzie przechowywal gamboarda i backgrounda
     private MyBackground gameBackground;
     private GameBoard gameBoard;
     private SignChoosePanel signChoosePanel;
@@ -53,5 +56,9 @@ public class GameView {
 
     public void attachObserver(IEventKindObserver observer) {
         signChoosePanel.attachObserver(observer);
+    }
+
+    public SignButton getSignButton(EventKind buttonKind) {
+        return signChoosePanel.getSignButton(buttonKind);
     }
 }

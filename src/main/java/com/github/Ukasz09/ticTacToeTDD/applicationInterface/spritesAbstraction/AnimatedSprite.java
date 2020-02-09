@@ -77,4 +77,8 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
     public void changeState(IKindOfState state) {
         actualAnimationState = spriteSheetProperty.getAction(state);
     }
+
+    public ImageSheetProperty getSpriteSheetProperty() {
+        return spriteSheetProperty;
+    }
 }

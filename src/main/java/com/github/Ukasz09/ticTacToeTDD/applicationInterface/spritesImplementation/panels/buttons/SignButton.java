@@ -8,6 +8,9 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.o
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.states.SpriteStates;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.input.MouseEvent;
 
 import java.util.HashSet;
@@ -18,16 +21,18 @@ public class SignButton extends AnimatedSprite implements IEventKindObservable {
     public final static double HEIGHT_TO_FRAME_PROPORTION = 20 / 192d;
 
     private Set<IEventKindObserver> observers;
+    private EventKind emittedEventKind;
 
-    public SignButton(ImageSheetProperty sheetProperty, double positionX, double positionY) {
-        super(getWidthAfterScaling(WIDTH_TO_FRAME_PROPORTION), getHeightAfterScaling(HEIGHT_TO_FRAME_PROPORTION), positionX, positionY, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY));
+    public SignButton(ImageSheetProperty sheetProperty, EventKind emittedEventKind) {
+        super(getWidthAfterScaling(WIDTH_TO_FRAME_PROPORTION), getHeightAfterScaling(HEIGHT_TO_FRAME_PROPORTION), 0, 0, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY));
         observers = new HashSet<>();
+        this.emittedEventKind = emittedEventKind;
         addButtonEventHandler();
     }
 
-    public void addButtonEventHandler(){
+    public void addButtonEventHandler() {
         addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            notifyObservers(EventKind.SIGN_BUTTON_WAS_CHOSEN);
+            notifyObservers(emittedEventKind);
         });
     }
 
