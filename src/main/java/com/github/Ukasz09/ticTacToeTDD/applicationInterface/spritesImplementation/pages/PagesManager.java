@@ -31,7 +31,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
 
     //todo: tmp hard name
     private void initializeAvatarsChoosePage() {
-        avatarChoosePage = new AvatarChoosePage("Jan");
+        avatarChoosePage = new AvatarChoosePage("Lukasz");
         avatarChoosePage.attachObserver(this);
         avatarChoosePage.setVisible(false);
     }
