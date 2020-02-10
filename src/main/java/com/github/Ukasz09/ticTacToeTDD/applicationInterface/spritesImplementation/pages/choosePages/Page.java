@@ -6,11 +6,11 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.I
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
 import javafx.scene.layout.*;
 
-public abstract class Panel extends BorderPane implements IScenePage {
+public abstract class Page extends BorderPane implements IScenePage {
     private MyBackground background;
     protected ViewManager manager;
 
-    public Panel(MyBackground background) {
+    public Page(MyBackground background) {
         this.background = background;
         manager = ViewManager.getInstance();
         initializePanel();

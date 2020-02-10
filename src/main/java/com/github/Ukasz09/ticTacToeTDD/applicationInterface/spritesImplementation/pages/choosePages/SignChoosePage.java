@@ -4,13 +4,13 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.o
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.SpritesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.SignChooseBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ChooseBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.SignButton;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignChoosePanel extends ChoosePanel {
+public class SignChoosePage extends ChoosePage {
     private static final ImageSheetProperty[] DEFAULT_SHEET_PROPERTIES = SpritesProperties.signSheetsProperties();
     private static final EventKind[] buttonsEvents = {
             EventKind.SIGN_BUTTON_1_CLICKED,
@@ -24,8 +24,8 @@ public class SignChoosePanel extends ChoosePanel {
 
     private Map<EventKind, SignButton> signButtons;
 
-    public SignChoosePanel() {
-        super(new SignChooseBackground(), LABEL_TEXT);
+    public SignChoosePage() {
+        super(new ChooseBackground(), LABEL_TEXT);
         addSignButtons();
     }
 

@@ -2,20 +2,20 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementati
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
 
-public abstract class ChoosePanel extends Panel {
+public abstract class ChoosePage extends Page {
     private CenteredPane contentPanel;
-    private LabelPane labelPane;
+    private LabelPane labelPage;
 
-    public ChoosePanel(MyBackground background, String labelText) {
+    public ChoosePage(MyBackground background, String labelText) {
         super(background);
         initializePanel(labelText);
     }
 
     private void initializePanel(String labelText) {
-        labelPane = new LabelPane(labelText);
+        labelPage = new LabelPane(labelText);
         contentPanel = new CenteredPane();
         setCenter(contentPanel);
-        setTop(labelPane);
+        setTop(labelPage);
     }
 
     public CenteredPane getContentPane() {
@@ -23,6 +23,6 @@ public abstract class ChoosePanel extends Panel {
     }
 
     public double getLabelPaneHeight() {
-        return labelPane.getMinHeight();
+        return labelPage.getMinHeight();
     }
 }

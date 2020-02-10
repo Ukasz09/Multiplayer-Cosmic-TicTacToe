@@ -1,15 +1,8 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.IDrawingGraphic;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.others.PlayerViewProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.PagesManager;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.gamePage.GamePanel;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.SignChoosePanel;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.SignButton;
 
 import javafx.animation.AnimationTimer;
 
@@ -50,18 +43,21 @@ public class GameView {
             playerViewProperties[i] = new PlayerViewProperties();
     }
 
-    public void updateNextPlayerSignSheet(ImageSheetProperty signSheetProperties){
+    public boolean updateNextPlayerSignSheet(ImageSheetProperty signSheetProperties) {
         playerViewProperties[actualInitializedPlayerID].setSignSheetProperty(signSheetProperties);
-        changeIdOfInitializedPlayerToNext();
+        return changeIdOfInitializedPlayerToNext();
     }
 
     public PagesManager getPagesManager() {
         return pagesManager;
     }
 
-    private void changeIdOfInitializedPlayerToNext() {
+    private boolean changeIdOfInitializedPlayerToNext() {
         actualInitializedPlayerID++;
-        if (actualInitializedPlayerID >= playersQty)
+        if (actualInitializedPlayerID >= playersQty) {
             actualInitializedPlayerID = 0;
+            return false;
+        }
+        return true;
     }
 }

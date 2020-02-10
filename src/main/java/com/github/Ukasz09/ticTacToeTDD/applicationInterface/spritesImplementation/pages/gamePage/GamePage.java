@@ -1,12 +1,12 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.gamePage;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.Panel;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.Page;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
 
-public class GamePanel extends Panel {
+public class GamePage extends Page {
     private GameBoard gameBoard;
 
-    public GamePanel(MyBackground background) {
+    public GamePage(MyBackground background) {
         super(background);
         initializeGameBoard();
     }

@@ -45,5 +45,4 @@ public class SignButton extends AnimatedSprite implements IEventKindObservable {
         for (IEventKindObserver observer : observers)
             observer.updateObserver(eventKind);
     }
-
 }

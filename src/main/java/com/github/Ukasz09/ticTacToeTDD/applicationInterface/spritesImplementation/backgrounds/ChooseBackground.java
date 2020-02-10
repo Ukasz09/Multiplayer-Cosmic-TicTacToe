@@ -9,10 +9,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class SignChooseBackground extends MyBackground {
+public class ChooseBackground extends MyBackground {
     private static final Image DEFAULT_IMAGE = ImagesProperties.signChooseBackground();
 
-    public SignChooseBackground() {
+    public ChooseBackground() {
         super(DEFAULT_IMAGE, null);
     }
 
