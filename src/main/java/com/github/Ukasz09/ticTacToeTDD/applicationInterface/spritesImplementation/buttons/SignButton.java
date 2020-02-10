@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.panels.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons;
 
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.AnimatedSprite;
@@ -6,11 +6,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.o
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.states.SpriteStates;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.input.MouseEvent;
 
 import java.util.HashSet;
@@ -31,9 +27,7 @@ public class SignButton extends AnimatedSprite implements IEventKindObservable {
     }
 
     public void addButtonEventHandler() {
-        addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            notifyObservers(emittedEventKind);
-        });
+        addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> notifyObservers(emittedEventKind));
     }
 
     @Override

@@ -1,16 +1,11 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.panels;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.AnimatedSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.SignChooseBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.panels.buttons.SignButton;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.SignButton;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,7 +94,7 @@ public class SignChoosePanel extends ChoosePanel {
         }
     }
 
-    public SignButton getSignButton(EventKind buttonKind){
-        return signButtons.get(buttonKind);
+    public ImageSheetProperty getSignSheetFromButton(EventKind buttonKind){
+        return (signButtons.get(buttonKind)).getSpriteSheetProperty();
     }
 }

@@ -1,11 +1,9 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.panels;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 public class CenteredPane extends FlowPane {
     protected ViewManager manager;

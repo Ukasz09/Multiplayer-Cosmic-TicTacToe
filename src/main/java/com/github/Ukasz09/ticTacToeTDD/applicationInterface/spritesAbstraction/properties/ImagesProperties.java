@@ -9,7 +9,7 @@ public class ImagesProperties {
     }
 
     public static Image woodBackground1() {
-        String imagePath = "images/backgrounds/backgroundWood1.jpg";
+        String imagePath = "images/backgrounds/backgroundCosmic1.jpg";
         return new Image(imagePath);
     }
 

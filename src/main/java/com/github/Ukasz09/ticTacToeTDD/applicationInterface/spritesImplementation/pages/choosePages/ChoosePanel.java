@@ -1,7 +1,6 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.panels;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
-import javafx.scene.control.Button;
 
 public abstract class ChoosePanel extends Panel {
     private CenteredPane contentPanel;

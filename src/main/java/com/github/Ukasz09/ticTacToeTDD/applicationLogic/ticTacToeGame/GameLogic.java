@@ -9,6 +9,7 @@ public class GameLogic {
     public static final String DRAW_MSG = "Game over. It's draw";
     public static final String WINNER_MSG_PREFIX = "Game over. Winner is player: ";
 
+    private static final int DEFAULT_PLAYERS_QTY = 2;
     public static final int DEFAULT_BOARD_SIZE = 3;
     public static final char[] DEFAULT_PLAYERS_IDENTIFIERS = {'X', 'O'};
     private static final char EMPTY_BOARD_MARK = '\0';
@@ -22,6 +23,7 @@ public class GameLogic {
         this(DEFAULT_BOARD_SIZE);
     }
 
+    //todo: zmienic inicjalizacje players
     public GameLogic(int boardSize) throws IncorrectBoardSizeException, IncorrectPlayerException {
         this(boardSize, new Player[]{
                 new Player(DEFAULT_PLAYERS_IDENTIFIERS[0]),

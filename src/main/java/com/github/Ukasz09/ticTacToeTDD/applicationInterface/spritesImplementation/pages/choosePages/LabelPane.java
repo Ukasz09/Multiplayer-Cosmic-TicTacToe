@@ -1,15 +1,10 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.panels;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.FontProperties;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.Effect;
 import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
-import java.awt.*;
 
 public class LabelPane extends CenteredPane {
     private static final double LABEL_HEIGHT_TO_SCREEN_PROPORTION = 1 / 5d;
