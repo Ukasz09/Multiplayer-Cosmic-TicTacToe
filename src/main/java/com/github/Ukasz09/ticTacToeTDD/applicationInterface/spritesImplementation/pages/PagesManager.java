@@ -8,8 +8,12 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.o
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.AvatarChoosePage;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.LabelPane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.NameChoosePage;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.SignChoosePage;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.gamePage.GamePage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,14 +23,21 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     private Set<IEventKindObserver> observers;
 
     private GamePage gamePanel;
-    private SignChoosePage signChoosePanel;
+    private NameChoosePage nameChoosePage;
     private AvatarChoosePage avatarChoosePage;
+    private SignChoosePage signChoosePanel;
 
     public PagesManager() {
         observers = new HashSet<>();
+        initializeNameChoosePage();
         initializeAvatarsChoosePage();
         initializeSignChoosePage();
         initializeGamePanel();
+    }
+
+    private void initializeNameChoosePage() {
+        nameChoosePage = new NameChoosePage();
+        nameChoosePage.setVisible(false);
     }
 
     //todo: tmp hard name
@@ -48,29 +59,53 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     public void showHomePage() {
-        if (actualScene != null)
-            actualScene.setVisible(false);
+        setActualSceneVisible(false);
         setSceneToHomePage();
         actualScene.setVisible(true);
     }
 
+    private void setSceneToHomePage() {
+        actualScene = nameChoosePage;
+    }
+
+    public void showAvatarChoosePage() {
+        setActualSceneVisible(false);
+        actualScene = avatarChoosePage;
+        actualScene.setVisible(true);
+    }
+
+    public void showSignChoosePage() {
+        setActualSceneVisible(false);
+        actualScene = signChoosePanel;
+        actualScene.setVisible(true);
+    }
+
     public void showGamePage() {
-        actualScene.setVisible(false);
+        setActualSceneVisible(false);
         gamePanel.showGameBoard(true);
         actualScene = gamePanel;
         actualScene.setVisible(true);
     }
 
-    private void setSceneToHomePage() {
-        actualScene = avatarChoosePage;
+    private void setActualSceneVisible(boolean value) {
+        if (actualScene != null)
+            actualScene.setVisible(value);
     }
 
     public IDrawingGraphic getActualScene() {
         return actualScene;
     }
 
-    public ImageSheetProperty getSignSheetFromButton(EventKind buttonKind) {
-        return signChoosePanel.getSignSheetFromButton(buttonKind);
+    public String getLastChosenCorrectName() {
+        return nameChoosePage.getLastChosenCorrectName();
+    }
+
+    public ImageView getLastChosenAvatar() {
+        return avatarChoosePage.getChosenImage();
+    }
+
+    public ImageSheetProperty getLastChosenSignSheet() {
+        return signChoosePanel.getLastChosenSign();
     }
 
     @Override

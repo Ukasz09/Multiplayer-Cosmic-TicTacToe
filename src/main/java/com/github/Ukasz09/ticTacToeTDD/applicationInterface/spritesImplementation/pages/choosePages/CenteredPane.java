@@ -3,17 +3,19 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementati
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.layout.*;
 
 public class CenteredPane extends FlowPane {
     protected ViewManager manager;
 
     public CenteredPane() {
-        manager=ViewManager.getInstance();
-        initializePane();
+        super();
+        manager = ViewManager.getInstance();
+        initializeContentPane();
     }
 
-    private void initializePane() {
+    private void initializeContentPane() {
         setOrientation(Orientation.HORIZONTAL);
         setAlignment(Pos.CENTER);
     }

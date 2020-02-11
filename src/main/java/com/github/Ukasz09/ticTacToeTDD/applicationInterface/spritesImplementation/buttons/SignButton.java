@@ -17,17 +17,10 @@ public class SignButton extends AnimatedSprite implements IEventKindObservable {
     public final static double HEIGHT_TO_FRAME_PROPORTION = 20 / 192d;
 
     private Set<IEventKindObserver> observers;
-    private EventKind emittedEventKind;
 
-    public SignButton(ImageSheetProperty sheetProperty, EventKind emittedEventKind) {
+    public SignButton(ImageSheetProperty sheetProperty) {
         super(getWidthAfterScaling(WIDTH_TO_FRAME_PROPORTION), getHeightAfterScaling(HEIGHT_TO_FRAME_PROPORTION), 0, 0, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY));
         observers = new HashSet<>();
-        this.emittedEventKind = emittedEventKind;
-        addButtonEventHandler();
-    }
-
-    public void addButtonEventHandler() {
-        addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> notifyObservers(emittedEventKind));
     }
 
     @Override

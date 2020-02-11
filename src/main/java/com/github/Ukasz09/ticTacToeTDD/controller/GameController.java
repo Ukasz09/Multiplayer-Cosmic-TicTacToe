@@ -18,25 +18,33 @@ public class GameController implements IEventKindObserver {
 
     public void startGame() {
         gameView.startGame(gameLogic.getPlayersQty());
-        gameView.getPagesManager().attachObserver(this);
+        gameView.attachObserverToPagesManager(this);
     }
 
     @Override
     public void updateObserver(EventKind eventKind) {
         switch (eventKind) {
-            case SIGN_BUTTON_1_CLICKED:
-            case SIGN_BUTTON_2_CLICKED:
-            case SIGN_BUTTON_3_CLICKED:
-            case SIGN_BUTTON_4_CLICKED:
-            case SIGN_BUTTON_5_CLICKED: {
-                boolean hasNextPlayerToUpdate = gameView.updateNextPlayerSignSheet(gameView.getPagesManager().getSignSheetFromButton(eventKind));
+            case CORRECT_NAME_WHEN_BUTTON_CLICKED: {
+                boolean hasNextPlayerToUpdate = gameView.updateNextPlayerName();
                 if (!hasNextPlayerToUpdate)
-                    gameView.getPagesManager().showGamePage();
+                    gameView.showAvatarChoosePage();
             }
             break;
-            case AVATAR_BUTTON_CLICKED:
-                System.out.println("AVATAR_CLICKED");
-                break;
+
+
+            case AVATAR_BUTTON_CLICKED: {
+                boolean hasNextPlayerToUpdate = gameView.updateNextPlayerAvatar();
+                if (!hasNextPlayerToUpdate)
+                    gameView.showSignChoosePage();
+            }
+            break;
+
+            case SIGN_BUTTON_CLICKED: {
+                boolean hasNextPlayerToUpdate = gameView.updateNextPlayerSignSheet();
+                if (!hasNextPlayerToUpdate)
+                    gameView.showGamePage();
+            }
+            break;
         }
     }
 }

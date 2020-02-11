@@ -4,18 +4,19 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.p
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.SpritesProperties;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class PlayerViewProperties {
-    private static final Image DEFAULT_AVATAR = ImagesProperties.schemeSpriteForImageView();
+    private static final ImageView DEFAULT_AVATAR = new ImageView(ImagesProperties.schemeSpriteForImageView());
     private static final ImageSheetProperty DEFAULT_SIGN_SHEET_PROPERTY = SpritesProperties.sign1SheetProperty();
     private static final String DEFAULT_NAME = "Janek";
 
-    private Image avatar;
+    private ImageView avatar;
     private ImageSheetProperty signSheetProperty;
     private String name;
     private int winQty = 0;
 
-    public PlayerViewProperties(Image avatar, ImageSheetProperty signSheetProperty, String name) {
+    public PlayerViewProperties(ImageView avatar, ImageSheetProperty signSheetProperty, String name) {
         this.avatar = avatar;
         this.signSheetProperty = signSheetProperty;
         this.name = name;
@@ -27,7 +28,7 @@ public class PlayerViewProperties {
         this.name = DEFAULT_NAME;
     }
 
-    public void setAvatar(Image avatar) {
+    public void setAvatar(ImageView avatar) {
         this.avatar = avatar;
     }
 

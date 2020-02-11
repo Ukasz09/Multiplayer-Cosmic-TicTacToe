@@ -22,10 +22,6 @@ public class AvatarChoosePage extends ChoosePage implements IEventKindObservable
     private static final String DEFAULT_LABEL_TEXT_PREFIX = "Choose avatar of player: ";
     private static final Image[] DEFAULT_AVATARS_IMAGES = ImagesProperties.avatars();
     private static final double AVATAR_SIZE_TO_SCREEN_PROPORTION = 14 / 108d;
-    private static final Color BUTTON_BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.5);
-    private static final Effect BUTTON_HOVERED_EFFECT = new SepiaTone(0); //no effect
-    private static final Effect BUTTON_EXITED_EFFECT = new Lighting(new Light.Distant(0, 5, Color.GRAY));
-    private static final double BUTTON_CORNER_RADIUS = 25;
 
     private ImageView chosenImage = null;
     private Set<IEventKindObserver> observers;
@@ -55,7 +51,7 @@ public class AvatarChoosePage extends ChoosePage implements IEventKindObservable
 
     private void addMouseClickedActionToButton(Button button) {
         button.setOnMouseClicked(event -> {
-            chosenImage= ((ImageView) button.getGraphic());
+            chosenImage = ((ImageView) button.getGraphic());
             notifyObservers(EventKind.AVATAR_BUTTON_CLICKED);
         });
     }
@@ -86,5 +82,9 @@ public class AvatarChoosePage extends ChoosePage implements IEventKindObservable
     public void notifyObservers(EventKind eventKind) {
         for (IEventKindObserver observer : observers)
             observer.updateObserver(eventKind);
+    }
+
+    public ImageView getChosenImage() {
+        return chosenImage;
     }
 }

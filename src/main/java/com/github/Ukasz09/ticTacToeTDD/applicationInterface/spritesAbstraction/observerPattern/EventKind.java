@@ -2,9 +2,6 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.
 
 
 public enum EventKind {
-    //Sign buttons
-    SIGN_BUTTON_1_CLICKED, SIGN_BUTTON_2_CLICKED, SIGN_BUTTON_3_CLICKED,SIGN_BUTTON_4_CLICKED, SIGN_BUTTON_5_CLICKED,
-
-    //Avatar button
-    AVATAR_BUTTON_CLICKED
+    //Buttons
+    SIGN_BUTTON_CLICKED, AVATAR_BUTTON_CLICKED, CORRECT_NAME_WHEN_BUTTON_CLICKED
 }

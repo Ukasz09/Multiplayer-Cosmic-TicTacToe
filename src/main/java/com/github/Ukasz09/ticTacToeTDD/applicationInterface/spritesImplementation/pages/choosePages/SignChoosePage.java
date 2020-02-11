@@ -6,23 +6,18 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.p
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ChooseBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.SignButton;
+import javafx.scene.input.MouseEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignChoosePage extends ChoosePage {
     private static final ImageSheetProperty[] DEFAULT_SHEET_PROPERTIES = SpritesProperties.signSheetsProperties();
-    private static final EventKind[] buttonsEvents = {
-            EventKind.SIGN_BUTTON_1_CLICKED,
-            EventKind.SIGN_BUTTON_2_CLICKED,
-            EventKind.SIGN_BUTTON_3_CLICKED,
-            EventKind.SIGN_BUTTON_4_CLICKED,
-            EventKind.SIGN_BUTTON_5_CLICKED,
-    };
     private static final double BUTTONS_PADDING_TO_SCREEN_PROPORTION = 10 / 192d;
     private static final String LABEL_TEXT = "Choose your game sign!";
 
-    private Map<EventKind, SignButton> signButtons;
+    private SignButton[] signButtons;
+    private ImageSheetProperty lastChosenSign = null;
 
     public SignChoosePage() {
         super(new ChooseBackground(), LABEL_TEXT);
@@ -31,21 +26,26 @@ public class SignChoosePage extends ChoosePage {
 
     private void addSignButtons() {
         int signButtonsQty = DEFAULT_SHEET_PROPERTIES.length;
-        signButtons = new HashMap<>();
-        for (int i = 0; i < signButtonsQty; i++)
-            signButtons.put(buttonsEvents[i], new SignButton(DEFAULT_SHEET_PROPERTIES[i], buttonsEvents[i]));
+        signButtons = new SignButton[DEFAULT_SHEET_PROPERTIES.length];
+        for (int i = 0; i < signButtonsQty; i++) {
+            SignButton signButton = new SignButton(DEFAULT_SHEET_PROPERTIES[i]);
+            signButtons[i] = signButton;
+            signButton.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                lastChosenSign = signButton.getSpriteSheetProperty();
+                signButton.notifyObservers(EventKind.SIGN_BUTTON_CLICKED);
+            });
+        }
         setSignButtonsCorrectPositions(BUTTONS_PADDING_TO_SCREEN_PROPORTION * manager.getRightFrameBorder());
     }
 
     private void setSignButtonsCorrectPositions(double buttonPadding) {
-        double buttonPositionX = getFirstButtonXPositionToCenterWithOthers(signButtons.size(), buttonPadding, signButtons.get(EventKind.SIGN_BUTTON_1_CLICKED).getWidth());
-        double buttonPositionY = getButtonCenterYPositionInContentPane(signButtons.get(EventKind.SIGN_BUTTON_1_CLICKED).getHeight());
+        double nextButtonPositionX = getFirstButtonXPositionToCenterWithOthers(signButtons.length, buttonPadding, signButtons[0].getWidth());
+        double nextButtonPositionY = getButtonCenterYPositionInContentPane(signButtons[0].getHeight());
 
-        for (Map.Entry<EventKind, SignButton> entry : signButtons.entrySet()) {
-            SignButton signButton = entry.getValue();
-            signButton.setPositionX(buttonPositionX);
-            buttonPositionX += (signButton.getWidth() + buttonPadding);
-            signButton.setPositionY(buttonPositionY);
+        for (SignButton button : signButtons) {
+            button.setPositionX(nextButtonPositionX);
+            nextButtonPositionX += (button.getWidth() + buttonPadding);
+            button.setPositionY(nextButtonPositionY);
         }
     }
 
@@ -65,10 +65,8 @@ public class SignChoosePage extends ChoosePage {
     }
 
     private void renderSignButtons() {
-        for (Map.Entry<EventKind, SignButton> entry : signButtons.entrySet()) {
-            SignButton signButton = entry.getValue();
-            signButton.render();
-        }
+        for (SignButton button : signButtons)
+            button.render();
     }
 
     @Override
@@ -77,10 +75,8 @@ public class SignChoosePage extends ChoosePage {
     }
 
     private void updateSignButtons() {
-        for (Map.Entry<EventKind, SignButton> entry : signButtons.entrySet()) {
-            SignButton signButton = entry.getValue();
-            signButton.update();
-        }
+        for (SignButton button : signButtons)
+            button.update();
     }
 
     public void attachObserver(IEventKindObserver observer) {
@@ -88,13 +84,11 @@ public class SignChoosePage extends ChoosePage {
     }
 
     private void addSignButtonsObserver(IEventKindObserver observer) {
-        for (Map.Entry<EventKind, SignButton> entry : signButtons.entrySet()) {
-            SignButton signButton = entry.getValue();
-            signButton.attachObserver(observer);
-        }
+        for (SignButton button : signButtons)
+            button.attachObserver(observer);
     }
 
-    public ImageSheetProperty getSignSheetFromButton(EventKind buttonKind){
-        return (signButtons.get(buttonKind)).getSpriteSheetProperty();
+    public ImageSheetProperty getLastChosenSign() {
+        return lastChosenSign;
     }
 }

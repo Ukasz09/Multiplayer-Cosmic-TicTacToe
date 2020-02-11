@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.FontProperties;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -8,14 +9,11 @@ import javafx.scene.text.Font;
 
 public class LabelPane extends CenteredPane {
     private static final double LABEL_HEIGHT_TO_SCREEN_PROPORTION = 1 / 5d;
-    private static final double FONT_SIZE_TO_SCREEN_PROPORTION = 8 / 108d;
-    private static final String FONT_COLOR = "lightgray";
+    public static final double FONT_SIZE_TO_SCREEN_PROPORTION = 8 / 108d;
 
-    private final Font font = FontProperties.chargenRegularFont((int) (FONT_SIZE_TO_SCREEN_PROPORTION * manager.getBottomFrameBorder()));
     private TextField textField;
 
     public LabelPane(String text) {
-        super();
         initializePane(text);
         getChildren().add(textField);
     }
@@ -38,12 +36,11 @@ public class LabelPane extends CenteredPane {
         textField.setAlignment(Pos.CENTER);
         textField.setBackground(Background.EMPTY);
         textField.setFocusTraversable(false);
-        setTextFieldFont();
-
+        int fontSize = (int) (FONT_SIZE_TO_SCREEN_PROPORTION * manager.getBottomFrameBorder());
+        ChoosePage.setDefaultTextFieldFont(textField, ChoosePage.DEFAULT_FONT_COLOR, fontSize);
     }
 
-    private void setTextFieldFont() {
-        textField.setStyle("-fx-text-inner-color: " + FONT_COLOR + ";");
-        textField.setFont(font);
+    public void setLabelText(String text){
+        textField.setText(text);
     }
 }

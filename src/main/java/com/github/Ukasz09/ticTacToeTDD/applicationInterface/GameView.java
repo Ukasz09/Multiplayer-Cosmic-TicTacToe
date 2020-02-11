@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.others.PlayerViewProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.PagesManager;
@@ -25,7 +26,7 @@ public class GameView {
 
     public GameView() {
         manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, true);
+        manager.initialize(APPLICATION_TITLE, false);
         pagesManager = new PagesManager();
     }
 
@@ -43,13 +44,19 @@ public class GameView {
             playerViewProperties[i] = new PlayerViewProperties();
     }
 
-    public boolean updateNextPlayerSignSheet(ImageSheetProperty signSheetProperties) {
-        playerViewProperties[actualInitializedPlayerID].setSignSheetProperty(signSheetProperties);
+    public boolean updateNextPlayerName() {
+        playerViewProperties[actualInitializedPlayerID].setName(pagesManager.getLastChosenCorrectName());
         return changeIdOfInitializedPlayerToNext();
     }
 
-    public PagesManager getPagesManager() {
-        return pagesManager;
+    public boolean updateNextPlayerAvatar() {
+        playerViewProperties[actualInitializedPlayerID].setAvatar(pagesManager.getLastChosenAvatar());
+        return changeIdOfInitializedPlayerToNext();
+    }
+
+    public boolean updateNextPlayerSignSheet() {
+        playerViewProperties[actualInitializedPlayerID].setSignSheetProperty(pagesManager.getLastChosenSignSheet());
+        return changeIdOfInitializedPlayerToNext();
     }
 
     private boolean changeIdOfInitializedPlayerToNext() {
@@ -60,4 +67,29 @@ public class GameView {
         }
         return true;
     }
+
+    public void attachObserverToPagesManager(IEventKindObserver observer) {
+        pagesManager.attachObserver(observer);
+    }
+
+    public void detachObserverToPagesManager(IEventKindObserver observer) {
+        pagesManager.detachObserver(observer);
+    }
+
+    public void showHomePage() {
+        pagesManager.showHomePage();
+    }
+
+    public void showAvatarChoosePage() {
+        pagesManager.showAvatarChoosePage();
+    }
+
+    public void showSignChoosePage() {
+        pagesManager.showSignChoosePage();
+    }
+
+    public void showGamePage() {
+        pagesManager.showGamePage();
+    }
+
 }
