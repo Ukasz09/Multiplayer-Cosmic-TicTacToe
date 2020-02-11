@@ -31,8 +31,11 @@ public class SignChoosePage extends ChoosePage {
             SignButton signButton = new SignButton(DEFAULT_SHEET_PROPERTIES[i]);
             signButtons[i] = signButton;
             signButton.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                lastChosenSign = signButton.getSpriteSheetProperty();
-                signButton.notifyObservers(EventKind.SIGN_BUTTON_CLICKED);
+                if(signButton.isActive()){
+                    lastChosenSign = signButton.getSpriteSheetProperty();
+                    signButton.disable();
+                    signButton.notifyObservers(EventKind.SIGN_BUTTON_CLICKED);
+                }
             });
         }
         setSignButtonsCorrectPositions(BUTTONS_PADDING_TO_SCREEN_PROPORTION * manager.getRightFrameBorder());

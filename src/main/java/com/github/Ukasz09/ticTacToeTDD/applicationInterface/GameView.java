@@ -51,7 +51,9 @@ public class GameView {
 
     public boolean updateNextPlayerAvatar() {
         playerViewProperties[actualInitializedPlayerID].setAvatar(pagesManager.getLastChosenAvatar());
-        return changeIdOfInitializedPlayerToNext();
+        boolean hasNextPlayerToInitialize = changeIdOfInitializedPlayerToNext();
+        pagesManager.setActualInitializedPlayerNick(playerViewProperties[actualInitializedPlayerID].getName());
+        return hasNextPlayerToInitialize;
     }
 
     public boolean updateNextPlayerSignSheet() {
@@ -81,7 +83,8 @@ public class GameView {
     }
 
     public void showAvatarChoosePage() {
-        pagesManager.showAvatarChoosePage();
+        String firstPlayerNick = playerViewProperties[0].getName();
+        pagesManager.showAvatarChoosePage(firstPlayerNick);
     }
 
     public void showSignChoosePage() {

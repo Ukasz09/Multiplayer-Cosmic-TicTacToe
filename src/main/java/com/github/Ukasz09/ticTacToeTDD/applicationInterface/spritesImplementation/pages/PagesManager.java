@@ -37,12 +37,13 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
 
     private void initializeNameChoosePage() {
         nameChoosePage = new NameChoosePage();
+        nameChoosePage.attachObserver(this);
         nameChoosePage.setVisible(false);
     }
 
     //todo: tmp hard name
     private void initializeAvatarsChoosePage() {
-        avatarChoosePage = new AvatarChoosePage("Lukasz");
+        avatarChoosePage = new AvatarChoosePage("unknown");
         avatarChoosePage.attachObserver(this);
         avatarChoosePage.setVisible(false);
     }
@@ -68,10 +69,15 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         actualScene = nameChoosePage;
     }
 
-    public void showAvatarChoosePage() {
+    public void showAvatarChoosePage(String firstPlayerNick) {
+        avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
         setActualSceneVisible(false);
         actualScene = avatarChoosePage;
         actualScene.setVisible(true);
+    }
+
+    public void setActualInitializedPlayerNick(String firstPlayerNick){
+        avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
     }
 
     public void showSignChoosePage() {

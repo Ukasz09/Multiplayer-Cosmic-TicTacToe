@@ -1,5 +1,8 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObservable;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.FontProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
 import javafx.scene.control.TextField;
@@ -10,7 +13,10 @@ import javafx.scene.effect.SepiaTone;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public abstract class ChoosePage extends Page {
+import java.util.HashSet;
+import java.util.Set;
+
+public abstract class ChoosePage extends Page implements IEventKindObservable {
     protected static final String DEFAULT_FONT_COLOR = "lightgray";
     protected static final Color BUTTON_BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.5);
     protected static final Effect BUTTON_EXITED_EFFECT = new Lighting(new Light.Distant(0, 5, Color.GRAY));
@@ -19,9 +25,11 @@ public abstract class ChoosePage extends Page {
 
     private CenteredPane contentPanel;
     private LabelPane labelPane;
+    private Set<IEventKindObserver> observers;
 
     public ChoosePage(MyBackground background, String labelText) {
         super(background);
+        observers = new HashSet<>();
         initializePanel(labelText);
     }
 
@@ -48,5 +56,21 @@ public abstract class ChoosePage extends Page {
 
     protected void setLabelText(String text){
         labelPane.setLabelText(text);
+    }
+
+    @Override
+    public void attachObserver(IEventKindObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detachObserver(IEventKindObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(EventKind eventKind) {
+        for (IEventKindObserver observer : observers)
+            observer.updateObserver(eventKind);
     }
 }

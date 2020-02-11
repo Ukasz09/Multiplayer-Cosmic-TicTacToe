@@ -4,6 +4,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.p
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.states.IKindOfState;
+import javafx.scene.image.Image;
 
 public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphic {
     private ImageSheetProperty spriteSheetProperty;
@@ -67,9 +68,13 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
 
     @Override
     public void render() {
+        renderSprite(spriteSheetProperty.getSheet());
+    }
+
+    protected void renderSprite(Image spriteSheet) {
         double widthOfOneFrame = spriteSheetProperty.getWidthOfOneFrame();
         double heightOfOneFrame = spriteSheetProperty.getHeightOfOneFrame();
-        manager.getGraphicContext().drawImage(spriteSheetProperty.getSheet(), actualFramePositionX, actualFramePositionY,
+        manager.getGraphicContext().drawImage(spriteSheet, actualFramePositionX, actualFramePositionY,
                 widthOfOneFrame, heightOfOneFrame, positionX, positionY, width, height);
     }
 
@@ -81,4 +86,9 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
     public ImageSheetProperty getSpriteSheetProperty() {
         return spriteSheetProperty;
     }
+
+    public void setSpriteSheet(Image sheetImage) {
+        spriteSheetProperty.setImageSheet(sheetImage);
+    }
+
 }

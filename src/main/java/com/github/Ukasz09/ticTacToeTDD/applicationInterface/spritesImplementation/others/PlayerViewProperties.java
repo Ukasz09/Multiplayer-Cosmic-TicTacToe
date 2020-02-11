@@ -43,4 +43,8 @@ public class PlayerViewProperties {
     public void setWinQty(int winQty) {
         this.winQty = winQty;
     }
+
+    public String getName() {
+        return name;
+    }
 }

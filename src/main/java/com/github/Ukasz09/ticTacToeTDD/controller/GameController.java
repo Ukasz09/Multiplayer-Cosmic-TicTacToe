@@ -3,8 +3,6 @@ package com.github.Ukasz09.ticTacToeTDD.controller;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.SignButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.GameLogic;
 
 public class GameController implements IEventKindObserver {
@@ -24,7 +22,7 @@ public class GameController implements IEventKindObserver {
     @Override
     public void updateObserver(EventKind eventKind) {
         switch (eventKind) {
-            case CORRECT_NAME_WHEN_BUTTON_CLICKED: {
+            case CHOSEN_VALID_NAME: {
                 boolean hasNextPlayerToUpdate = gameView.updateNextPlayerName();
                 if (!hasNextPlayerToUpdate)
                     gameView.showAvatarChoosePage();

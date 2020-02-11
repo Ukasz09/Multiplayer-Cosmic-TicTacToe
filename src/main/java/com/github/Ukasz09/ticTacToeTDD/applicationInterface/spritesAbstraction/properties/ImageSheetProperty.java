@@ -144,4 +144,8 @@ public class ImageSheetProperty {
     public double getSheetWidth() {
         return imageSheet.getWidth();
     }
+
+    public void setImageSheet(Image imageSheet) {
+        this.imageSheet = imageSheet;
+    }
 }

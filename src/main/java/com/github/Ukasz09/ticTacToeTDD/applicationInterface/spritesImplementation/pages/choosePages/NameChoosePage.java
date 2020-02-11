@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ChooseBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.others.UserNameValidator;
 import javafx.geometry.Insets;
@@ -76,7 +77,7 @@ public class NameChoosePage extends ChoosePage {
                     actualInitializedPlayerNumber++;
                     updateLabelText();
                     resetTextField();
-                    //todo: otify
+                    notifyObservers(EventKind.CHOSEN_VALID_NAME);
                 } else setTextFieldEffectWhenIncorrectData();
             }
         });

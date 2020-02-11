@@ -1,7 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ChooseBackground;
@@ -18,17 +17,18 @@ import javafx.scene.paint.Color;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AvatarChoosePage extends ChoosePage implements IEventKindObservable {
+public class AvatarChoosePage extends ChoosePage {
     private static final String DEFAULT_LABEL_TEXT_PREFIX = "Choose avatar of player: ";
     private static final Image[] DEFAULT_AVATARS_IMAGES = ImagesProperties.avatars();
     private static final double AVATAR_SIZE_TO_SCREEN_PROPORTION = 14 / 108d;
 
     private ImageView chosenImage = null;
-    private Set<IEventKindObserver> observers;
+
+    private String actualInitializedPlayerNick;
 
     public AvatarChoosePage(String firstPlayerName) {
         super(new ChooseBackground(), DEFAULT_LABEL_TEXT_PREFIX + firstPlayerName);
-        observers = new HashSet<>();
+        actualInitializedPlayerNick = firstPlayerName;
         addAvatarButtons();
     }
 
@@ -52,6 +52,7 @@ public class AvatarChoosePage extends ChoosePage implements IEventKindObservable
     private void addMouseClickedActionToButton(Button button) {
         button.setOnMouseClicked(event -> {
             chosenImage = ((ImageView) button.getGraphic());
+            button.setDisable(true);
             notifyObservers(EventKind.AVATAR_BUTTON_CLICKED);
         });
     }
@@ -65,26 +66,14 @@ public class AvatarChoosePage extends ChoosePage implements IEventKindObservable
 
     @Override
     public void update() {
-        //nothig to do
-    }
-
-    @Override
-    public void attachObserver(IEventKindObserver observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void detachObserver(IEventKindObserver observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers(EventKind eventKind) {
-        for (IEventKindObserver observer : observers)
-            observer.updateObserver(eventKind);
+        setLabelText(DEFAULT_LABEL_TEXT_PREFIX + actualInitializedPlayerNick);
     }
 
     public ImageView getChosenImage() {
         return chosenImage;
+    }
+
+    public void setActualInitializedPlayerNick(String actualInitializedPlayerNick) {
+        this.actualInitializedPlayerNick = actualInitializedPlayerNick;
     }
 }
