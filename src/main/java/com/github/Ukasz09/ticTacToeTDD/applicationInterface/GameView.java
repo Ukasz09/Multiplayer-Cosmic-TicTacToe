@@ -49,16 +49,18 @@ public class GameView {
         return changeIdOfInitializedPlayerToNext();
     }
 
-    public boolean updateNextPlayerAvatar() {
+    public void updateNextPlayerAvatar() {
         playerViewProperties[actualInitializedPlayerID].setAvatar(pagesManager.getLastChosenAvatar());
-        boolean hasNextPlayerToInitialize = changeIdOfInitializedPlayerToNext();
-        pagesManager.setActualInitializedPlayerNick(playerViewProperties[actualInitializedPlayerID].getName());
-        return hasNextPlayerToInitialize;
     }
 
-    public boolean updateNextPlayerSignSheet() {
+    public void updatePlayerSignSheet() {
         playerViewProperties[actualInitializedPlayerID].setSignSheetProperty(pagesManager.getLastChosenSignSheet());
-        return changeIdOfInitializedPlayerToNext();
+    }
+
+    public boolean changeToNextPlayer() {
+        boolean hasNextPlayer = changeIdOfInitializedPlayerToNext();
+        pagesManager.setActualInitializedPlayerNick(playerViewProperties[actualInitializedPlayerID].getName());
+        return hasNextPlayer;
     }
 
     private boolean changeIdOfInitializedPlayerToNext() {
@@ -88,7 +90,8 @@ public class GameView {
     }
 
     public void showSignChoosePage() {
-        pagesManager.showSignChoosePage();
+        String firstPlayerNick = playerViewProperties[0].getName();
+        pagesManager.showSignChoosePage(firstPlayerNick);
     }
 
     public void showGamePage() {

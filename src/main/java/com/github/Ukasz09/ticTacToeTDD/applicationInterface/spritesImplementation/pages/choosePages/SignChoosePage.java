@@ -8,19 +8,18 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementatio
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.SignButton;
 import javafx.scene.input.MouseEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class SignChoosePage extends ChoosePage {
     private static final ImageSheetProperty[] DEFAULT_SHEET_PROPERTIES = SpritesProperties.signSheetsProperties();
     private static final double BUTTONS_PADDING_TO_SCREEN_PROPORTION = 10 / 192d;
-    private static final String LABEL_TEXT = "Choose your game sign!";
+    private static final String LABEL_TEXT_PREFIX = "Choose game sign for player: ";
 
     private SignButton[] signButtons;
     private ImageSheetProperty lastChosenSign = null;
+    private String actualInitializedPlayerNick;
 
-    public SignChoosePage() {
-        super(new ChooseBackground(), LABEL_TEXT);
+    public SignChoosePage(String firstPlayerName) {
+        super(new ChooseBackground(), LABEL_TEXT_PREFIX + firstPlayerName);
+        actualInitializedPlayerNick = firstPlayerName;
         addSignButtons();
     }
 
@@ -31,7 +30,7 @@ public class SignChoosePage extends ChoosePage {
             SignButton signButton = new SignButton(DEFAULT_SHEET_PROPERTIES[i]);
             signButtons[i] = signButton;
             signButton.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                if(signButton.isActive()){
+                if (signButton.isActive()) {
                     lastChosenSign = signButton.getSpriteSheetProperty();
                     signButton.disable();
                     signButton.notifyObservers(EventKind.SIGN_BUTTON_CLICKED);
@@ -75,6 +74,7 @@ public class SignChoosePage extends ChoosePage {
     @Override
     public void update() {
         updateSignButtons();
+        setLabelText(LABEL_TEXT_PREFIX + actualInitializedPlayerNick);
     }
 
     private void updateSignButtons() {
@@ -93,5 +93,9 @@ public class SignChoosePage extends ChoosePage {
 
     public ImageSheetProperty getLastChosenSign() {
         return lastChosenSign;
+    }
+
+    public void setActualInitializedPlayerNick(String actualInitializedPlayerNick) {
+        this.actualInitializedPlayerNick = actualInitializedPlayerNick;
     }
 }

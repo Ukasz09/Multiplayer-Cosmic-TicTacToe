@@ -49,7 +49,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void initializeSignChoosePage() {
-        signChoosePanel = new SignChoosePage();
+        signChoosePanel = new SignChoosePage("unknown");
         signChoosePanel.attachObserver(this);
         signChoosePanel.setVisible(false);
     }
@@ -70,18 +70,20 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     public void showAvatarChoosePage(String firstPlayerNick) {
-        avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
         setActualSceneVisible(false);
+        avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
         actualScene = avatarChoosePage;
         actualScene.setVisible(true);
     }
 
     public void setActualInitializedPlayerNick(String firstPlayerNick){
         avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
+        signChoosePanel.setActualInitializedPlayerNick(firstPlayerNick);
     }
 
-    public void showSignChoosePage() {
+    public void showSignChoosePage(String firstPlayerNick) {
         setActualSceneVisible(false);
+        signChoosePanel.setActualInitializedPlayerNick(firstPlayerNick);
         actualScene = signChoosePanel;
         actualScene.setVisible(true);
     }

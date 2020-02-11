@@ -31,14 +31,16 @@ public class GameController implements IEventKindObserver {
 
 
             case AVATAR_BUTTON_CLICKED: {
-                boolean hasNextPlayerToUpdate = gameView.updateNextPlayerAvatar();
+                gameView.updateNextPlayerAvatar();
+                boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
                 if (!hasNextPlayerToUpdate)
                     gameView.showSignChoosePage();
             }
             break;
 
             case SIGN_BUTTON_CLICKED: {
-                boolean hasNextPlayerToUpdate = gameView.updateNextPlayerSignSheet();
+                gameView.updatePlayerSignSheet();
+                boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
                 if (!hasNextPlayerToUpdate)
                     gameView.showGamePage();
             }
