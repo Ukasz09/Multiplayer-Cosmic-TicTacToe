@@ -26,7 +26,7 @@ public class GameView {
 
     public GameView() {
         manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, false);
+        manager.initialize(APPLICATION_TITLE, true);
         pagesManager = new PagesManager();
     }
 
