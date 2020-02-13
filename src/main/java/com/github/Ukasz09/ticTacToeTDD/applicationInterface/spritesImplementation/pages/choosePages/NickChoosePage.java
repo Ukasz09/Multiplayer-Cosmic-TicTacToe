@@ -12,8 +12,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
-public class NameChoosePage extends ChoosePage {
-    private static final String DEFAULT_LABEL_TEXT_PREFIX = "Choose avatar of player no. ";
+public class NickChoosePage extends ChoosePage {
+    private static final String DEFAULT_LABEL_TEXT_PREFIX = "Choose name of player no. ";
     private static final String DEFAULT_PROMPT_TEXT = "Your nick ... ";
     private static final int FIRST_PLAYER_NUMBER = 1;
     private static final double FIELD_WIDTH_TO_SCREEN_PROPORTION = 35 / 192d;
@@ -28,7 +28,7 @@ public class NameChoosePage extends ChoosePage {
     private UserNameValidator nameValidator;
     private int actualInitializedPlayerNumber = FIRST_PLAYER_NUMBER;
 
-    public NameChoosePage() {
+    public NickChoosePage() {
         super(new ChooseBackground(), DEFAULT_LABEL_TEXT_PREFIX + FIRST_PLAYER_NUMBER);
         initializeTextField();
         nameValidator = new UserNameValidator();

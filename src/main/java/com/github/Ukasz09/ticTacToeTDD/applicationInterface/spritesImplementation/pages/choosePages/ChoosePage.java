@@ -5,6 +5,9 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.o
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.FontProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
+import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
@@ -46,6 +49,14 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
         textField.setFont(font);
     }
 
+    public static void setDefaultButtonFont(Button button, String fontColor, int fontSize) {
+        Font font = FontProperties.chargenRegularFont(fontSize);
+//        button.setStyle("-fx-text-inner-color: " + fontColor + ";");
+        button.setStyle("-fx-text-fill: lightgray"); //todo: tmp
+        button.setFont(font);
+    }
+
+
     public CenteredPane getContentPane() {
         return contentPanel;
     }
@@ -54,7 +65,7 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
         return labelPane.getMinHeight();
     }
 
-    protected void setLabelText(String text){
+    protected void setLabelText(String text) {
         labelPane.setLabelText(text);
     }
 

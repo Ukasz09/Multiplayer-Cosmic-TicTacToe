@@ -6,13 +6,8 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.o
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.GameBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.AvatarChoosePage;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.LabelPane;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.NameChoosePage;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.SignChoosePage;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.*;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.gamePage.GamePage;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.HashSet;
@@ -23,25 +18,32 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     private Set<IEventKindObserver> observers;
 
     private GamePage gamePanel;
-    private NameChoosePage nameChoosePage;
+    private StartGamePage startGamePage;
+    private NickChoosePage nickChoosePage;
     private AvatarChoosePage avatarChoosePage;
     private SignChoosePage signChoosePanel;
 
     public PagesManager() {
         observers = new HashSet<>();
+        initializeStartGamePage();
         initializeNameChoosePage();
         initializeAvatarsChoosePage();
         initializeSignChoosePage();
         initializeGamePanel();
     }
 
-    private void initializeNameChoosePage() {
-        nameChoosePage = new NameChoosePage();
-        nameChoosePage.attachObserver(this);
-        nameChoosePage.setVisible(false);
+    private void initializeStartGamePage() {
+        startGamePage = new StartGamePage();
+        startGamePage.attachObserver(this);
+        startGamePage.setVisible(false);
     }
 
-    //todo: tmp hard name
+    private void initializeNameChoosePage() {
+        nickChoosePage = new NickChoosePage();
+        nickChoosePage.attachObserver(this);
+        nickChoosePage.setVisible(false);
+    }
+
     private void initializeAvatarsChoosePage() {
         avatarChoosePage = new AvatarChoosePage("unknown");
         avatarChoosePage.attachObserver(this);
@@ -55,7 +57,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void initializeGamePanel() {
-        gamePanel = new GamePage(new GameBackground());
+        gamePanel = new GamePage();
         gamePanel.setVisible(false);
     }
 
@@ -66,7 +68,13 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void setSceneToHomePage() {
-        actualScene = nameChoosePage;
+        actualScene = startGamePage;
+    }
+
+    public void showNickChoosePage(){
+        setActualSceneVisible(false);
+        actualScene = nickChoosePage;
+        actualScene.setVisible(true);
     }
 
     public void showAvatarChoosePage(String firstPlayerNick) {
@@ -105,7 +113,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     public String getLastChosenCorrectName() {
-        return nameChoosePage.getLastChosenCorrectName();
+        return nickChoosePage.getLastChosenCorrectName();
     }
 
     public ImageView getLastChosenAvatar() {

@@ -10,13 +10,18 @@ public class ImagesProperties {
         return new Image(imagePath);
     }
 
-    public static Image woodBackground1() {
+    public static Image cosmicBackground1() {
         String imagePath = "images/backgrounds/backgroundCosmic1.jpg";
         return new Image(imagePath);
     }
 
     public static Image signChooseBackground() {
         String imagePath = "images/backgrounds/backgroundNightSky1.jpg";
+        return new Image(imagePath);
+    }
+
+    public static Image startGameBackground() {
+        String imagePath = "images/backgrounds/galaxyBackground.gif";
         return new Image(imagePath);
     }
 

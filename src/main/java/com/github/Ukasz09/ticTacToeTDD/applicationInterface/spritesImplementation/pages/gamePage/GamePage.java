@@ -1,15 +1,16 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.gamePage;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.LabelPane;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.Page;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.Page;
+import javafx.scene.image.Image;
 
 public class GamePage extends Page {
+    private static final Image BACKGROUND = ImagesProperties.cosmicBackground1();
     private GameBoard gameBoard;
 
-    public GamePage(MyBackground background) {
-        super(background);
+    public GamePage() {
+        super(new MyBackground(BACKGROUND, null));
         initializeGameBoard();
     }
 

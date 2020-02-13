@@ -4,7 +4,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
 import javafx.scene.image.Image;
 
-public abstract class MyBackground {
+public class MyBackground {
     private Image backgroundImage;
     private SoundsPlayer backgroundSound;
     private boolean backgroundSoundIsPlaying;
