@@ -44,8 +44,8 @@ public class NickChoosePage extends ChoosePage {
     }
 
     private void setTextFieldDefaultSize() {
-        double textFieldWidth = getContentPane().getWidthAfterScaling(FIELD_WIDTH_TO_SCREEN_PROPORTION);
-        double textFieldHeight = getContentPane().getHeightAfterScaling(FIELD_HEIGHT_TO_SCREEN_PROPORTION);
+        double textFieldWidth = manager.getScaledWidth(FIELD_WIDTH_TO_SCREEN_PROPORTION);
+        double textFieldHeight = manager.getScaledHeight(FIELD_HEIGHT_TO_SCREEN_PROPORTION);
         textField.setMinSize(textFieldWidth, textFieldHeight);
         textField.setPrefSize(textFieldWidth, textFieldHeight);
     }

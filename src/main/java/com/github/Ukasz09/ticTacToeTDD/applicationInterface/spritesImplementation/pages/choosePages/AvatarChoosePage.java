@@ -59,8 +59,8 @@ public class AvatarChoosePage extends ChoosePage {
 
     private ImageView getAvatarImageViewFromImage(Image image) {
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(getContentPane().getWidthAfterScaling(AVATAR_SIZE_TO_SCREEN_PROPORTION));
-        imageView.setFitHeight(getContentPane().getWidthAfterScaling(AVATAR_SIZE_TO_SCREEN_PROPORTION));
+        imageView.setFitWidth(manager.getScaledWidth(AVATAR_SIZE_TO_SCREEN_PROPORTION));
+        imageView.setFitHeight(manager.getScaledWidth(AVATAR_SIZE_TO_SCREEN_PROPORTION));
         return imageView;
     }
 

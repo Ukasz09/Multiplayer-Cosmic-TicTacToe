@@ -24,7 +24,7 @@ public class LabelPane extends CenteredPane {
     }
 
     private void setProperPaneSize() {
-        setMinHeight(getHeightAfterScaling(LABEL_HEIGHT_TO_SCREEN_PROPORTION));
+        setMinHeight(manager.getScaledHeight(LABEL_HEIGHT_TO_SCREEN_PROPORTION));
         setMinWidth(manager.getRightFrameBorder());
     }
 

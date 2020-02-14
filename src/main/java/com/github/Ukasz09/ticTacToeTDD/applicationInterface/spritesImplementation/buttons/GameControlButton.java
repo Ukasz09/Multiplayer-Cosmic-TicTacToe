@@ -9,27 +9,22 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 public class GameControlButton extends Button {
     private static final double BUTTON_WIDTH_PROPORTION = 35 / 192d;
     private static final double BUTTON_HEIGHT_PROPORTION = 10 / 108d;
-    private static final double FONT_SIZE_PROPORTION = 3 / 192d;
-    private static final String FONT_COLOR_CSS = "lightgray";
+    private static final double FONT_SIZE_PROPORTION = 4 / 192d;
+    private static final Paint FONT_COLOR = Color.LIGHTGRAY;
     private static final Color BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.5);
     private static final double CORNER_RADIUS = 25;
     private static final Insets INSETS = Insets.EMPTY;
-    private static final Effect MOUSE_ENTERED_EFFECT = new Lighting(new Light.Distant(0, 5, Color.GRAY));
-    private final Font TEXT_FONT = FontProperties.chargenRegularFont();
-    //    private static final Effect DEFAULT_HOVERED_EFFECT = new InnerShadow(1, Color.PURPLE);
+    private static final Effect MOUSE_ENTERED_EFFECT = new InnerShadow(1, Color.PURPLE);
 
     private ViewManager manager;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameControlButton() {
-        this("");
-    }
-
     public GameControlButton(String text) {
         super(text);
         manager = ViewManager.getInstance();
@@ -56,9 +51,9 @@ public class GameControlButton extends Button {
     }
 
     public void setDefaultFont() {
-        setFont(TEXT_FONT);
-        setStyle("-fx-font-size: " + manager.getScaledWidth(FONT_SIZE_PROPORTION) + "px;");
-        setStyle("-fx-text-inner-color: " + FONT_COLOR_CSS + ";");
+        int fontSize = (int) (manager.getScaledWidth(FONT_SIZE_PROPORTION));
+        setFont(FontProperties.chargenRegularFont(fontSize));
+        setTextFill(FONT_COLOR);
     }
 
     private void setDefaultEvents() {
