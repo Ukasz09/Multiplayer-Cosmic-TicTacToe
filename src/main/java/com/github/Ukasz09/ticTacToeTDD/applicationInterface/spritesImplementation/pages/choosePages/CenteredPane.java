@@ -20,11 +20,11 @@ public class CenteredPane extends FlowPane {
         setAlignment(Pos.CENTER);
     }
 
-    protected double getHeightAfterScaling(double heightToScreenProportion) {
-        return heightToScreenProportion * manager.getBottomFrameBorder();
-    }
-
-    protected double getWidthAfterScaling(double widthToScreenProportion) {
-        return widthToScreenProportion * manager.getRightFrameBorder();
-    }
+//    protected double getHeightAfterScaling(double heightToScreenProportion) {
+//        return heightToScreenProportion * manager.getBottomFrameBorder();
+//    }
+//
+//    protected double getWidthAfterScaling(double widthToScreenProportion) {
+//        return widthToScreenProportion * manager.getRightFrameBorder();
+//    }
 }

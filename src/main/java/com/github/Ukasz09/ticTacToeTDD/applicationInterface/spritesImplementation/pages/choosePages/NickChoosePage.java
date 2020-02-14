@@ -2,7 +2,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementati
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ChooseBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.others.UserNameValidator;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.UserNameValidator;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.*;

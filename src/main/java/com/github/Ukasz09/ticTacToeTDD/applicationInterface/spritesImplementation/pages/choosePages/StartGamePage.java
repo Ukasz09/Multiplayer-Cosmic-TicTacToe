@@ -22,10 +22,6 @@ public class StartGamePage extends ChoosePage {
 
     //todo: zrobic inaczej background, wyrzucic stylizacje button do warstwy wyzej
     //todo: tmp
-    private static final double FIELD_WIDTH_TO_SCREEN_PROPORTION = 35 / 192d;
-    private static final double FIELD_HEIGHT_TO_SCREEN_PROPORTION = 10 / 108d;
-    private static final Color DEFAULT_TEXTFIELD_COLOR = new Color(0, 0, 0, 0.5);
-    private static final Effect DEFAULT_HOVERED_EFFECT = new InnerShadow(1, Color.PURPLE);
     public StartGamePage() {
         super(new MyBackground(DEFAULT_IMAGE, DEFAULT_MUSIC), DEFAULT_LABEL_TEXT);
         addButtons();

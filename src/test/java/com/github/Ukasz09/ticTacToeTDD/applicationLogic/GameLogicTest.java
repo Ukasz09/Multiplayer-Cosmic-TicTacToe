@@ -181,9 +181,4 @@ class GameLogicTest {
             assertThrows(IncorrectPlayerException.class, () -> gameLogic = new GameLogic(3, players));
         }
     }
-
-    @Nested
-    class LineFilledTests {
-        //todo:
-    }
 }

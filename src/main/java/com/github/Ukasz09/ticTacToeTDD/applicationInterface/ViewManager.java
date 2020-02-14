@@ -140,5 +140,19 @@ public class ViewManager {
         return bottomFrameBorder;
     }
 
+    /**
+     * @param heightToScreenProportion - height to screen proportion between <0;1>
+     */
+    public double getScaledHeight(double heightToScreenProportion) {
+        return heightToScreenProportion * bottomFrameBorder;
+    }
+
+    /**
+     * @param widthToScreenProportion - width to screen proportion between <0;1>
+     */
+    public double getScaledWidth(double widthToScreenProportion) {
+        return widthToScreenProportion * rightFrameBorder;
+    }
+
 }
 

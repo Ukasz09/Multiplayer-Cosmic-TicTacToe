@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.others;
+package com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
