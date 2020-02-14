@@ -1,16 +1,16 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.gamePage;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages.Page;
 import javafx.scene.image.Image;
 
 public class GamePage extends Page {
-    private static final Image BACKGROUND = ImagesProperties.cosmicBackground1();
+    private static final Image BACKGROUND = ImagesProperties.cosmic1Background();
     private GameBoard gameBoard;
 
     public GamePage() {
-        super(new MyBackground(BACKGROUND, null));
+        super(new ImageGameBackground(BACKGROUND, null));
         initializeGameBoard();
     }
 

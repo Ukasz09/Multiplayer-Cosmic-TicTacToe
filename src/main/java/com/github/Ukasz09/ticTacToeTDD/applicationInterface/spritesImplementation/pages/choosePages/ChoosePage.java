@@ -4,15 +4,14 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.o
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.FontProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.MyBackground;
-import javafx.scene.control.Button;
-import javafx.scene.control.Control;
-import javafx.scene.control.Labeled;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.SepiaTone;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -20,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class ChoosePage extends Page implements IEventKindObservable {
+    protected static final Image DEFAULT_BACKGROUND = ImagesProperties.nightSky1Background();
     //todo: tmp - zorbic osobna klase na text fielda
     protected static final String DEFAULT_FONT_COLOR = "lightgray";
     protected static final Color BUTTON_BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.5);
@@ -27,11 +27,12 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
     protected static final double BUTTON_CORNER_RADIUS = 25;
     protected static final Effect BUTTON_HOVERED_EFFECT = new SepiaTone(0); //no effect
 
+
     private CenteredPane contentPanel;
     private LabelPane labelPane;
     private Set<IEventKindObserver> observers;
 
-    public ChoosePage(MyBackground background, String labelText) {
+    public ChoosePage(ImageGameBackground background, String labelText) {
         super(background);
         observers = new HashSet<>();
         initializePanel(labelText);

@@ -2,27 +2,18 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementati
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.IDrawingGraphic;
 import javafx.scene.image.Image;
 
-public class MyBackground {
-    private Image backgroundImage;
+public abstract class GameBackground implements IDrawingGraphic{
     private SoundsPlayer backgroundSound;
     private boolean backgroundSoundIsPlaying;
     protected ViewManager manager;
 
-    public MyBackground(Image backgroundImage, SoundsPlayer backgroundSound) {
-        this.backgroundImage = backgroundImage;
-        this.backgroundSound = backgroundSound;
+    public GameBackground(SoundsPlayer backgroundSound) {
         manager = ViewManager.getInstance();
+        this.backgroundSound = backgroundSound;
         backgroundSoundIsPlaying = false;
-    }
-
-    public void render() {
-        drawBackground();
-    }
-
-    private void drawBackground() {
-        manager.getGraphicContext().drawImage(backgroundImage, 0, 0, manager.getRightFrameBorder(), manager.getBottomFrameBorder());
     }
 
     public boolean playBackgroundSound() {

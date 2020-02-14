@@ -1,7 +1,8 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ChooseBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.GameBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.UserNameValidator;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
@@ -29,7 +30,7 @@ public class NickChoosePage extends ChoosePage {
     private int actualInitializedPlayerNumber = FIRST_PLAYER_NUMBER;
 
     public NickChoosePage() {
-        super(new ChooseBackground(), DEFAULT_LABEL_TEXT_PREFIX + FIRST_PLAYER_NUMBER);
+        super(new ImageGameBackground(DEFAULT_BACKGROUND), DEFAULT_LABEL_TEXT_PREFIX + FIRST_PLAYER_NUMBER);
         initializeTextField();
         nameValidator = new UserNameValidator();
     }

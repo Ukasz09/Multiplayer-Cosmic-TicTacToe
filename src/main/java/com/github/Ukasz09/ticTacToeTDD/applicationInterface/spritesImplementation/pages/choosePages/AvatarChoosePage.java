@@ -3,7 +3,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementati
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ChooseBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.effect.*;
@@ -27,7 +27,7 @@ public class AvatarChoosePage extends ChoosePage {
     private String actualInitializedPlayerNick;
 
     public AvatarChoosePage(String firstPlayerName) {
-        super(new ChooseBackground(), DEFAULT_LABEL_TEXT_PREFIX + firstPlayerName);
+        super(new ImageGameBackground(DEFAULT_BACKGROUND), DEFAULT_LABEL_TEXT_PREFIX + firstPlayerName);
         actualInitializedPlayerNick = firstPlayerName;
         addAvatarButtons();
     }

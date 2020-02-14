@@ -4,7 +4,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.o
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.SpritesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ChooseBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.SignButton;
 import javafx.scene.input.MouseEvent;
 
@@ -18,7 +18,7 @@ public class SignChoosePage extends ChoosePage {
     private String actualInitializedPlayerNick;
 
     public SignChoosePage(String firstPlayerName) {
-        super(new ChooseBackground(), LABEL_TEXT_PREFIX + firstPlayerName);
+        super(new ImageGameBackground(DEFAULT_BACKGROUND), LABEL_TEXT_PREFIX + firstPlayerName);
         actualInitializedPlayerNick = firstPlayerName;
         addSignButtons();
     }

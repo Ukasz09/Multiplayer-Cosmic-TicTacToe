@@ -10,12 +10,12 @@ public class ImagesProperties {
         return new Image(imagePath);
     }
 
-    public static Image cosmicBackground1() {
+    public static Image cosmic1Background() {
         String imagePath = "images/backgrounds/backgroundCosmic1.jpg";
         return new Image(imagePath);
     }
 
-    public static Image signChooseBackground() {
+    public static Image nightSky1Background() {
         String imagePath = "images/backgrounds/backgroundNightSky1.jpg";
         return new Image(imagePath);
     }
