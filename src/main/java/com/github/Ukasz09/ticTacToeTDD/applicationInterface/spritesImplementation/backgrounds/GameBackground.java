@@ -10,12 +10,14 @@ public abstract class GameBackground implements IDrawingGraphic{
     private boolean backgroundSoundIsPlaying;
     protected ViewManager manager;
 
+    //----------------------------------------------------------------------------------------------------------------//
     public GameBackground(SoundsPlayer backgroundSound) {
         manager = ViewManager.getInstance();
         this.backgroundSound = backgroundSound;
         backgroundSoundIsPlaying = false;
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public boolean playBackgroundSound() {
         if (backgroundSound == null)
             return false;

@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 public class ImageGameBackground extends GameBackground {
     private Image backgroundImage;
 
+    //----------------------------------------------------------------------------------------------------------------//
     public ImageGameBackground(Image backgroundImage) {
         super(null);
         this.backgroundImage = backgroundImage;
@@ -17,6 +18,7 @@ public class ImageGameBackground extends GameBackground {
         this.backgroundImage = backgroundImage;
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public void render() {
         drawBackground();
     }

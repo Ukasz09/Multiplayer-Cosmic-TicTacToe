@@ -22,13 +22,17 @@ public class GameController implements IEventKindObserver {
     @Override
     public void updateObserver(EventKind eventKind) {
         switch (eventKind) {
+            case START_BUTTON_CLICKED: {
+                gameView.showNickChoosePage();
+            }
+            break;
+
             case CHOSEN_VALID_NAME: {
                 boolean hasNextPlayerToUpdate = gameView.updateNextPlayerName();
                 if (!hasNextPlayerToUpdate)
                     gameView.showAvatarChoosePage();
             }
             break;
-
 
             case AVATAR_BUTTON_CLICKED: {
                 gameView.updateNextPlayerAvatar();

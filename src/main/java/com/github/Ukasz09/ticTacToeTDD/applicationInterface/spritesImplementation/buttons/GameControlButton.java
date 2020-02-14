@@ -12,28 +12,22 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
-public class GameControlButton extends Button {
+public class GameControlButton extends GameButton {
     private static final double BUTTON_WIDTH_PROPORTION = 35 / 192d;
     private static final double BUTTON_HEIGHT_PROPORTION = 10 / 108d;
     private static final double FONT_SIZE_PROPORTION = 4 / 192d;
     private static final Paint FONT_COLOR = Color.LIGHTGRAY;
-    private static final Color BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.5);
-    private static final double CORNER_RADIUS = 25;
-    private static final Insets INSETS = Insets.EMPTY;
     private static final Effect MOUSE_ENTERED_EFFECT = new InnerShadow(1, Color.PURPLE);
-
-    private ViewManager manager;
 
     //----------------------------------------------------------------------------------------------------------------//
     public GameControlButton(String text) {
-        super(text);
-        manager = ViewManager.getInstance();
-        initializeButton();
+        super();
+        initializeButton(text);
     }
 
-    private void initializeButton() {
+    private void initializeButton(String text) {
+        setText(text);
         setDefaultSize();
-        setDefaultAppearance();
         setDefaultEvents();
         setDefaultFont();
     }
@@ -46,19 +40,16 @@ public class GameControlButton extends Button {
         setPrefSize(btnWidth, btnHeight);
     }
 
-    private void setDefaultAppearance() {
-        setBackground(new Background(new BackgroundFill(BACKGROUND_COLOR, new CornerRadii(CORNER_RADIUS), INSETS)));
+    @Override
+    protected void setDefaultEvents() {
+        setOnMouseEntered(event -> setEffect(MOUSE_ENTERED_EFFECT));
+        setOnMouseExited(event -> setEffect(null));
     }
 
-    public void setDefaultFont() {
+    private void setDefaultFont() {
         int fontSize = (int) (manager.getScaledWidth(FONT_SIZE_PROPORTION));
         setFont(FontProperties.chargenRegularFont(fontSize));
         setTextFill(FONT_COLOR);
-    }
-
-    private void setDefaultEvents() {
-        setOnMouseEntered(event -> setEffect(MOUSE_ENTERED_EFFECT));
-        setOnMouseExited(event -> setEffect(null));
     }
 }
 

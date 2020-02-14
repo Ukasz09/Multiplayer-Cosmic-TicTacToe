@@ -84,6 +84,11 @@ public class GameView {
         pagesManager.showHomePage();
     }
 
+    public void showNickChoosePage() {
+        pagesManager.showNickChoosePage();
+    }
+
+
     public void showAvatarChoosePage() {
         String firstPlayerNick = playerViewProperties[0].getName();
         pagesManager.showAvatarChoosePage(firstPlayerNick);
