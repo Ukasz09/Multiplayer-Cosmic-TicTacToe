@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 
 public class ApplicationMain extends Application {
     private GameController gameController;
-    GameView gameView;
-    GameLogic gameLogic;
+    private GameView gameView;
+    private GameLogic gameLogic;
 
     public ApplicationMain() {
         initializeGameController();

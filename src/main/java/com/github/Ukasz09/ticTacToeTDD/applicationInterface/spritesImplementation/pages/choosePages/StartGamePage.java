@@ -4,6 +4,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.GameControlButton;
 import javafx.scene.control.Button;
@@ -16,11 +17,13 @@ public class StartGamePage extends ChoosePage {
     private static final double DEFAULT_VOLUME = 0.5;
     private static final SoundsPlayer DEFAULT_MUSIC = SoundsProperties.gameBackground(DEFAULT_VOLUME);
 
+    //----------------------------------------------------------------------------------------------------------------//
     public StartGamePage() {
         super(new ImageGameBackground(BACKGROUND_IMAGE, DEFAULT_MUSIC), HEADER_TEXT);
         addButtons();
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     private void addButtons() {
         addStartGameButton();
     }

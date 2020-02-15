@@ -25,6 +25,7 @@ public class GameControlButton extends GameButton {
         initializeButton(text);
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     private void initializeButton(String text) {
         setText(text);
         setDefaultSize();
@@ -32,7 +33,6 @@ public class GameControlButton extends GameButton {
         setDefaultFont();
     }
 
-    //----------------------------------------------------------------------------------------------------------------//
     private void setDefaultSize() {
         double btnWidth = manager.getScaledWidth(BUTTON_WIDTH_PROPORTION);
         double btnHeight = manager.getScaledHeight(BUTTON_HEIGHT_PROPORTION);

@@ -7,10 +7,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.p
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
-import javafx.scene.effect.SepiaTone;
+import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,13 +16,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class ChoosePage extends Page implements IEventKindObservable {
+    private static final Effect DEFAULT_INCORRECT_DATA_EFFECT = new InnerShadow(100, Color.DARKRED);
+
+
     protected static final Image DEFAULT_BACKGROUND = ImagesProperties.nightSky1Background();
+
     //todo: tmp - zorbic osobna klase na text fielda
     protected static final String DEFAULT_FONT_COLOR = "lightgray";
-    protected static final Color BUTTON_BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.5);
-    protected static final Effect BUTTON_EXITED_EFFECT = new Lighting(new Light.Distant(0, 5, Color.GRAY));
     protected static final double BUTTON_CORNER_RADIUS = 25;
-    protected static final Effect BUTTON_HOVERED_EFFECT = new SepiaTone(0); //no effect
 
 
     private CenteredPane contentPanel;

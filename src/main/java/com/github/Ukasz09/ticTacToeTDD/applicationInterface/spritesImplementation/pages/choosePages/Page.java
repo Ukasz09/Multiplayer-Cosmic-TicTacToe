@@ -7,7 +7,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementatio
 import javafx.scene.layout.*;
 
 public abstract class Page extends BorderPane implements IScenePage {
-    private GameBackground background;
+    protected GameBackground background;
     protected ViewManager manager;
 
     public Page(GameBackground background) {
@@ -29,6 +29,14 @@ public abstract class Page extends BorderPane implements IScenePage {
     @Override
     public void render() {
         background.render();
+    }
+
+    public boolean playBackgroundSound() {
+        return background.playBackgroundSound();
+    }
+
+    public boolean stopBackgroundSound() {
+        return background.stopBackgroundSound();
     }
 
 }

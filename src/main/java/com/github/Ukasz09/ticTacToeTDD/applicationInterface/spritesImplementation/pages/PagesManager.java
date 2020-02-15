@@ -63,28 +63,30 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
 
     public void showHomePage() {
         setActualSceneVisible(false);
+        stopBackgroundSound();
         setSceneToHomePage();
-        actualScene.setVisible(true);
+        setActualSceneVisible(true);
+        playBackgroundSound();
     }
 
     private void setSceneToHomePage() {
         actualScene = startGamePage;
     }
 
-    public void showNickChoosePage(){
+    public void showNickChoosePage() {
         setActualSceneVisible(false);
         actualScene = nickChoosePage;
-        actualScene.setVisible(true);
+        setActualSceneVisible(true);
     }
 
     public void showAvatarChoosePage(String firstPlayerNick) {
         setActualSceneVisible(false);
         avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
         actualScene = avatarChoosePage;
-        actualScene.setVisible(true);
+        setActualSceneVisible(true);
     }
 
-    public void setActualInitializedPlayerNick(String firstPlayerNick){
+    public void setActualInitializedPlayerNick(String firstPlayerNick) {
         avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
         signChoosePanel.setActualInitializedPlayerNick(firstPlayerNick);
     }
@@ -93,19 +95,29 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         setActualSceneVisible(false);
         signChoosePanel.setActualInitializedPlayerNick(firstPlayerNick);
         actualScene = signChoosePanel;
-        actualScene.setVisible(true);
+        setActualSceneVisible(true);
     }
 
     public void showGamePage() {
         setActualSceneVisible(false);
         gamePanel.showGameBoard(true);
         actualScene = gamePanel;
-        actualScene.setVisible(true);
+        setActualSceneVisible(true);
     }
 
     private void setActualSceneVisible(boolean value) {
         if (actualScene != null)
             actualScene.setVisible(value);
+    }
+
+    private void playBackgroundSound() {
+        if (actualScene != null)
+            actualScene.playBackgroundSound();
+    }
+
+    private void stopBackgroundSound() {
+        if (actualScene != null)
+            actualScene.stopBackgroundSound();
     }
 
     public IDrawingGraphic getActualScene() {

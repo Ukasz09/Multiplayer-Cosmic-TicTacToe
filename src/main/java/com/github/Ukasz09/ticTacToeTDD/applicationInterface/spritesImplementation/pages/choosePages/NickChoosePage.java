@@ -1,33 +1,23 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.choosePages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.textFields.GameTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.UserNameValidator;
-import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.*;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class NickChoosePage extends ChoosePage {
     private static final String DEFAULT_LABEL_TEXT_PREFIX = "Choose name of player no. ";
-    private static final String DEFAULT_PROMPT_TEXT = "Your nick ... ";
     private static final int FIRST_PLAYER_NUMBER = 1;
-    private static final double FIELD_WIDTH_TO_SCREEN_PROPORTION = 35 / 192d;
-    private static final double FIELD_HEIGHT_TO_SCREEN_PROPORTION = 10 / 108d;
-    private static final double FONT_SIZE_TO_SCREEN_PROPORTION = 4 / 108d;
-    private static final Color DEFAULT_TEXTFIELD_COLOR = new Color(0, 0, 0, 0.5);
-    private static final Effect DEFAULT_TEXTFIELD_HOVERED_EFFECT = new InnerShadow(1, Color.DARKGRAY);
-    private static final Effect DEFAULT_TEXTFIELD_INCORRECT_EFFECT = new InnerShadow(100, Color.DARKRED);
 
-    private String lastChosenCorrectName = null;
-    private TextField textField;
     private UserNameValidator nameValidator;
     private int actualInitializedPlayerNumber = FIRST_PLAYER_NUMBER;
+    private String lastChosenCorrectName = null;
 
     public NickChoosePage() {
         super(new ImageGameBackground(DEFAULT_BACKGROUND), DEFAULT_LABEL_TEXT_PREFIX + FIRST_PLAYER_NUMBER);
@@ -36,57 +26,24 @@ public class NickChoosePage extends ChoosePage {
     }
 
     private void initializeTextField() {
-        textField = new TextField();
-        setTextFieldDefaultSize();
-        setTextFieldDefaultAppearance();
-        setTextFieldDefaultEffects();
-        setTextFieldActionEvent();
+        GameTextField textField = new GameTextField();
+        setOnEnterKeyPressedEvent(textField);
         getContentPane().getChildren().add(textField);
     }
 
-    private void setTextFieldDefaultSize() {
-        double textFieldWidth = manager.getScaledWidth(FIELD_WIDTH_TO_SCREEN_PROPORTION);
-        double textFieldHeight = manager.getScaledHeight(FIELD_HEIGHT_TO_SCREEN_PROPORTION);
-        textField.setMinSize(textFieldWidth, textFieldHeight);
-        textField.setPrefSize(textFieldWidth, textFieldHeight);
-    }
-
-    private void setTextFieldDefaultAppearance() {
-        textField.setBackground(new Background(new BackgroundFill(DEFAULT_TEXTFIELD_COLOR, new CornerRadii(BUTTON_CORNER_RADIUS), Insets.EMPTY)));
-        int fontSize = (int) (FONT_SIZE_TO_SCREEN_PROPORTION * manager.getBottomFrameBorder());
-        setDefaultTextFieldFont(textField, DEFAULT_FONT_COLOR, fontSize);
-        textField.setFocusTraversable(false);
-        textField.setPromptText(DEFAULT_PROMPT_TEXT);
-    }
-
-    private void setTextFieldDefaultEffects() {
-        textField.setEffect(null);
-        textField.setOnMouseEntered(event -> textField.setEffect(DEFAULT_TEXTFIELD_HOVERED_EFFECT));
-        textField.setOnMouseExited(event -> textField.setEffect(null));
-    }
-
-    private void setTextFieldEffectWhenIncorrectData() {
-        textField.setEffect(DEFAULT_TEXTFIELD_INCORRECT_EFFECT);
-    }
-
-    private void setTextFieldActionEvent() {
-        textField.setOnKeyPressed(event -> {
+    private void setOnEnterKeyPressedEvent(GameTextField textField) {
+        setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 String textFromTextField = textField.getText();
                 if (nameValidator.validate(textFromTextField) && !textFromTextField.equals(lastChosenCorrectName)) {
                     lastChosenCorrectName = textFromTextField;
                     actualInitializedPlayerNumber++;
                     updateLabelText();
-                    resetTextField();
+                    clearTextField(textField);
                     notifyObservers(EventKind.CHOSEN_VALID_NAME);
-                } else setTextFieldEffectWhenIncorrectData();
+                } else textField.setDefaultIncorrectDataEffect();
             }
         });
-    }
-
-    private void resetTextField() {
-        setTextFieldDefaultEffects();
-        textField.clear();
     }
 
     private void updateLabelText() {
@@ -95,6 +52,11 @@ public class NickChoosePage extends ChoosePage {
 
     public String getLastChosenCorrectName() {
         return lastChosenCorrectName;
+    }
+
+    private void clearTextField(TextField textField) {
+        textField.clear();
+        textField.setEffect(null);
     }
 
     @Override
