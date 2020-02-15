@@ -10,6 +10,7 @@ import javafx.scene.input.KeyCode;
 public class NickChoosePage extends ChoosePage {
     private static final String HEADER_TEXT_PREFIX = "Choose name of player no. ";
     private static final int FIRST_PLAYER_NUMBER = 1;
+    private static final String DEFAULT_PROMPT_TEXT = "Choose nick ... ";
 
     private int actualInitializedPlayerNumber = FIRST_PLAYER_NUMBER;
     private String lastChosenCorrectName = null;
@@ -21,7 +22,7 @@ public class NickChoosePage extends ChoosePage {
     }
 
     private void initializeTextField() {
-        GameTextField textField = new GameTextField();
+        GameTextField textField = new GameTextField(DEFAULT_PROMPT_TEXT);
         setOnEnterKeyPressedEvent(textField);
         getContentPane().getChildren().add(textField);
     }

@@ -62,4 +62,8 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
         for (IEventKindObserver observer : observers)
             observer.updateObserver(eventKind);
     }
+
+    protected double getFirstButtonXPositionToCenterWithOthers(int buttonsQty, double buttonsPadding, double buttonWidth) {
+        return (manager.getRightFrameBorder() - buttonsQty * buttonWidth - (buttonsQty - 1) * buttonsPadding) / 2;
+    }
 }

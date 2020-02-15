@@ -16,30 +16,29 @@ public class GameTextField extends TextField implements IGameButtonProperties {
     private static final double WIDTH_PROPORTION = 35 / 192d;
     private static final double HEIGHT_PROPORTION = 10 / 108d;
     private static final double FONT_SIZE_PROPORTION = 4 / 192d;
-    private static final String DEFAULT_PROMPT_TEXT = "Choose your nick ... ";
     private static final Effect DEFAULT_INCORRECT_DATA_EFFECT = new InnerShadow(100, Color.DARKRED);
 
     protected ViewManager manager;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameTextField() {
+    public GameTextField(String promptText) {
         manager = ViewManager.getInstance();
-        initializeTextField();
+        initializeTextField(promptText);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    private void initializeTextField() {
-        setDefaultAppearance();
+    private void initializeTextField(String promptText) {
+        setDefaultAppearance(promptText);
         setDefaultSize();
         setDefaultEvents();
     }
 
-    private void setDefaultAppearance() {
+    private void setDefaultAppearance(String promptText) {
         setBackground(new Background(new BackgroundFill(DEFAULT_BACKGROUND_COLOR, new CornerRadii(DEFAULT_CORNER_RADIUS), DEFAULT_INSETS)));
         int fontSize = (int) (manager.getScaledWidth(FONT_SIZE_PROPORTION));
         setDefaultTextFieldFont(DEFAULT_FONT_COLOR_CSS, fontSize);
         setFocusTraversable(false);
-        setPromptText(DEFAULT_PROMPT_TEXT);
+        setPromptText(promptText);
     }
 
     private void setDefaultTextFieldFont(String fontColor, int fontSize) {

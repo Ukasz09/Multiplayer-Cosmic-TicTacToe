@@ -17,7 +17,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     private IScenePage actualScene;
     private Set<IEventKindObserver> observers;
 
-    private GamePage gamePanel;
+    private GamePage gamePage;
     private StartGamePage startGamePage;
     private NickChoosePage nickChoosePage;
     private AvatarChoosePage avatarChoosePage;
@@ -67,8 +67,8 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void initializeGamePanel() {
-        gamePanel = new GamePage();
-        gamePanel.setVisible(false);
+        gamePage = new GamePage();
+        gamePage.setVisible(false);
     }
 
     public void showHomePage() {
@@ -80,7 +80,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void setSceneToHomePage() {
-        actualScene = startGamePage;
+        actualScene = gamePage;
     }
 
     public void showBoardSizeChoosePage() {
@@ -116,8 +116,8 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
 
     public void showGamePage() {
         setActualSceneVisible(false);
-        gamePanel.showGameBoard(true);
-        actualScene = gamePanel;
+        gamePage.showGameBoard(true);
+        actualScene = gamePage;
         setActualSceneVisible(true);
     }
 

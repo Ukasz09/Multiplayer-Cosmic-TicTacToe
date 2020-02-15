@@ -28,4 +28,10 @@ public class GamePage extends Page {
     public void update() {
         gameBoard.update();
     }
+
+    @Override
+    public void render() {
+        super.render();
+        gameBoard.render();
+    }
 }
