@@ -26,7 +26,7 @@ public class GameView {
 
     public GameView() {
         manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, true);
+        manager.initialize(APPLICATION_TITLE, false);
         pagesManager = new PagesManager();
     }
 
@@ -84,10 +84,13 @@ public class GameView {
         pagesManager.showHomePage();
     }
 
+    public void showBoardSizeChoosePage() {
+        pagesManager.showBoardSizeChoosePage();
+    }
+
     public void showNickChoosePage() {
         pagesManager.showNickChoosePage();
     }
-
 
     public void showAvatarChoosePage() {
         String firstPlayerNick = playerViewProperties[0].getName();
@@ -102,5 +105,4 @@ public class GameView {
     public void showGamePage() {
         pagesManager.showGamePage();
     }
-
 }

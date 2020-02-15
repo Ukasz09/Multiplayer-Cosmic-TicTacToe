@@ -3,6 +3,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementati
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class ImageGameBackground extends GameBackground {
     private Image backgroundImage;
@@ -20,6 +21,7 @@ public class ImageGameBackground extends GameBackground {
 
     //----------------------------------------------------------------------------------------------------------------//
     public void render() {
+        drawRectangle();
         drawBackground();
     }
 
@@ -30,5 +32,10 @@ public class ImageGameBackground extends GameBackground {
 
     private void drawBackground() {
         manager.getGraphicContext().drawImage(backgroundImage, 0, 0, manager.getRightFrameBorder(), manager.getBottomFrameBorder());
+    }
+
+    private void drawRectangle(){
+        manager.getGraphicContext().setFill(Color.BLACK);
+        manager.getGraphicContext().fillRect(0, 0, manager.getRightFrameBorder(), manager.getBottomFrameBorder());
     }
 }

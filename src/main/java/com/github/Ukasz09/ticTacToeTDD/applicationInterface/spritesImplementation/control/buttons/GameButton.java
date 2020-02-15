@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.control.buttons;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import javafx.geometry.Insets;
@@ -8,11 +8,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
-public abstract class GameButton extends Button {
-    private static final Color DEFAULT_BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.5);
-    private static final double DEFAULT_CORNER_RADIUS = 25;
-    private static final Insets DEFAULT_INSETS = Insets.EMPTY;
-
+public abstract class GameButton extends Button implements IGameButtonProperties {
     protected ViewManager manager;
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -25,6 +21,4 @@ public abstract class GameButton extends Button {
     private void setDefaultAppearance() {
         setBackground(new Background(new BackgroundFill(DEFAULT_BACKGROUND_COLOR, new CornerRadii(DEFAULT_CORNER_RADIUS), DEFAULT_INSETS)));
     }
-
-    protected abstract void setDefaultEvents();
 }

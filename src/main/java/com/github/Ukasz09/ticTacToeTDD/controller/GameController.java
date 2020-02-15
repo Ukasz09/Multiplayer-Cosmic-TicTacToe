@@ -22,10 +22,9 @@ public class GameController implements IEventKindObserver {
     @Override
     public void updateObserver(EventKind eventKind) {
         switch (eventKind) {
-            case START_BUTTON_CLICKED: {
+            case START_BUTTON_CLICKED:
                 gameView.showNickChoosePage();
-            }
-            break;
+                break;
 
             case CHOSEN_VALID_NAME: {
                 boolean hasNextPlayerToUpdate = gameView.updateNextPlayerName();
@@ -46,9 +45,13 @@ public class GameController implements IEventKindObserver {
                 gameView.updatePlayerSignSheet();
                 boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
                 if (!hasNextPlayerToUpdate)
-                    gameView.showGamePage();
+                    gameView.showBoardSizeChoosePage();
             }
             break;
+
+            case BOARD_SIZE_CHOSEN:
+                gameView.showGamePage();
+                break;
         }
     }
 }

@@ -2,27 +2,22 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementati
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.backgrounds.ImageGameBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.textFields.GameTextField;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.control.textFields.GameTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.UserNameValidator;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 public class NickChoosePage extends ChoosePage {
-    private static final String DEFAULT_LABEL_TEXT_PREFIX = "Choose name of player no. ";
+    private static final String HEADER_TEXT_PREFIX = "Choose name of player no. ";
     private static final int FIRST_PLAYER_NUMBER = 1;
 
-    private UserNameValidator nameValidator;
     private int actualInitializedPlayerNumber = FIRST_PLAYER_NUMBER;
     private String lastChosenCorrectName = null;
 
+    //-----------------------------------------------------------------------------------------------------------------//
     public NickChoosePage() {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND), DEFAULT_LABEL_TEXT_PREFIX + FIRST_PLAYER_NUMBER);
+        super(new ImageGameBackground(DEFAULT_BACKGROUND), HEADER_TEXT_PREFIX + FIRST_PLAYER_NUMBER);
         initializeTextField();
-        nameValidator = new UserNameValidator();
     }
 
     private void initializeTextField() {
@@ -35,7 +30,7 @@ public class NickChoosePage extends ChoosePage {
         setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 String textFromTextField = textField.getText();
-                if (nameValidator.validate(textFromTextField) && !textFromTextField.equals(lastChosenCorrectName)) {
+                if (UserNameValidator.validate(textFromTextField) && !textFromTextField.equals(lastChosenCorrectName)) {
                     lastChosenCorrectName = textFromTextField;
                     actualInitializedPlayerNumber++;
                     updateLabelText();
@@ -47,7 +42,7 @@ public class NickChoosePage extends ChoosePage {
     }
 
     private void updateLabelText() {
-        setLabelText(DEFAULT_LABEL_TEXT_PREFIX + actualInitializedPlayerNumber);
+        setLabelText(HEADER_TEXT_PREFIX + actualInitializedPlayerNumber);
     }
 
     public String getLastChosenCorrectName() {

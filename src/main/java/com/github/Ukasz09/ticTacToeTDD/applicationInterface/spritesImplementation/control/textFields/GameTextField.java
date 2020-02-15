@@ -1,13 +1,11 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.textFields;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.control.textFields;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.FontProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons.IGameButtonProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.control.buttons.IGameButtonProperties;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -23,7 +21,6 @@ public class GameTextField extends TextField implements IGameButtonProperties {
 
     protected ViewManager manager;
 
-    //todo: doac interfejs spajajacy wymagania metod w klasach textfield i button
     //----------------------------------------------------------------------------------------------------------------//
     public GameTextField() {
         manager = ViewManager.getInstance();

@@ -1,6 +1,7 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.control.buttons;
 
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.AnimatedSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObservable;
@@ -11,10 +12,8 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import java.util.HashSet;
@@ -27,21 +26,32 @@ public class SignButton extends AnimatedSprite implements IEventKindObservable {
 
     private boolean isActive = true;
     private Set<IEventKindObserver> observers;
-    private ImageView imageViewForDisableStatus;
-    private SnapshotParameters snapshotParamForDisableStatus;
 
+    //-----------------------------------------------------------------------------------------------------------------//
     public SignButton(ImageSheetProperty sheetProperty) {
-        super(getWidthAfterScaling(WIDTH_TO_FRAME_PROPORTION), getHeightAfterScaling(HEIGHT_TO_FRAME_PROPORTION), 0, 0, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY));
+        super(ViewManager.getInstance().getScaledWidth(WIDTH_TO_FRAME_PROPORTION),
+                ViewManager.getInstance().getScaledHeight(HEIGHT_TO_FRAME_PROPORTION),
+                0, 0, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY));
         observers = new HashSet<>();
-        imageViewForDisableStatus = new ImageView();
-        initSnapshotForDisableStatus();
     }
 
-    private void initSnapshotForDisableStatus() {
-        snapshotParamForDisableStatus = new SnapshotParameters();
-        snapshotParamForDisableStatus.setFill(Color.TRANSPARENT);
+    //-----------------------------------------------------------------------------------------------------------------//
+    public void disable() {
+        isActive = false;
+        setSheetEffectToDisable();
     }
 
+    private void setSheetEffectToDisable() {
+        ImageView view = new ImageView();
+        SnapshotParameters snapshot = new SnapshotParameters();
+        snapshot.setFill(Color.TRANSPARENT);
+        view.setImage(getSpriteSheetProperty().getSheet());
+        view.setEffect(EFFECT_FOR_DISABLE_STATUS);
+        Image newSheet = view.snapshot(snapshot, null);
+        setSpriteSheet(newSheet);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------//
     @Override
     public void attachObserver(IEventKindObserver observer) {
         observers.add(observer);
@@ -61,15 +71,4 @@ public class SignButton extends AnimatedSprite implements IEventKindObservable {
     public boolean isActive() {
         return isActive;
     }
-
-    public void disable() {
-        isActive = false;
-        Image sheet = getSpriteSheetProperty().getSheet();
-        imageViewForDisableStatus.setImage(sheet);
-        imageViewForDisableStatus.setEffect(EFFECT_FOR_DISABLE_STATUS);
-        sheet = imageViewForDisableStatus.snapshot(snapshotParamForDisableStatus, null);
-        setSpriteSheet(sheet);
-    }
-
-
 }

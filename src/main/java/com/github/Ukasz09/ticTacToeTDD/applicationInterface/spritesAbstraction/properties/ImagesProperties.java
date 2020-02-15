@@ -15,10 +15,10 @@ public class ImagesProperties {
         return new Image(imagePath);
     }
 
-    public static Image nightSky1Background() {
-        String imagePath = "images/backgrounds/backgroundNightSky1.jpg";
-        return new Image(imagePath);
-    }
+//    public static Image nightSky1Background() {
+//        String imagePath = "images/backgrounds/startFlare.gif";
+//        return new Image(imagePath);
+//    }
 
     public static Image startGameBackground() {
         String imagePath = "images/backgrounds/galaxyBackground.gif";

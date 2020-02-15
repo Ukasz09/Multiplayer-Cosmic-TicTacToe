@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.control.buttons;
 
 import javafx.geometry.Insets;
 import javafx.scene.effect.Effect;

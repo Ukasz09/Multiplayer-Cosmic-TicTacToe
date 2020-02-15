@@ -22,14 +22,24 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     private NickChoosePage nickChoosePage;
     private AvatarChoosePage avatarChoosePage;
     private SignChoosePage signChoosePanel;
+    private BoardSizeChoose boardSizeChoosePage;
 
+    //----------------------------------------------------------------------------------------------------------------//
     public PagesManager() {
         observers = new HashSet<>();
+        initializeBoardSizeChoosePage();
         initializeStartGamePage();
         initializeNameChoosePage();
         initializeAvatarsChoosePage();
         initializeSignChoosePage();
         initializeGamePanel();
+    }
+
+    //----------------------------------------------------------------------------------------------------------------//
+    private void initializeBoardSizeChoosePage() {
+        boardSizeChoosePage = new BoardSizeChoose();
+        boardSizeChoosePage.attachObserver(this);
+        boardSizeChoosePage.setVisible(false);
     }
 
     private void initializeStartGamePage() {
@@ -73,6 +83,12 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         actualScene = startGamePage;
     }
 
+    public void showBoardSizeChoosePage() {
+        setActualSceneVisible(false);
+        actualScene = boardSizeChoosePage;
+        setActualSceneVisible(true);
+    }
+
     public void showNickChoosePage() {
         setActualSceneVisible(false);
         actualScene = nickChoosePage;
@@ -107,7 +123,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
 
     private void setActualSceneVisible(boolean value) {
         if (actualScene != null)
-            actualScene.setVisible(value);
+            actualScene.setSceneVisible(value);
     }
 
     private void playBackgroundSound() {
