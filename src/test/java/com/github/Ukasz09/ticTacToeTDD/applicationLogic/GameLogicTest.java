@@ -1,8 +1,8 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationLogic;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.Player;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.GameLogic;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.*;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.Player;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameLogic;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.*;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;

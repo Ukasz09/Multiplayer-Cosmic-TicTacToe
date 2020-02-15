@@ -2,8 +2,8 @@ package com.github.Ukasz09.ticTacToeTDD;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.Logger;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.GameLogic;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.ticTacToeExceptions.TicTacToeExceptions;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameLogic;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.TicTacToeExceptions;
 import com.github.Ukasz09.ticTacToeTDD.controller.GameController;
 import javafx.application.Application;
 import javafx.stage.Stage;

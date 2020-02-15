@@ -1,9 +1,9 @@
 package com.github.Ukasz09.ticTacToeTDD.controller;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.ticTacToeGame.GameLogic;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameLogic;
 
 public class GameController implements IEventKindObserver {
     private GameView gameView;

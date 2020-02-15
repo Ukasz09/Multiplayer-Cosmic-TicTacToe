@@ -1,9 +1,8 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.observerPattern.IEventKindObserver;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesAbstraction.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.others.PlayerViewProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.spritesImplementation.pages.PagesManager;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PlayerViewProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PagesManager;
 
 import javafx.animation.AnimationTimer;
 
