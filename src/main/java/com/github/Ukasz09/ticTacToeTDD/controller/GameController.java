@@ -4,6 +4,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameLogic;
+import javafx.geometry.Point2D;
 
 public class GameController implements IEventKindObserver {
     private GameView gameView;
@@ -52,6 +53,12 @@ public class GameController implements IEventKindObserver {
             case BOARD_SIZE_CHOSEN:
                 gameView.showGamePage();
                 break;
+            case GAMEBOX_BUTTON_CLICKED: {
+                Point2D coords = gameView.getLastChosenBoxCoords();
+                gameView.addSignToBox((int) (coords.getX()), (int) (coords.getY()));
+                gameView.changeToNextPlayer();
+            }
+            break;
         }
     }
 }

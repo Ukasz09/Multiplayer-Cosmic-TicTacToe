@@ -53,4 +53,14 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEv
     public boolean isActive() {
         return isActive;
     }
+
+    protected Image getSheetEffectForDisabledButton(Effect effectForDisabledButton) {
+        ImageView view = new ImageView();
+        SnapshotParameters snapshot = new SnapshotParameters();
+        snapshot.setFill(Color.TRANSPARENT);
+        view.setImage(getSpriteSheetProperty().getSheet());
+        view.setEffect(effectForDisabledButton);
+        Image newSheet = view.snapshot(snapshot, null);
+        return newSheet;
+    }
 }

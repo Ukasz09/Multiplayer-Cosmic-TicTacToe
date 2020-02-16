@@ -1,20 +1,23 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PlayerViewProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PagesManager;
 
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Point2D;
 
 public class GameView {
     private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
 
     private int playersQty = 0;
-    private int actualInitializedPlayerID = 0;
+    private int actualPlayerID = 0;
     private PlayerViewProperties[] playerViewProperties;
     private ViewManager manager;
     private PagesManager pagesManager;
 
+    //----------------------------------------------------------------------------------------------------------------//
     class GameAnimationTimer extends AnimationTimer {
         @Override
         public void handle(long currentNanoTime) {
@@ -29,6 +32,7 @@ public class GameView {
         pagesManager = new PagesManager();
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public void startGame(int playersQty) {
         initializePlayers(playersQty);
         pagesManager.showHomePage();
@@ -44,28 +48,28 @@ public class GameView {
     }
 
     public boolean updateNextPlayerName() {
-        playerViewProperties[actualInitializedPlayerID].setName(pagesManager.getLastChosenCorrectName());
+        playerViewProperties[actualPlayerID].setName(pagesManager.getLastChosenCorrectName());
         return changeIdOfInitializedPlayerToNext();
     }
 
     public void updateNextPlayerAvatar() {
-        playerViewProperties[actualInitializedPlayerID].setAvatar(pagesManager.getLastChosenAvatar());
+        playerViewProperties[actualPlayerID].setAvatar(pagesManager.getLastChosenAvatar());
     }
 
     public void updatePlayerSignSheet() {
-        playerViewProperties[actualInitializedPlayerID].setSignSheetProperty(pagesManager.getLastChosenSignSheet());
+        playerViewProperties[actualPlayerID].setSignSheetProperty(pagesManager.getLastChosenSignSheet());
     }
 
     public boolean changeToNextPlayer() {
         boolean hasNextPlayer = changeIdOfInitializedPlayerToNext();
-        pagesManager.setActualInitializedPlayerNick(playerViewProperties[actualInitializedPlayerID].getName());
+        pagesManager.setActualInitializedPlayerNick(playerViewProperties[actualPlayerID].getName());
         return hasNextPlayer;
     }
 
     private boolean changeIdOfInitializedPlayerToNext() {
-        actualInitializedPlayerID++;
-        if (actualInitializedPlayerID >= playersQty) {
-            actualInitializedPlayerID = 0;
+        actualPlayerID++;
+        if (actualPlayerID >= playersQty) {
+            actualPlayerID = 0;
             return false;
         }
         return true;
@@ -103,5 +107,13 @@ public class GameView {
 
     public void showGamePage() {
         pagesManager.showGamePage();
+    }
+
+    public Point2D getLastChosenBoxCoords() {
+        return pagesManager.getLastChosenBoxCoords();
+    }
+
+    public void addSignToBox(int rowIndex, int columnIndex) {
+        pagesManager.addSignToBox(rowIndex,columnIndex,playerViewProperties[actualPlayerID].getSignSheetProperty());
     }
 }

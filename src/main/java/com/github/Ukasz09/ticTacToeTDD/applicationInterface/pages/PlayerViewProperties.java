@@ -46,4 +46,8 @@ public class PlayerViewProperties {
     public String getName() {
         return name;
     }
+
+    public ImageSheetProperty getSignSheetProperty() {
+        return signSheetProperty;
+    }
 }

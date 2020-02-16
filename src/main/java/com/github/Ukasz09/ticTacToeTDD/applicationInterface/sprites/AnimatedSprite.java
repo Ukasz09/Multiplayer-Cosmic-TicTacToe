@@ -4,6 +4,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.F
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.IKindOfState;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import javafx.scene.image.Image;
 
 public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphic {
@@ -17,9 +18,14 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
         super(width, height, ImagesProperties.schemeSpriteForImageView(), positionX, positionY);
         this.spriteSheetProperty = sheetProperty;
         this.actualAnimationState = startedAnimationState;
+        setRandomStartedFramePosition(sheetProperty);
         actualCooldownOnFrame = 0;
-        actualFramePositionX = 0;
-        actualFramePositionY = 0;
+    }
+
+    private void setRandomStartedFramePosition(ImageSheetProperty sheetProperty) {
+        int randomFrameIndex = sheetProperty.getAction(SpriteStates.STANDBY).getRandomIndex();
+        actualFramePositionX = sheetProperty.getPositionOfIndex(randomFrameIndex).getX();
+        actualFramePositionY = sheetProperty.getPositionOfIndex(randomFrameIndex).getY();
     }
 
     @Override

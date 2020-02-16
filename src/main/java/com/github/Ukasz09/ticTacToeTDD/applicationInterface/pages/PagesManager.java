@@ -8,6 +8,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKin
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.*;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage.GamePage;
+import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
 import java.util.HashSet;
@@ -67,7 +68,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void initializeGamePanel() {
-        gamePage = new GamePage();
+        gamePage = new GamePage(this);
         gamePage.setVisible(false);
     }
 
@@ -80,7 +81,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void setSceneToHomePage() {
-        actualScene = gamePage;
+        actualScene = startGamePage;
     }
 
     public void showBoardSizeChoosePage() {
@@ -171,5 +172,13 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     public void notifyObservers(EventKind eventKind) {
         for (IEventKindObserver observer : observers)
             observer.updateObserver(eventKind);
+    }
+
+    public Point2D getLastChosenBoxCoords() {
+       return gamePage.getLastChosenBoxCoords();
+    }
+
+    public void addSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
+        gamePage.addSignToBox(rowIndex, columnIndex, signSheetProperty);
     }
 }

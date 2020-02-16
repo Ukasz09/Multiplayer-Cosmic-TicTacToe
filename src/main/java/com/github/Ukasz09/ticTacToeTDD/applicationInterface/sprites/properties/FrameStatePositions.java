@@ -35,4 +35,9 @@ public class FrameStatePositions {
         this.startIndex = startIndex;
         this.endIndex = endIndex;
     }
+
+    public int getRandomIndex() {
+        int range = (endIndex - startIndex) + 1;
+        return (int) (Math.random() * range) + startIndex;
+    }
 }
