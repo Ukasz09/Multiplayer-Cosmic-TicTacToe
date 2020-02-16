@@ -17,8 +17,8 @@ import java.util.List;
 
 public class GameBoard implements IDrawingGraphic {
     private static final int DEFAULT_BOARD_SIZE = 3;
-    private static final double BOARD_SIZE_PROPORTION = 4 / 5d;
-    private static final double SIGN_TO_BOARD_PROPORTION = 0.5;
+    private static final double BOARD_SIZE_PROPORTION = 6 / 7d;
+    private static final double SIGN_TO_BOARD_PROPORTION = 0.35;
 
     private ViewManager manager;
     private GameBoxButtonSprite[] boxButtonSprites;

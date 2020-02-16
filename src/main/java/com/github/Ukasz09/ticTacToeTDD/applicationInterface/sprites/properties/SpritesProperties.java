@@ -70,13 +70,25 @@ public class SpritesProperties {
         return sheetProperty;
     }
 
+//    public static ImageSheetProperty gridBoxProperty() {
+//        String spritePath = "sprites/gridBox.png";
+//        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
+//                .withImagePath(spritePath)
+//                .withSizeOfOneFrame(400, 400)
+//                .withDefaultDurationPerOneFrame(6)
+//                .withAddActionState(SpriteStates.STANDBY, 0, 8)
+//                .build();
+//        return sheetProperty;
+//    }
+
     public static ImageSheetProperty gridBoxProperty() {
         String spritePath = "sprites/gridBox.png";
         ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
                 .withImagePath(spritePath)
-                .withSizeOfOneFrame(400, 400)
-                .withDefaultDurationPerOneFrame(6)
-                .withAddActionState(SpriteStates.STANDBY, 0, 8)
+                .withSizeOfOneFrame(267, 266)
+                .withDefaultDurationPerOneFrame(4)
+                .withAddActionState(SpriteStates.STANDBY, 24, 20)
+//                .withAddActionState(SpriteStates.STANDBY, 0, 23)
                 .build();
         return sheetProperty;
     }
