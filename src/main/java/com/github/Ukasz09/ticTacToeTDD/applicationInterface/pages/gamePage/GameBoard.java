@@ -23,25 +23,29 @@ public class GameBoard implements IDrawingGraphic {
     private List<SignButtonSprite> signButtonSprites;
     private Point2D lastChosenBoxCoords;
     private int boardSize = DEFAULT_BOARD_SIZE;
+    private double labelPaneHeight;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public GameBoard(int boardSize, IEventKindObserver observer) throws IncorrectBoardSizeException {
-        manager = ViewManager.getInstance();
-        signButtonSprites = new ArrayList<>();
-        initializeGameGrid(boardSize, observer);
+    public GameBoard(int boardSize, double labelPaneHeight, IEventKindObserver observer) throws IncorrectBoardSizeException {
+        initializeGameBoard(boardSize, labelPaneHeight, observer);
     }
 
-    public GameBoard(IEventKindObserver observer) {
-        manager = ViewManager.getInstance();
-        signButtonSprites = new ArrayList<>();
+    public GameBoard(double labelPaneHeight, IEventKindObserver observer) {
         try {
-            initializeGameGrid(boardSize, observer);
+            initializeGameBoard(DEFAULT_BOARD_SIZE, labelPaneHeight, observer);
         } catch (IncorrectBoardSizeException e) {
             //unchecked
         }
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
+    private void initializeGameBoard(int boardSize, double labelPaneHeight, IEventKindObserver observer) throws IncorrectBoardSizeException {
+        manager = ViewManager.getInstance();
+        signButtonSprites = new ArrayList<>();
+        this.labelPaneHeight = labelPaneHeight;
+        initializeGameGrid(boardSize, observer);
+    }
+
     private void initializeGameGrid(int boardSize, IEventKindObserver observer) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
@@ -66,7 +70,7 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private double getFirstButtonYPosition() {
-        return 0;
+        return labelPaneHeight;
     }
 
     private GameBoxButtonSprite getNewBox(int rowIndex, int columnIndex, double startedPositionX, double startedPositionY, IEventKindObserver observer) {

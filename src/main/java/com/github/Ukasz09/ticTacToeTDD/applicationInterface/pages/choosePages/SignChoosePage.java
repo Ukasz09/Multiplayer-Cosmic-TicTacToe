@@ -29,7 +29,7 @@ public class SignChoosePage extends ChoosePage {
         int signButtonsQty = DEFAULT_SHEET_PROPERTIES.length;
         signButtonSprites = new SignButtonSprite[signButtonsQty];
         for (int i = 0; i < signButtonsQty; i++) {
-            SignButtonSprite signButtonSprite = new SignButtonSprite(DEFAULT_SHEET_PROPERTIES[i]);
+            SignButtonSprite signButtonSprite = new SignButtonSprite(DEFAULT_SHEET_PROPERTIES[i], true);
             signButtonSprites[i] = signButtonSprite;
             signButtonSprite.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 if (signButtonSprite.isActive()) {

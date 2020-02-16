@@ -18,7 +18,13 @@ public class SignButtonSprite extends AnimatedButtonSprite {
 
     //-----------------------------------------------------------------------------------------------------------------//
     public SignButtonSprite(ImageSheetProperty sheetProperty) {
+        this(sheetProperty, false);
+    }
+
+    public SignButtonSprite(ImageSheetProperty sheetProperty, boolean huedColor) {
         super(ViewManager.getInstance().getScaledWidth(WIDTH_TO_FRAME_PROPORTION), ViewManager.getInstance().getScaledHeight(HEIGHT_TO_FRAME_PROPORTION), sheetProperty);
+        if (huedColor)
+            hueSheet();
         signSheetToRender = sheetProperty.getSheet();
     }
 
@@ -26,7 +32,7 @@ public class SignButtonSprite extends AnimatedButtonSprite {
     @Override
     public void disable() {
         super.disable();
-        signSheetToRender = getSheetEffectForDisabledButton(EFFECT_FOR_DISABLE_STATUS);
+        signSheetToRender = getSheetEffect(EFFECT_FOR_DISABLE_STATUS);
     }
 
     @Override

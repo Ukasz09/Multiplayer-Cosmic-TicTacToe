@@ -27,6 +27,7 @@ public class GameBoxButtonSprite extends AnimatedButtonSprite {
                 SHEET_PROPERTY);
         this.coordsX=coordsX;
         this.coordsY=coordsY;
+        hueSheet();
     }
 
     //----------------------------------------------------------------------------------------------------------------//

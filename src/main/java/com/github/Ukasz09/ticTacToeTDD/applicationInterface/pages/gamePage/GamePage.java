@@ -12,17 +12,19 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
 public class GamePage extends ChoosePage {
+    private static final String HEADER_TEXT = "Tic-Tac-Toe";
+
     private GameBoard gameBoard;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public GamePage(IEventKindObserver observer) {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND, null),"TREDSSDFDAS");
+        super(new ImageGameBackground(DEFAULT_BACKGROUND, null), HEADER_TEXT);
         initializeGameBoard(observer);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
     private void initializeGameBoard(IEventKindObserver observer) {
-        gameBoard = new GameBoard(observer);
+        gameBoard = new GameBoard(getLabelPaneHeight(), observer);
         gameBoard.setVisible(false);
     }
 
@@ -48,11 +50,11 @@ public class GamePage extends ChoosePage {
         gameBoard.render();
     }
 
-    public Point2D getLastChosenBoxCoords(){
+    public Point2D getLastChosenBoxCoords() {
         return gameBoard.getLastChosenBoxCoords();
     }
 
     public void addSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
-        gameBoard.addSignToBox(rowIndex,columnIndex,signSheetProperty);
+        gameBoard.addSignToBox(rowIndex, columnIndex, signSheetProperty);
     }
 }
