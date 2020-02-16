@@ -122,6 +122,10 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         setActualSceneVisible(true);
     }
 
+    public void setGameBoardSize(int boardSize) {
+        gamePage.initializeGameGrid(boardSize, this);
+    }
+
     private void setActualSceneVisible(boolean value) {
         if (actualScene != null)
             actualScene.setSceneVisible(value);
@@ -175,10 +179,14 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     public Point2D getLastChosenBoxCoords() {
-       return gamePage.getLastChosenBoxCoords();
+        return gamePage.getLastChosenBoxCoords();
     }
 
     public void addSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
         gamePage.addSignToBox(rowIndex, columnIndex, signSheetProperty);
+    }
+
+    public int getGameBoardSize(){
+        return boardSizeChoosePage.getActualChosenBoardSize();
     }
 }

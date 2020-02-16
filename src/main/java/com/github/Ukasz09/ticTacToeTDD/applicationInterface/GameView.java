@@ -109,11 +109,19 @@ public class GameView {
         pagesManager.showGamePage();
     }
 
+    public void setGameBoardSize(int boardSize) {
+        pagesManager.setGameBoardSize(boardSize);
+    }
+
+    public int getGameBoardSize() {
+        return pagesManager.getGameBoardSize();
+    }
+
     public Point2D getLastChosenBoxCoords() {
         return pagesManager.getLastChosenBoxCoords();
     }
 
     public void addSignToBox(int rowIndex, int columnIndex) {
-        pagesManager.addSignToBox(rowIndex,columnIndex,playerViewProperties[actualPlayerID].getSignSheetProperty());
+        pagesManager.addSignToBox(rowIndex, columnIndex, playerViewProperties[actualPlayerID].getSignSheetProperty());
     }
 }

@@ -8,6 +8,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.I
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.Page;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
@@ -26,6 +27,14 @@ public class GamePage extends ChoosePage {
     private void initializeGameBoard(IEventKindObserver observer) {
         gameBoard = new GameBoard(getLabelPaneHeight(), observer);
         gameBoard.setVisible(false);
+    }
+
+    public void initializeGameGrid(int boardSize, IEventKindObserver observer) {
+        try {
+            gameBoard.initializeGameGrid(boardSize, observer);
+        } catch (IncorrectBoardSizeException e) {
+            //unchecked
+        }
     }
 
     @Override

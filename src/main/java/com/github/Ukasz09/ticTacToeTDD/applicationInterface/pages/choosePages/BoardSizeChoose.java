@@ -38,4 +38,8 @@ public class BoardSizeChoose extends ChoosePage {
     public void update() {
         //nothing to do yet
     }
+
+    public int getActualChosenBoardSize() {
+        return actualChosenBoardSize;
+    }
 }

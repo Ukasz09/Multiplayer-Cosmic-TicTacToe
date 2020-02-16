@@ -50,9 +50,12 @@ public class GameController implements IEventKindObserver {
             }
             break;
 
-            case BOARD_SIZE_CHOSEN:
+            case BOARD_SIZE_CHOSEN: {
+                int boardSize = gameView.getGameBoardSize();
+                gameView.setGameBoardSize(boardSize);
                 gameView.showGamePage();
-                break;
+            }
+            break;
             case GAMEBOX_BUTTON_CLICKED: {
                 Point2D coords = gameView.getLastChosenBoxCoords();
                 gameView.addSignToBox((int) (coords.getX()), (int) (coords.getY()));

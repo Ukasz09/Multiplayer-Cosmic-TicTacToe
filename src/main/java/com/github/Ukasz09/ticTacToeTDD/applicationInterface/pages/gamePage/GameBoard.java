@@ -43,10 +43,10 @@ public class GameBoard implements IDrawingGraphic {
         manager = ViewManager.getInstance();
         signButtonSprites = new ArrayList<>();
         this.labelPaneHeight = labelPaneHeight;
-        initializeGameGrid(boardSize, observer);
+//        initializeGameGrid(boardSize, observer);
     }
 
-    private void initializeGameGrid(int boardSize, IEventKindObserver observer) throws IncorrectBoardSizeException {
+    public void initializeGameGrid(int boardSize, IEventKindObserver observer) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
         boxButtonSprites = new GameBoxButtonSprite[boardSize * boardSize];
@@ -118,8 +118,9 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     public void setVisible(boolean value) {
-        for (GameBoxButtonSprite box : boxButtonSprites)
-            box.setImageViewVisible(value);
+        if (boxButtonSprites != null)
+            for (GameBoxButtonSprite box : boxButtonSprites)
+                box.setImageViewVisible(value);
     }
 
     @Override
