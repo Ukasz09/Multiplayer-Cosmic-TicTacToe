@@ -17,6 +17,8 @@ import java.util.List;
 
 public class GameBoard implements IDrawingGraphic {
     private static final int DEFAULT_BOARD_SIZE = 3;
+    private static final double BOARD_SIZE_PROPORTION = 4 / 5d;
+    private static final double SIGN_TO_BOARD_PROPORTION = 0.5;
 
     private ViewManager manager;
     private GameBoxButtonSprite[] boxButtonSprites;
@@ -26,55 +28,52 @@ public class GameBoard implements IDrawingGraphic {
     private double labelPaneHeight;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public GameBoard(int boardSize, double labelPaneHeight, IEventKindObserver observer) throws IncorrectBoardSizeException {
-        initializeGameBoard(boardSize, labelPaneHeight, observer);
-    }
-
-    public GameBoard(double labelPaneHeight, IEventKindObserver observer) {
-        try {
-            initializeGameBoard(DEFAULT_BOARD_SIZE, labelPaneHeight, observer);
-        } catch (IncorrectBoardSizeException e) {
-            //unchecked
-        }
+    public GameBoard(double labelPaneHeight) {
+        initializeGameBoard(labelPaneHeight);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
-    private void initializeGameBoard(int boardSize, double labelPaneHeight, IEventKindObserver observer) throws IncorrectBoardSizeException {
+    private void initializeGameBoard(double labelPaneHeight) {
         manager = ViewManager.getInstance();
         signButtonSprites = new ArrayList<>();
         this.labelPaneHeight = labelPaneHeight;
-//        initializeGameGrid(boardSize, observer);
     }
 
     public void initializeGameGrid(int boardSize, IEventKindObserver observer) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
+        this.boardSize = boardSize;
         boxButtonSprites = new GameBoxButtonSprite[boardSize * boardSize];
         addGameGridBoxes(boardSize, observer);
     }
 
     private void addGameGridBoxes(int boardSize, IEventKindObserver observer) {
-        double buttonWidth = manager.getScaledWidth(GameBoxButtonSprite.SIZE_PROPORTION);
-        double startedPositionX = getFirstButtonXPositionToCenterWithOthers(boardSize, 0, buttonWidth);
+        double buttonSize = getGridButtonSize();
+        double startedPositionX = getFirstButtonXPositionToCenterWithOthers(boardSize, 0, buttonSize);
         int offset = 0;
         for (int row = 0; row < boardSize; row++) {
             for (int column = 0; column < boardSize; column++) {
-                boxButtonSprites[offset] = getNewBox(row, column, startedPositionX, getFirstButtonYPosition(), observer);
+                boxButtonSprites[offset] = getNewBox(row, column, startedPositionX, getFirstButtonYPosition(), buttonSize, observer);
                 offset++;
             }
         }
     }
 
+    private double getGridButtonSize() {
+        return (manager.getBottomFrameBorder() - labelPaneHeight) * BOARD_SIZE_PROPORTION / boardSize;
+    }
+
+
     private double getFirstButtonXPositionToCenterWithOthers(int buttonsInRowQty, double buttonsPadding, double buttonWidth) {
-        return (manager.getRightFrameBorder() - buttonsInRowQty * buttonWidth - (buttonsInRowQty - 1) * buttonsPadding) / 2;
+        return ((manager.getRightFrameBorder() - buttonsInRowQty * buttonWidth - (buttonsInRowQty - 1) * buttonsPadding) / 2);
     }
 
     private double getFirstButtonYPosition() {
         return labelPaneHeight;
     }
 
-    private GameBoxButtonSprite getNewBox(int rowIndex, int columnIndex, double startedPositionX, double startedPositionY, IEventKindObserver observer) {
-        GameBoxButtonSprite box = new GameBoxButtonSprite(rowIndex, columnIndex);
+    private GameBoxButtonSprite getNewBox(int rowIndex, int columnIndex, double startedPositionX, double startedPositionY, double buttonSize, IEventKindObserver observer) {
+        GameBoxButtonSprite box = new GameBoxButtonSprite(rowIndex, columnIndex, buttonSize);
         setBoxPosition(box, startedPositionX, startedPositionY, rowIndex, columnIndex);
         box.attachObserver(observer);
         addGameBoxOnMouseClickedEvent(box);
@@ -95,7 +94,8 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     public void addSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
-        SignButtonSprite sign = new SignButtonSprite(signSheetProperty);
+        SignButtonSprite sign =
+                new SignButtonSprite(signSheetProperty, getGridButtonSize() * SIGN_TO_BOARD_PROPORTION, false);
         setSignPosition(sign, rowIndex, columnIndex);
         signButtonSprites.add(sign);
     }

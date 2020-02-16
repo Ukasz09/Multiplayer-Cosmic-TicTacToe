@@ -15,19 +15,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class GameBoxButtonSprite extends AnimatedButtonSprite {
-    public static final double SIZE_PROPORTION = 25 / 192d;
     private static final ImageSheetProperty SHEET_PROPERTY = SpritesProperties.gridBoxProperty();
 
     private int coordsX;
     private int coordsY;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameBoxButtonSprite(int coordsX, int  coordsY) {
-        super(ViewManager.getInstance().getScaledWidth(SIZE_PROPORTION), ViewManager.getInstance().getScaledWidth(SIZE_PROPORTION),
-                SHEET_PROPERTY);
-        this.coordsX=coordsX;
-        this.coordsY=coordsY;
-        hueSheet();
+    public GameBoxButtonSprite(int coordsX, int coordsY, double buttonSize) {
+        super(buttonSize, buttonSize, SHEET_PROPERTY);
+        this.coordsX = coordsX;
+        this.coordsY = coordsY;
     }
 
     //----------------------------------------------------------------------------------------------------------------//

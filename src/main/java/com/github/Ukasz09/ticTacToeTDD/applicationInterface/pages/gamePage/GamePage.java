@@ -18,14 +18,14 @@ public class GamePage extends ChoosePage {
     private GameBoard gameBoard;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public GamePage(IEventKindObserver observer) {
+    public GamePage() {
         super(new ImageGameBackground(DEFAULT_BACKGROUND, null), HEADER_TEXT);
-        initializeGameBoard(observer);
+        initializeGameBoard();
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
-    private void initializeGameBoard(IEventKindObserver observer) {
-        gameBoard = new GameBoard(getLabelPaneHeight(), observer);
+    private void initializeGameBoard() {
+        gameBoard = new GameBoard(getLabelPaneHeight());
         gameBoard.setVisible(false);
     }
 

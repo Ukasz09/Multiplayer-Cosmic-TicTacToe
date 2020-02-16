@@ -68,7 +68,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void initializeGamePanel() {
-        gamePage = new GamePage(this);
+        gamePage = new GamePage();
         gamePage.setVisible(false);
     }
 
@@ -186,7 +186,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         gamePage.addSignToBox(rowIndex, columnIndex, signSheetProperty);
     }
 
-    public int getGameBoardSize(){
+    public int getGameBoardSize() {
         return boardSizeChoosePage.getActualChosenBoardSize();
     }
 }
