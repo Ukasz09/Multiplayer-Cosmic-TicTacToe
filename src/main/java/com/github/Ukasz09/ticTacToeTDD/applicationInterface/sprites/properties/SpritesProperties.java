@@ -88,7 +88,7 @@ public class SpritesProperties {
                 .withSizeOfOneFrame(267, 266)
                 .withDefaultDurationPerOneFrame(4)
                 .withAddActionState(SpriteStates.STANDBY, 24, 20)
-//                .withAddActionState(SpriteStates.STANDBY, 0, 23)
+                .withAddActionState(SpriteStates.NO_ANIMATION, 0, 1)
                 .build();
         return sheetProperty;
     }

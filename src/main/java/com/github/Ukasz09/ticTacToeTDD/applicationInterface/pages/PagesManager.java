@@ -122,8 +122,10 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         setActualSceneVisible(true);
     }
 
-    public void setGameBoardSize(int boardSize) {
+    public void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, int boardSize) {
         gamePage.initializeGameGrid(boardSize, this);
+        gamePage.initializePlayerInfoPage(avatar1, sign1, true);
+        gamePage.initializePlayerInfoPage(avatar2, sign2, false);
     }
 
     private void setActualSceneVisible(boolean value) {

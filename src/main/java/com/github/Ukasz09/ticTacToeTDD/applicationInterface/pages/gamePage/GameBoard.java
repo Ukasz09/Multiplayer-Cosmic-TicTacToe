@@ -5,6 +5,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.Game
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.SignButtonSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.*;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class GameBoard implements IDrawingGraphic {
     private static final int DEFAULT_BOARD_SIZE = 3;
-    private static final double BOARD_SIZE_PROPORTION = 6 / 7d;
+    private static final double BOARD_SIZE_PROPORTION = 9 / 10d;
     private static final double SIGN_TO_BOARD_PROPORTION = 0.35;
 
     private ViewManager manager;
@@ -63,8 +64,7 @@ public class GameBoard implements IDrawingGraphic {
         return (manager.getBottomFrameBorder() - labelPaneHeight) * BOARD_SIZE_PROPORTION / boardSize;
     }
 
-
-    private double getFirstButtonXPositionToCenterWithOthers(int buttonsInRowQty, double buttonsPadding, double buttonWidth) {
+    public double getFirstButtonXPositionToCenterWithOthers(int buttonsInRowQty, double buttonsPadding, double buttonWidth) {
         return ((manager.getRightFrameBorder() - buttonsInRowQty * buttonWidth - (buttonsInRowQty - 1) * buttonsPadding) / 2);
     }
 
@@ -111,6 +111,7 @@ public class GameBoard implements IDrawingGraphic {
         box.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (box.isActive()) {
                 box.disable();
+                box.changeState(SpriteStates.NO_ANIMATION);
                 lastChosenBoxCoords = new Point2D(box.getCoordsX(), box.getCoordsY());
                 box.notifyObservers(EventKind.GAMEBOX_BUTTON_CLICKED);
             }
@@ -157,5 +158,18 @@ public class GameBoard implements IDrawingGraphic {
 
     public Point2D getLastChosenBoxCoords() {
         return lastChosenBoxCoords;
+    }
+
+    public Point2D getFirstButtonPosition() {
+        if (boxButtonSprites != null) {
+            double posX = boxButtonSprites[0].getPositionX();
+            double posY = boxButtonSprites[0].getPositionY();
+            return new Point2D(posX, posY);
+        }
+        return null;
+    }
+
+    public double getWidth() {
+        return boardSize * boxButtonSprites[0].getWidth();
     }
 }

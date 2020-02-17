@@ -1,10 +1,12 @@
 package com.github.Ukasz09.ticTacToeTDD.controller;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameLogic;
 import javafx.geometry.Point2D;
+import javafx.scene.image.ImageView;
 
 public class GameController implements IEventKindObserver {
     private GameView gameView;
@@ -51,8 +53,7 @@ public class GameController implements IEventKindObserver {
             break;
 
             case BOARD_SIZE_CHOSEN: {
-                int boardSize = gameView.getGameBoardSize();
-                gameView.setGameBoardSize(boardSize);
+                initializeGameBoard();
                 gameView.showGamePage();
             }
             break;
@@ -63,5 +64,14 @@ public class GameController implements IEventKindObserver {
             }
             break;
         }
+    }
+
+    private void initializeGameBoard() {
+        int boardSize = gameView.getGameBoardSize();
+        ImageView avatar1 = gameView.getPlayerAvatar(0);
+        ImageView avatar2 = gameView.getPlayerAvatar(1);
+        ImageSheetProperty sign1 = gameView.getPlayerSignSheet(0);
+        ImageSheetProperty sign2 = gameView.getPlayerSignSheet(1);
+        gameView.initializeGameBoard(avatar1, avatar2, sign1, sign2, boardSize);
     }
 }

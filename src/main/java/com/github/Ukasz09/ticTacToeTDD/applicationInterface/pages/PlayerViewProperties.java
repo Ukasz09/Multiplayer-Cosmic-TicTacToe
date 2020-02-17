@@ -50,4 +50,8 @@ public class PlayerViewProperties {
     public ImageSheetProperty getSignSheetProperty() {
         return signSheetProperty;
     }
+
+    public ImageView getAvatar() {
+        return avatar;
+    }
 }

@@ -12,6 +12,13 @@ public class ImageButton extends GameButton {
         setIconImage(image);
     }
 
+    public ImageButton(ImageView imageView, double width, double height) {
+        super();
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
+        setGraphic(imageView);
+    }
+
     //----------------------------------------------------------------------------------------------------------------//
     private void setIconImage(Image image) {
         ImageView imageView = new ImageView(image);

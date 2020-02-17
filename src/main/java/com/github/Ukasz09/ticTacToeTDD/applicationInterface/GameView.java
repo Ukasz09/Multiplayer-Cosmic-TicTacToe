@@ -7,6 +7,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PagesManager;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
+import javafx.scene.image.ImageView;
 
 public class GameView {
     private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
@@ -28,7 +29,7 @@ public class GameView {
 
     public GameView() {
         manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, false);
+        manager.initialize(APPLICATION_TITLE, true);
         pagesManager = new PagesManager();
     }
 
@@ -109,12 +110,18 @@ public class GameView {
         pagesManager.showGamePage();
     }
 
-    public void setGameBoardSize(int boardSize) {
-        pagesManager.setGameBoardSize(boardSize);
+    public void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, int boardSize) {
+        pagesManager.initializeGameBoard(avatar1, avatar2, sign1, sign2, boardSize);
     }
 
     public int getGameBoardSize() {
         return pagesManager.getGameBoardSize();
+    }
+
+    public ImageView getPlayerAvatar(int playerIndex) {
+        if (playerIndex < playerViewProperties.length && playerIndex >= 0)
+            return playerViewProperties[playerIndex].getAvatar();
+        return null;
     }
 
     public Point2D getLastChosenBoxCoords() {
@@ -122,6 +129,12 @@ public class GameView {
     }
 
     public void addSignToBox(int rowIndex, int columnIndex) {
-        pagesManager.addSignToBox(rowIndex, columnIndex, playerViewProperties[actualPlayerID].getSignSheetProperty());
+        pagesManager.addSignToBox(rowIndex, columnIndex, getPlayerSignSheet(actualPlayerID));
+    }
+
+    public ImageSheetProperty getPlayerSignSheet(int playerIndex) {
+        if (playerIndex >= 0 && playerIndex < playerViewProperties.length)
+            return playerViewProperties[playerIndex].getSignSheetProperty();
+        return null;
     }
 }
