@@ -3,6 +3,8 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons;
 import javafx.geometry.Insets;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
@@ -14,4 +16,5 @@ public interface IGameButtonProperties {
     Paint DEFAULT_FONT_COLOR = Color.LIGHTGRAY;
     String DEFAULT_FONT_COLOR_CSS = "lightgray";
     Effect DEFAULT_MOUSE_ENTERED_EFFECT = new InnerShadow(1, Color.PURPLE);
+    Effect BUTTON_EXITED_EFFECT = new Lighting(new Light.Distant(10, 15, Color.DARKSLATEBLUE));
 }

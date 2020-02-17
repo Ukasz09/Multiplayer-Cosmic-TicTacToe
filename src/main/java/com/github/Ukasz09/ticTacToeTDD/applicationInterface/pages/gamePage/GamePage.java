@@ -84,12 +84,16 @@ public class GamePage extends ChoosePage {
             playerInfoPage.render();
     }
 
-
     public Point2D getLastChosenBoxCoords() {
         return gameBoard.getLastChosenBoxCoords();
     }
 
     public void addSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
         gameBoard.addSignToBox(rowIndex, columnIndex, signSheetProperty);
+    }
+
+    public void showVisibleOnlyActualPlayerAvatar(int playerIndex) {
+        for (int i = 0; i < playerInfoPage.length; i++)
+            playerInfoPage[i].showAvatarDisableEffect(playerIndex != i);
     }
 }

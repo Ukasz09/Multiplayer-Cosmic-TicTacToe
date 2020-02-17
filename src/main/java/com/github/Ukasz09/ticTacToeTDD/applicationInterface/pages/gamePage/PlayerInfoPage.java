@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.IGameButtonProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.ImageButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.SignButtonSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.GameTextField;
@@ -80,5 +81,12 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
     @Override
     public void update() {
         sign.update();
+    }
+
+    public void showAvatarDisableEffect(boolean value) {
+        avatar.setDisable(value);
+        if (value)
+            avatar.setEffect(IGameButtonProperties.BUTTON_EXITED_EFFECT);
+        else avatar.setEffect(null);
     }
 }

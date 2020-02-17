@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class HoveredActiveImageButton extends ImageButton {
-    private static final Effect BUTTON_EXITED_EFFECT = new Lighting(new Light.Distant(10, 15, Color.DARKSLATEBLUE));
+//    private static final Effect BUTTON_EXITED_EFFECT = new Lighting(new Light.Distant(10, 15, Color.DARKSLATEBLUE));
 //    private static final Effect BUTTON_EXITED_EFFECT = new Lighting(new Light.Distant(10, 10, Color.PURPLE));
 
     public HoveredActiveImageButton(Image image) {

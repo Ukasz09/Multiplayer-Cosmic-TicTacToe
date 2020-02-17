@@ -61,6 +61,7 @@ public class GameController implements IEventKindObserver {
                 Point2D coords = gameView.getLastChosenBoxCoords();
                 gameView.addSignToBox((int) (coords.getX()), (int) (coords.getY()));
                 gameView.changeToNextPlayer();
+                gameView.showVisibleOnlyActualPlayerAvatar();
             }
             break;
         }

@@ -107,7 +107,7 @@ public class GameView {
     }
 
     public void showGamePage() {
-        pagesManager.showGamePage();
+        pagesManager.showGamePage(actualPlayerID);
     }
 
     public void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
@@ -146,5 +146,9 @@ public class GameView {
 
     private boolean playerIndexIsValid(int playerIndex) {
         return (playerIndex >= 0 && playerIndex < playerViewProperties.length);
+    }
+
+    public void showVisibleOnlyActualPlayerAvatar() {
+        pagesManager.showVisibleOnlyActualPlayerAvatar(actualPlayerID);
     }
 }
