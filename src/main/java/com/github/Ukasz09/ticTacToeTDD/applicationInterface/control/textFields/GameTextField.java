@@ -44,10 +44,14 @@ public class GameTextField extends TextField implements IGameButtonProperties {
         setFocusTraversable(false);
     }
 
-    protected void setDefaultTextFieldFont(String fontColor, int fontSize) {
+    protected void setDefaultTextFieldFont(String fontColorCSS, int fontSize) {
         Font font = FontProperties.chargenRegularFont(fontSize);
-        setStyle("-fx-text-inner-color: " + fontColor + ";");
+        setFontColor(fontColorCSS);
         setFont(font);
+    }
+
+    public void setFontColor(String fontColorCSS) {
+        setStyle("-fx-text-inner-color: " + fontColorCSS + ";");
     }
 
     private void setDefaultSize() {

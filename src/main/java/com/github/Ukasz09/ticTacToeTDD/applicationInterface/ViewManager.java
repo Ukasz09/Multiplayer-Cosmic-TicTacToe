@@ -65,6 +65,10 @@ public class ViewManager {
         });
     }
 
+    public void closeMainStage(){
+        mainStage.close();
+    }
+
     private void initializeMainStage(String title, boolean fullScreen) {
         mainStage = new Stage();
         mainStage.setTitle(title);

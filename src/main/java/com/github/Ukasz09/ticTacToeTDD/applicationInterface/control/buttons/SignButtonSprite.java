@@ -13,6 +13,8 @@ public class SignButtonSprite extends AnimatedButtonSprite {
     public final static double WIDTH_TO_FRAME_PROPORTION = 15 / 192d;
     private static final Effect EFFECT_FOR_DISABLE_STATUS = new Lighting(new Light.Distant(10, 10, Color.GRAY));
 
+    private final Image sheetForDisableStatus;
+    private final Image normalSheet;
     private Image signSheetToRender;
 
     //-----------------------------------------------------------------------------------------------------------------//
@@ -26,16 +28,25 @@ public class SignButtonSprite extends AnimatedButtonSprite {
 
     public SignButtonSprite(ImageSheetProperty sheetProperty, double size, boolean huedColor) {
         super(size, size, sheetProperty);
-        if (huedColor)
-            hueSheet();
-        signSheetToRender = sheetProperty.getSheet();
+        if (huedColor) {
+            normalSheet = getHuedSheet();
+            sheetProperty.setImageSheet(normalSheet);
+        } else normalSheet = sheetProperty.getSheet();
+        signSheetToRender = normalSheet;
+        sheetForDisableStatus = getSheetWithEffect(normalSheet, EFFECT_FOR_DISABLE_STATUS);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
     @Override
     public void disable() {
         super.disable();
-        signSheetToRender = getSheetEffect(EFFECT_FOR_DISABLE_STATUS);
+        signSheetToRender = sheetForDisableStatus;
+    }
+
+    @Override
+    public void enable() {
+        super.enable();
+        signSheetToRender = normalSheet;
     }
 
     @Override

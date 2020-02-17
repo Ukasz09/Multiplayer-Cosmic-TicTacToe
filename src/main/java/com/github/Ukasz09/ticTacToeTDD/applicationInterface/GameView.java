@@ -148,7 +148,7 @@ public class GameView {
         return (playerIndex >= 0 && playerIndex < playerViewProperties.length);
     }
 
-    public void showVisibleOnlyActualPlayerAvatar() {
-        pagesManager.showVisibleOnlyActualPlayerAvatar(actualPlayerID);
+    public void showVisibleOnlyActualPlayer() {
+        pagesManager.showVisibleOnlyActualPlayer(actualPlayerID);
     }
 }

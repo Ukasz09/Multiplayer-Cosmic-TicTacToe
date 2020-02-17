@@ -9,8 +9,6 @@ import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKin
 import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -35,6 +33,10 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEv
         isActive = false;
     }
 
+    public void enable() {
+        isActive = true;
+    }
+
     //-----------------------------------------------------------------------------------------------------------------//
     @Override
     public void attachObserver(IEventKindObserver observer) {
@@ -56,22 +58,22 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEv
         return isActive;
     }
 
-    protected Image getSheetEffect(Effect effectToApply) {
+    protected Image getSheetWithEffect(Image sheet, Effect effectToApply) {
         ImageView view = new ImageView();
         SnapshotParameters snapshot = new SnapshotParameters();
         snapshot.setFill(Color.TRANSPARENT);
-        view.setImage(getSpriteSheetProperty().getSheet());
+        view.setImage(sheet);
         view.setEffect(effectToApply);
         Image newSheet = view.snapshot(snapshot, null);
         return newSheet;
     }
 
     protected Image getHuedSheet() {
-        return getSheetEffect(HUE_EFFECT);
+        return getSheetWithEffect(getSpriteSheetProperty().getSheet(), HUE_EFFECT);
     }
 
-    protected void hueSheet(){
-        getSpriteSheetProperty().setImageSheet(getHuedSheet());
-    }
+//    protected void hueSheet(){
+//        getSpriteSheetProperty().setImageSheet(getHuedSheet());
+//    }
 
 }

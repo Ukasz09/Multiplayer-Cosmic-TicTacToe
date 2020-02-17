@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD.controller;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
@@ -61,9 +62,13 @@ public class GameController implements IEventKindObserver {
                 Point2D coords = gameView.getLastChosenBoxCoords();
                 gameView.addSignToBox((int) (coords.getX()), (int) (coords.getY()));
                 gameView.changeToNextPlayer();
-                gameView.showVisibleOnlyActualPlayerAvatar();
+                gameView.showVisibleOnlyActualPlayer();
             }
             break;
+
+            case END_GAME_BUTTON_CLICKED:
+                ViewManager.getInstance().closeMainStage();
+                break;
         }
     }
 

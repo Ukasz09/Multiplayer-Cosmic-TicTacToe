@@ -12,9 +12,11 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 
 public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
     private static final double SIGN_PADDING_PROPORTION = 75 / 1080d;
+    private static final String FONT_COLOR_CSS_FOR_DISABLE = "darkslategrey";
 
     private ImageButton avatar;
     private SignButtonSprite sign;
@@ -83,10 +85,24 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
         sign.update();
     }
 
-    public void showAvatarDisableEffect(boolean value) {
-        avatar.setDisable(value);
+    public void disablePage(boolean value) {
         if (value)
-            avatar.setEffect(IGameButtonProperties.BUTTON_EXITED_EFFECT);
-        else avatar.setEffect(null);
+            disablePage();
+        else enablePage();
     }
+
+    private void disablePage() {
+        avatar.setDisable(true);
+        avatar.setEffect(IGameButtonProperties.BUTTON_EXITED_EFFECT);
+        sign.disable();
+        nickField.setFontColor(FONT_COLOR_CSS_FOR_DISABLE);
+    }
+
+    private void enablePage() {
+        avatar.setDisable(false);
+        avatar.setEffect(null);
+        sign.enable();
+        nickField.setDefaultFontColor();
+    }
+
 }

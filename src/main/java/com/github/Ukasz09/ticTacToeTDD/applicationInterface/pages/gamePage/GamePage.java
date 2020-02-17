@@ -92,8 +92,8 @@ public class GamePage extends ChoosePage {
         gameBoard.addSignToBox(rowIndex, columnIndex, signSheetProperty);
     }
 
-    public void showVisibleOnlyActualPlayerAvatar(int playerIndex) {
+    public void showVisibleOnlyActualPlayer(int playerIndex) {
         for (int i = 0; i < playerInfoPage.length; i++)
-            playerInfoPage[i].showAvatarDisableEffect(playerIndex != i);
+            playerInfoPage[i].disablePage(playerIndex != i);
     }
 }

@@ -118,7 +118,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     public void showGamePage(int startedPlayerIndex) {
         setActualSceneVisible(false);
         gamePage.showGameBoard(true);
-        gamePage.showVisibleOnlyActualPlayerAvatar(startedPlayerIndex);
+        gamePage.showVisibleOnlyActualPlayer(startedPlayerIndex);
         actualScene = gamePage;
         setActualSceneVisible(true);
     }
@@ -194,7 +194,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         return boardSizeChoosePage.getActualChosenBoardSize();
     }
 
-    public void showVisibleOnlyActualPlayerAvatar(int playerIndex){
-        gamePage.showVisibleOnlyActualPlayerAvatar(playerIndex);
+    public void showVisibleOnlyActualPlayer(int playerIndex){
+        gamePage.showVisibleOnlyActualPlayer(playerIndex);
     }
 }
