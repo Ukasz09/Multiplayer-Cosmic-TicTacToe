@@ -4,6 +4,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.ImageButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.SignButtonSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.GameTextField;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.LabelTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import javafx.geometry.Orientation;
@@ -16,7 +17,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
 
     private ImageButton avatar;
     private SignButtonSprite sign;
-    private GameTextField nickField;
+    private LabelTextField nickField;
     private final double headerHeight;
     private final double pagePositionX;
 
@@ -36,8 +37,8 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
         setPrefWidth(width);
     }
 
-    public void initialize(ImageView avatarImageView, ImageSheetProperty signSheetProperty) {
-        addNicField();
+    public void initialize(ImageView avatarImageView, String nick, ImageSheetProperty signSheetProperty) {
+        addNicField(nick);
         addAvatar(avatarImageView);
         addSign(signSheetProperty);
     }
@@ -47,8 +48,8 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
         getChildren().add(avatar);
     }
 
-    private void addNicField() {
-        nickField = new GameTextField("NICK"); //todo: tmp
+    private void addNicField(String nick) {
+        nickField = new LabelTextField(nick, false);
         getChildren().add(nickField);
     }
 

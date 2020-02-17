@@ -70,8 +70,10 @@ public class GameController implements IEventKindObserver {
         int boardSize = gameView.getGameBoardSize();
         ImageView avatar1 = gameView.getPlayerAvatar(0);
         ImageView avatar2 = gameView.getPlayerAvatar(1);
+        String nick1 = gameView.getPlayerNick(0);
+        String nick2 = gameView.getPlayerNick(1);
         ImageSheetProperty sign1 = gameView.getPlayerSignSheet(0);
         ImageSheetProperty sign2 = gameView.getPlayerSignSheet(1);
-        gameView.initializeGameBoard(avatar1, avatar2, sign1, sign2, boardSize);
+        gameView.initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 }

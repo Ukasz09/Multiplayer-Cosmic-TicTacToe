@@ -36,16 +36,16 @@ public class GamePage extends ChoosePage {
         }
     }
 
-    public void initializePlayerInfoPage(ImageView avatar, ImageSheetProperty signSheetProperty, boolean left) {
-        double pageWidth = (manager.getRightFrameBorder()-gameBoard.getWidth())/2;
+    public void initializePlayerInfoPage(ImageView avatar, String nick, ImageSheetProperty signSheetProperty, boolean left) {
+        double pageWidth = (manager.getRightFrameBorder() - gameBoard.getWidth()) / 2;
         if (left) {
             playerInfoPage[0] = new PlayerInfoPage(pageWidth, getLabelPaneHeight(), 0);
             setLeft(playerInfoPage[0]);
-            playerInfoPage[0].initialize(avatar, signSheetProperty);
+            playerInfoPage[0].initialize(avatar, nick, signSheetProperty);
         } else {
             playerInfoPage[1] = new PlayerInfoPage(pageWidth, getLabelPaneHeight(), manager.getRightFrameBorder() - pageWidth);
             setRight(playerInfoPage[1]);
-            playerInfoPage[1].initialize(avatar, signSheetProperty);
+            playerInfoPage[1].initialize(avatar, nick, signSheetProperty);
         }
 
     }

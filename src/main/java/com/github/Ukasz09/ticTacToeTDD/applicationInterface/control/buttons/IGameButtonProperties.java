@@ -7,7 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public interface IGameButtonProperties {
-    Color DEFAULT_BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.5);
+    Color DEFAULT_BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.4);
+    //    Color DEFAULT_BACKGROUND_COLOR = new Color(0.7, 0.1, 0.9, 0.1);
     double DEFAULT_CORNER_RADIUS = 25;
     Insets DEFAULT_INSETS = Insets.EMPTY;
     Paint DEFAULT_FONT_COLOR = Color.LIGHTGRAY;

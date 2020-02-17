@@ -110,8 +110,8 @@ public class GameView {
         pagesManager.showGamePage();
     }
 
-    public void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, int boardSize) {
-        pagesManager.initializeGameBoard(avatar1, avatar2, sign1, sign2, boardSize);
+    public void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
+        pagesManager.initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 
     public int getGameBoardSize() {
@@ -119,7 +119,7 @@ public class GameView {
     }
 
     public ImageView getPlayerAvatar(int playerIndex) {
-        if (playerIndex < playerViewProperties.length && playerIndex >= 0)
+        if (playerIndexIsValid(playerIndex))
             return playerViewProperties[playerIndex].getAvatar();
         return null;
     }
@@ -133,8 +133,18 @@ public class GameView {
     }
 
     public ImageSheetProperty getPlayerSignSheet(int playerIndex) {
-        if (playerIndex >= 0 && playerIndex < playerViewProperties.length)
+        if (playerIndexIsValid(playerIndex))
             return playerViewProperties[playerIndex].getSignSheetProperty();
         return null;
+    }
+
+    public String getPlayerNick(int playerIndex) {
+        if (playerIndexIsValid(playerIndex))
+            return playerViewProperties[playerIndex].getName();
+        return null;
+    }
+
+    private boolean playerIndexIsValid(int playerIndex) {
+        return (playerIndex >= 0 && playerIndex < playerViewProperties.length);
     }
 }

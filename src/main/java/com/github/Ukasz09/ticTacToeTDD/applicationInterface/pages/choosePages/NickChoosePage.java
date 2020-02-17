@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.EditableTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.GameTextField;
@@ -22,12 +23,12 @@ public class NickChoosePage extends ChoosePage {
     }
 
     private void initializeTextField() {
-        GameTextField textField = new GameTextField(DEFAULT_PROMPT_TEXT);
+        EditableTextField textField = new EditableTextField(DEFAULT_PROMPT_TEXT);
         setOnEnterKeyPressedEvent(textField);
         getContentPane().getChildren().add(textField);
     }
 
-    private void setOnEnterKeyPressedEvent(GameTextField textField) {
+    private void setOnEnterKeyPressedEvent(EditableTextField textField) {
         setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 String textFromTextField = textField.getText();
