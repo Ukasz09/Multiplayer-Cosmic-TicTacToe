@@ -22,7 +22,7 @@ public class GameBoard implements IDrawingGraphic {
     private static final double SIGN_TO_BOARD_PROPORTION = 0.35;
 
     private ViewManager manager;
-    private GameBoxButtonSprite[] boxButtonSprites;
+    private GameBoxButtonSprite[][] boxButtonSprites;
     private List<SignButtonSprite> signButtonSprites;
     private Point2D lastChosenBoxCoords;
     private int boardSize = DEFAULT_BOARD_SIZE;
@@ -44,18 +44,16 @@ public class GameBoard implements IDrawingGraphic {
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
         this.boardSize = boardSize;
-        boxButtonSprites = new GameBoxButtonSprite[boardSize * boardSize];
+        boxButtonSprites = new GameBoxButtonSprite[boardSize][boardSize];
         addGameGridBoxes(boardSize, observer);
     }
 
     private void addGameGridBoxes(int boardSize, IEventKindObserver observer) {
         double buttonSize = getGridButtonSize();
         double startedPositionX = getFirstButtonXPositionToCenterWithOthers(boardSize, 0, buttonSize);
-        int offset = 0;
         for (int row = 0; row < boardSize; row++) {
             for (int column = 0; column < boardSize; column++) {
-                boxButtonSprites[offset] = getNewBox(row, column, startedPositionX, getFirstButtonYPosition(), buttonSize, observer);
-                offset++;
+                boxButtonSprites[row][column] = getNewBox(row, column, startedPositionX, getFirstButtonYPosition(), buttonSize, observer);
             }
         }
     }
@@ -100,8 +98,12 @@ public class GameBoard implements IDrawingGraphic {
         signButtonSprites.add(sign);
     }
 
+    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
+        boxButtonSprites[coordsX][coordsY].changeState(state);
+    }
+
     private void setSignPosition(SignButtonSprite sign, int rowIndex, int columnIndex) {
-        double buttonSize = boxButtonSprites[0].getWidth();
+        double buttonSize = boxButtonSprites[0][0].getWidth();
         double buttonStartedPositionX = getFirstButtonXPositionToCenterWithOthers(boardSize, 0, buttonSize);
         sign.setPositionX(getBoxPositionX(rowIndex, buttonSize, buttonStartedPositionX) + buttonSize / 2 - sign.getWidth() / 2);
         sign.setPositionY(getBoxPositionY(columnIndex, buttonSize, getFirstButtonYPosition() + buttonSize / 2 - sign.getHeight() / 2));
@@ -113,15 +115,17 @@ public class GameBoard implements IDrawingGraphic {
                 box.disable();
                 box.changeState(SpriteStates.NO_ANIMATION);
                 lastChosenBoxCoords = new Point2D(box.getCoordsX(), box.getCoordsY());
-                box.notifyObservers(EventKind.GAMEBOX_BUTTON_CLICKED);
+                box.notifyObservers(EventKind.GAME_BOX_BUTTON_CLICKED);
             }
         });
     }
 
     public void setVisible(boolean value) {
-        if (boxButtonSprites != null)
-            for (GameBoxButtonSprite box : boxButtonSprites)
-                box.setImageViewVisible(value);
+        if (boxButtonSprites != null) {
+            for (int row = 0; row < boxButtonSprites.length; row++)
+                for (int column = 0; column < boxButtonSprites[0].length; column++)
+                    boxButtonSprites[row][column].setImageViewVisible(value);
+        }
     }
 
     @Override
@@ -131,8 +135,9 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private void renderBoxes() {
-        for (GameBoxButtonSprite box : boxButtonSprites)
-            box.render();
+        for (int row = 0; row < boxButtonSprites.length; row++)
+            for (int column = 0; column < boxButtonSprites[0].length; column++)
+                boxButtonSprites[row][column].render();
     }
 
     private void renderSigns() {
@@ -147,8 +152,9 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private void updateBoxes() {
-        for (GameBoxButtonSprite box : boxButtonSprites)
-            box.update();
+        for (int row = 0; row < boxButtonSprites.length; row++)
+            for (int column = 0; column < boxButtonSprites[0].length; column++)
+                boxButtonSprites[row][column].update();
     }
 
     private void updateSignButtons() {
@@ -162,14 +168,14 @@ public class GameBoard implements IDrawingGraphic {
 
     public Point2D getFirstButtonPosition() {
         if (boxButtonSprites != null) {
-            double posX = boxButtonSprites[0].getPositionX();
-            double posY = boxButtonSprites[0].getPositionY();
+            double posX = boxButtonSprites[0][0].getPositionX();
+            double posY = boxButtonSprites[0][0].getPositionY();
             return new Point2D(posX, posY);
         }
         return null;
     }
 
     public double getWidth() {
-        return boardSize * boxButtonSprites[0].getWidth();
+        return boardSize * boxButtonSprites[0][0].getWidth();
     }
 }

@@ -70,17 +70,6 @@ public class SpritesProperties {
         return sheetProperty;
     }
 
-//    public static ImageSheetProperty gridBoxProperty() {
-//        String spritePath = "sprites/gridBox.png";
-//        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
-//                .withImagePath(spritePath)
-//                .withSizeOfOneFrame(400, 400)
-//                .withDefaultDurationPerOneFrame(6)
-//                .withAddActionState(SpriteStates.STANDBY, 0, 8)
-//                .build();
-//        return sheetProperty;
-//    }
-
     public static ImageSheetProperty gridBoxProperty() {
         String spritePath = "sprites/gridBox.png";
         ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
@@ -89,6 +78,7 @@ public class SpritesProperties {
                 .withDefaultDurationPerOneFrame(4)
                 .withAddActionState(SpriteStates.STANDBY, 24, 20)
                 .withAddActionState(SpriteStates.NO_ANIMATION, 0, 1)
+                .withAddActionState(SpriteStates.IS_WIN_BOX_ANIMATION, 0, 31)
                 .build();
         return sheetProperty;
     }

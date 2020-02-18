@@ -2,6 +2,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IScenePage;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
@@ -196,5 +197,9 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
 
     public void showVisibleOnlyActualPlayer(int playerIndex) {
         gamePage.showVisibleOnlyActualPlayer(playerIndex);
+    }
+
+    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
+        gamePage.changeGridBoxState(state, coordsX, coordsY);
     }
 }

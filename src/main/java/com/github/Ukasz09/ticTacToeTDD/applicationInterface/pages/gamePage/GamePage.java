@@ -3,6 +3,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.ChoosePage;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
 import javafx.geometry.Point2D;
@@ -95,5 +96,9 @@ public class GamePage extends ChoosePage {
     public void showVisibleOnlyActualPlayer(int playerIndex) {
         for (int i = 0; i < playerInfoPage.length; i++)
             playerInfoPage[i].disablePage(playerIndex != i);
+    }
+
+    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY){
+        gameBoard.changeGridBoxState(state,coordsX,coordsY);
     }
 }

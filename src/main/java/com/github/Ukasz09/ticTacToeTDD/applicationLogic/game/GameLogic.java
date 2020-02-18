@@ -83,7 +83,7 @@ public class GameLogic {
         checkAxisIsCorrect(y);
         checkFieldIsNotMarked(x, y);
         setBox(x, y, (players.get(actualPlayerOffset)).getIdentifier());
-        return getWinner(x, y);
+        return getResult(x, y);
     }
 
     public void changePlayerToNext() {
@@ -104,7 +104,7 @@ public class GameLogic {
         board[x][y] = sign;
     }
 
-    private GameResult getWinner(int lastX, int lastY) {
+    private GameResult getResult(int lastX, int lastY) {
         if (isWin(lastX, lastY))
             return actualPlayerOffset == 0 ? GameResult.WIN_PLAYER_0 : GameResult.WIN_PLAYER_1;
         return cantDoAnyMove() ? GameResult.DRAW : GameResult.GAME_NOT_FINISHED;
@@ -129,7 +129,7 @@ public class GameLogic {
     private boolean straightLineIsFilled(boolean horizontal, int lastOffset, char byWhichPlayer) {
         int tmpOffset = 0;
         int actualPlayerMarkCount = 0;
-        while (tmpOffset < DEFAULT_BOARD_SIZE) {
+        while (tmpOffset < boardSize) {
             boolean isMarkedByPlayer;
             if (horizontal) {
                 isMarkedByPlayer = board[lastOffset][tmpOffset] == byWhichPlayer;

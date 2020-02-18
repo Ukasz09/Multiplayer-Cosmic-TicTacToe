@@ -2,6 +2,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PlayerViewProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PagesManager;
 
@@ -151,4 +152,9 @@ public class GameView {
     public void showVisibleOnlyActualPlayer() {
         pagesManager.showVisibleOnlyActualPlayer(actualPlayerID);
     }
+
+    public void changeGridBoxState(SpriteStates state,  int coordsX, int coordsY){
+        pagesManager.changeGridBoxState(state,coordsX,coordsY);
+    }
+
 }
