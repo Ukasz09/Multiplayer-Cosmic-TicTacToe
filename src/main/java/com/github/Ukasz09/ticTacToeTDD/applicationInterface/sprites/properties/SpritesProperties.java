@@ -92,5 +92,4 @@ public class SpritesProperties {
                 .build();
         return sheetProperty;
     }
-
 }

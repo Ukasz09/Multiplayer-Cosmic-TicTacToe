@@ -194,7 +194,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         return boardSizeChoosePage.getActualChosenBoardSize();
     }
 
-    public void showVisibleOnlyActualPlayer(int playerIndex){
+    public void showVisibleOnlyActualPlayer(int playerIndex) {
         gamePage.showVisibleOnlyActualPlayer(playerIndex);
     }
 }

@@ -6,6 +6,8 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.I
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameLogic;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectFieldException;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
@@ -56,6 +58,11 @@ public class GameController implements IEventKindObserver {
             case BOARD_SIZE_CHOSEN: {
                 initializeGameBoard();
                 gameView.showGamePage();
+                try {
+                    gameLogic.resetBoard(gameView.getGameBoardSize());
+                } catch (IncorrectBoardSizeException e) {
+                    //Unchecked
+                }
             }
             break;
             case GAMEBOX_BUTTON_CLICKED: {

@@ -29,7 +29,7 @@ public class GameView {
 
     public GameView() {
         manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, true);
+        manager.initialize(APPLICATION_TITLE, false);
         pagesManager = new PagesManager();
     }
 

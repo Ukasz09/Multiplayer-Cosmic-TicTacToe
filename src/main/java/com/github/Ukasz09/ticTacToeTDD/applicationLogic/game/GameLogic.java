@@ -2,14 +2,12 @@ package com.github.Ukasz09.ticTacToeTDD.applicationLogic.game;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.*;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class GameLogic {
-    public static final String NO_WINNER_MSG = "Game over. No winner";
-    public static final String DRAW_MSG = "Game over. It's draw";
-    public static final String WINNER_MSG_PREFIX = "Game over. Winner is player: ";
-
-    private static final int DEFAULT_PLAYERS_QTY = 2;
+    public static final int DEFAULT_MARKS_QTY_FOR_WIN = 3;
     public static final int DEFAULT_BOARD_SIZE = 3;
     public static final char[] DEFAULT_PLAYERS_IDENTIFIERS = {'X', 'O'};
     private static final char EMPTY_BOARD_MARK = '\0';
@@ -18,28 +16,43 @@ public class GameLogic {
     private List<Player> players;
     private int boardSize = DEFAULT_BOARD_SIZE;
     private char[][] board;
+    private int marksQtyForWin = DEFAULT_MARKS_QTY_FOR_WIN;
+    private Point[] winningCoords;
+    private int actualOffsetInWinningCoordsArr = 0;
 
     public GameLogic() throws IncorrectPlayerException, IncorrectBoardSizeException {
         this(DEFAULT_BOARD_SIZE);
     }
 
-    //todo: zmienic inicjalizacje players
     public GameLogic(int boardSize) throws IncorrectBoardSizeException, IncorrectPlayerException {
-        this(boardSize, new Player[]{
+        this(boardSize, DEFAULT_MARKS_QTY_FOR_WIN, new Player[]{
                 new Player(DEFAULT_PLAYERS_IDENTIFIERS[0]),
                 new Player(DEFAULT_PLAYERS_IDENTIFIERS[1])
         });
     }
 
-    public GameLogic(int boardSize, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
-        resetBoard(boardSize);
+    public GameLogic(int boardSize, int marksQtyForWin, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
+        resetBoard(boardSize, marksQtyForWin);
         initializePlayers(playersToInitialize);
+        initializeWinningCoords();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
+    private void initializeWinningCoords() {
+        winningCoords = new Point[marksQtyForWin];
+        for (int i = 0; i < marksQtyForWin; i++)
+            winningCoords[i] = new Point(-1, -1);
+    }
+
     public void resetBoard(int boardSize) throws IncorrectBoardSizeException {
+        resetBoard(boardSize, DEFAULT_MARKS_QTY_FOR_WIN);
+    }
+
+    public void resetBoard(int boardSize, int marksQtyForWin) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
+        this.marksQtyForWin = Math.max(marksQtyForWin, DEFAULT_MARKS_QTY_FOR_WIN);
+
 
         this.boardSize = boardSize;
         board = new char[boardSize][boardSize];
@@ -64,7 +77,7 @@ public class GameLogic {
         return true;
     }
 
-    public String markField(int x, int y) throws IncorrectFieldException {
+    public GameResult markField(int x, int y) throws IncorrectFieldException {
         changePlayerToNext();
         checkAxisIsCorrect(x);
         checkAxisIsCorrect(y);
@@ -91,10 +104,10 @@ public class GameLogic {
         board[x][y] = sign;
     }
 
-    private String getWinner(int lastX, int lastY) {
+    private GameResult getWinner(int lastX, int lastY) {
         if (isWin(lastX, lastY))
-            return (WINNER_MSG_PREFIX + (players.get(actualPlayerOffset)).getIdentifier());
-        return cantDoAnyMove() ? DRAW_MSG : NO_WINNER_MSG;
+            return actualPlayerOffset == 0 ? GameResult.WIN_PLAYER_0 : GameResult.WIN_PLAYER_1;
+        return cantDoAnyMove() ? GameResult.DRAW : GameResult.GAME_NOT_FINISHED;
     }
 
     private boolean isWin(int lastX, int lastY) {
@@ -118,15 +131,19 @@ public class GameLogic {
         int actualPlayerMarkCount = 0;
         while (tmpOffset < DEFAULT_BOARD_SIZE) {
             boolean isMarkedByPlayer;
-            if (horizontal)
+            if (horizontal) {
                 isMarkedByPlayer = board[lastOffset][tmpOffset] == byWhichPlayer;
-            else isMarkedByPlayer = board[tmpOffset][lastOffset] == byWhichPlayer;
+                addPointToWinningArr(lastOffset, tmpOffset);
+            } else {
+                isMarkedByPlayer = board[tmpOffset][lastOffset] == byWhichPlayer;
+                addPointToWinningArr(tmpOffset, lastOffset);
+            }
 
-            if (isMarkedByPlayer)
+            if (isMarkedByPlayer) {
                 actualPlayerMarkCount += 1;
-            else actualPlayerMarkCount = 0;
+            } else actualPlayerMarkCount = 0;
 
-            if (actualPlayerMarkCount >= 3)
+            if (actualPlayerMarkCount >= marksQtyForWin)
                 return true;
             tmpOffset += 1;
         }
@@ -142,14 +159,15 @@ public class GameLogic {
         int startedOffsetY = right ? lastY - 1 : lastY + 1;
         actualPlayerMarkCount += markedQtyInDiagonalFromGivenFields(false, right, lastX - 1, startedOffsetY, byWhichPlayer);
 
-        return actualPlayerMarkCount >= 3;
+        return actualPlayerMarkCount >= marksQtyForWin;
     }
 
     private int markedQtyInDiagonalFromGivenFields(boolean down, boolean right, int startedOffsetX, int startedOffsetY, char byWhichPlayer) {
         int actualPlayerMarkCount = 0;
-        while (actualPlayerMarkCount < 3 && !pointIsOutsideTheBoard(startedOffsetX, startedOffsetY)) {
+        while (actualPlayerMarkCount < marksQtyForWin && !pointIsOutsideTheBoard(startedOffsetX, startedOffsetY)) {
             if (board[startedOffsetX][startedOffsetY] != byWhichPlayer)
                 return actualPlayerMarkCount;
+            addPointToWinningArr(startedOffsetX, startedOffsetY);
             actualPlayerMarkCount += 1;
             if (down) {
                 startedOffsetX += 1;
@@ -194,5 +212,14 @@ public class GameLogic {
 
     public int getPlayersQty() {
         return players.size();
+    }
+
+    public Point[] getWinningCoords() {
+        return winningCoords;
+    }
+
+    private void addPointToWinningArr(int coordsX, int coordsY) {
+        winningCoords[actualOffsetInWinningCoordsArr % marksQtyForWin].setLocation(coordsX, coordsY);
+        actualOffsetInWinningCoordsArr++;
     }
 }
