@@ -54,7 +54,7 @@ public class SignChoosePage extends ChoosePage {
     }
 
     private double getButtonCenterYPositionInContentPane(double buttonHeight) {
-        double labelPaneHeight = getLabelPaneHeight();
+        double labelPaneHeight = getHeaderPaneHeight();
         return labelPaneHeight + (manager.getBottomFrameBorder() - labelPaneHeight) / 2 - buttonHeight / 2;
     }
 
@@ -110,7 +110,7 @@ public class SignChoosePage extends ChoosePage {
 
     private void setButtonsImageViewVisible(boolean value) {
         for (SignButtonSprite button : signButtonSprites)
-            button.setImageViewVisible(value);
+            button.setImageViewVisible(value); //todo: dodac usuwanie view z roota
     }
 
     //-----------------------------------------------------------------------------------------------------------------//

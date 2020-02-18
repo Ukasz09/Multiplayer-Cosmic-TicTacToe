@@ -82,4 +82,15 @@ public class SpritesProperties {
                 .build();
         return sheetProperty;
     }
+
+    public static ImageSheetProperty oscarProperty() {
+        String spritePath = "sprites/oscar.png";
+        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
+                .withImagePath(spritePath)
+                .withSizeOfOneFrame(372, 372)
+                .withDefaultDurationPerOneFrame(4)
+                .withAddActionState(SpriteStates.STANDBY, 0, 70)
+                .build();
+        return sheetProperty;
+    }
 }

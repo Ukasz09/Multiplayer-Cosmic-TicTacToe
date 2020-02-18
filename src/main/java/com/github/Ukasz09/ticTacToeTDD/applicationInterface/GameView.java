@@ -157,4 +157,11 @@ public class GameView {
         pagesManager.changeGridBoxState(state,coordsX,coordsY);
     }
 
+    public void addWinnerGamePage(int winningPlayerIndex){
+        pagesManager.addWinnerGamePage(winningPlayerIndex);
+    }
+
+    public void setWinnerHeaderText(String player) {
+        pagesManager.setWinnerHeaderText(player);
+    }
 }

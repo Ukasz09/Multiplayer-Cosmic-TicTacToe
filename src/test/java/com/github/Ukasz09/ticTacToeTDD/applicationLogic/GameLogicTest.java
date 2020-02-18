@@ -7,7 +7,6 @@ import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.*;
 import org.junit.jupiter.api.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,14 +53,14 @@ class GameLogicTest {
             @Test
             void givenFirstTurnWhenNextPlayerThenX() throws IncorrectFieldException {
                 gameLogic.markField(0, 0); //X
-                assertEquals('X', gameLogic.getLastPlayerId());
+                assertEquals('X', gameLogic.getLastPlayerSignId());
             }
 
             @Test
             void givenWasXWhenNextPlayerThenO() throws IncorrectFieldException {
                 gameLogic.markField(1, 1); //X
                 gameLogic.markField(1, 2); //O
-                assertEquals('O', gameLogic.getLastPlayerId());
+                assertEquals('O', gameLogic.getLastPlayerSignId());
             }
 
             @Test
@@ -69,7 +68,7 @@ class GameLogicTest {
                 gameLogic.markField(1, 1); //X
                 gameLogic.markField(0, 0); //O
                 gameLogic.markField(0, 2); //X
-                assertEquals('X', gameLogic.getLastPlayerId());
+                assertEquals('X', gameLogic.getLastPlayerSignId());
             }
         }
 

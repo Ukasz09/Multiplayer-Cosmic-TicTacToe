@@ -10,16 +10,6 @@ public class ImagesProperties {
         return new Image(imagePath);
     }
 
-    public static Image cosmic1Background() {
-        String imagePath = "images/backgrounds/backgroundCosmic1.jpg";
-        return new Image(imagePath);
-    }
-
-//    public static Image nightSky1Background() {
-//        String imagePath = "images/backgrounds/startFlare.gif";
-//        return new Image(imagePath);
-//    }
-
     public static Image startGameBackground() {
         String imagePath = "images/backgrounds/galaxyBackground.gif";
         return new Image(imagePath);
@@ -32,4 +22,10 @@ public class ImagesProperties {
             images[i] = new Image(imagePathPrefix + (i + 1) + ".png");
         return images;
     }
+
+    public static Image confetti() {
+        String imagePath = "sprites/confetti.gif";
+        return new Image(imagePath);
+    }
+
 }

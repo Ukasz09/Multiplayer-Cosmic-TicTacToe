@@ -206,8 +206,12 @@ public class GameLogic {
         return boardSize;
     }
 
-    public char getLastPlayerId() {
+    public char getLastPlayerSignId() {
         return (players.get(actualPlayerOffset)).getIdentifier();
+    }
+
+    public int getLastPlayerIndex() {
+        return actualPlayerOffset;
     }
 
     public int getPlayersQty() {

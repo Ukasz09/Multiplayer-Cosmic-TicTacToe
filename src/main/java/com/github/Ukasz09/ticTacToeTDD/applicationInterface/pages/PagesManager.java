@@ -202,4 +202,13 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
         gamePage.changeGridBoxState(state, coordsX, coordsY);
     }
+
+    public void addWinnerGamePage(int winningPlayerIndex) {
+        gamePage.addWinnerGamePage(winningPlayerIndex);
+    }
+
+    public void setWinnerHeaderText(String player) {
+        gamePage.setWinnerHeaderText(player);
+    }
+
 }

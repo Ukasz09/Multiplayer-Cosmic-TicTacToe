@@ -16,7 +16,7 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
     protected static final String DEFAULT_FONT_COLOR = "lightgray";
 
     private CenteredPane contentPanel;
-    private LabelPane labelPane;
+    private LabelPane headerPaneHeight;
     private Set<IEventKindObserver> observers;
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -28,10 +28,10 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
 
     //----------------------------------------------------------------------------------------------------------------//
     private void initializePanel(String labelText) {
-        labelPane = new LabelPane(labelText);
+        headerPaneHeight = new LabelPane(labelText);
         contentPanel = new CenteredPane();
         setCenter(contentPanel);
-        setTop(labelPane);
+        setTop(headerPaneHeight);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -39,12 +39,12 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
         return contentPanel;
     }
 
-    public double getLabelPaneHeight() {
-        return labelPane.getMinHeight();
+    public double getHeaderPaneHeight() {
+        return headerPaneHeight.getMinHeight();
     }
 
     protected void setLabelText(String text) {
-        labelPane.setLabelText(text);
+        headerPaneHeight.setLabelText(text);
     }
 
     @Override

@@ -71,9 +71,4 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEv
     protected Image getHuedSheet() {
         return getSheetWithEffect(getSpriteSheetProperty().getSheet(), HUE_EFFECT);
     }
-
-//    protected void hueSheet(){
-//        getSpriteSheetProperty().setImageSheet(getHuedSheet());
-//    }
-
 }

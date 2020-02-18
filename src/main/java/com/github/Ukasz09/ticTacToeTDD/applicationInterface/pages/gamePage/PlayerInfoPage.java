@@ -105,4 +105,15 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
         nickField.setDefaultFontColor();
     }
 
+    public double getPagePositionX() {
+        return pagePositionX;
+    }
+
+    public void removeSignSpriteFromRoot() {
+        sign.removeNodeFromRoot();
+    }
+
+    public void setSignVisible(boolean value) {
+        sign.setVisible(value);
+    }
 }

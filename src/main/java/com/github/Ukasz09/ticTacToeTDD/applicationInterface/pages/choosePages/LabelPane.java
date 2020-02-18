@@ -22,7 +22,6 @@ public class LabelPane extends CenteredPane {
     //-----------------------------------------------------------------------------------------------------------------//
     private void initializePane(String text) {
         setDefaultPaneSize();
-//        initializeTextField(text);
         LabelTextField labelField = new LabelTextField(text, (int) (manager.getScaledHeight(FONT_SIZE_PROPORTION)), false);
         labelField.maximizeWidth();
         textField = labelField;
@@ -32,24 +31,6 @@ public class LabelPane extends CenteredPane {
         setMinHeight(manager.getScaledHeight(HEIGHT_PROPORTION));
         setMinWidth(manager.getRightFrameBorder());
     }
-
-//    private void initializeTextField(String text) {
-//        textField = new TextField(text);
-//        textField.setEditable(false);
-//        textField.setMinWidth(getMinWidth());
-//        textField.setMinHeight(getMinHeight());
-//        textField.setAlignment(Pos.CENTER);
-//        textField.setBackground(Background.EMPTY);
-//        textField.setFocusTraversable(false);
-//        int fontSize = (int) (FONT_SIZE_PROPORTION * manager.getBottomFrameBorder());
-//        setDefaultLabelFont(textField, ChoosePage.DEFAULT_FONT_COLOR, fontSize);
-//    }
-//
-//    public void setDefaultLabelFont(TextField textField, String fontColor, int fontSize) {
-//        Font font = FontProperties.chargenRegularFont(fontSize);
-//        textField.setStyle("-fx-text-inner-color: " + fontColor + ";");
-//        textField.setFont(font);
-//    }
 
     public void setLabelText(String text) {
         textField.setText(text);

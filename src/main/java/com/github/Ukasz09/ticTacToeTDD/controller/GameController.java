@@ -73,8 +73,8 @@ public class GameController implements IEventKindObserver {
                 Point2D coords = gameView.getLastChosenBoxCoords();
                 int coordsX = (int) (coords.getX());
                 int coordsY = (int) (coords.getY());
-                checkGameResult(markField(coordsX, coordsY));
-                changePlayer();
+                if (!checkGameResult(markField(coordsX, coordsY)))
+                    changePlayer();
             }
             break;
 
@@ -105,14 +105,19 @@ public class GameController implements IEventKindObserver {
         }
     }
 
-    private void checkGameResult(GameResult result) {
+    /**
+     * @return winner pane is visible or not
+     */
+    private boolean checkGameResult(GameResult result) {
         if (isWin(result)) {
             Point[] winningCoords = gameLogic.getWinningCoords();
             changeGridBoxesState(winningCoords, SpriteStates.IS_WIN_BOX_ANIMATION);
-
-            //todo: powiadomienie o zwyciestwie
-            System.out.println("WIN");
+            int winnerPlayerIndex = gameLogic.getLastPlayerIndex();
+            gameView.addWinnerGamePage(winnerPlayerIndex);
+            gameView.setWinnerHeaderText(gameView.getPlayerNick(winnerPlayerIndex));
+            return true;
         }
+        return false;
     }
 
     private boolean isWin(GameResult result) {

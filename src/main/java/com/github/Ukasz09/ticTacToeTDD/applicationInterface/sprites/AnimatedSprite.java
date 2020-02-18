@@ -96,5 +96,4 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
     public void setSpriteSheet(Image sheetImage) {
         spriteSheetProperty.setImageSheet(sheetImage);
     }
-
 }

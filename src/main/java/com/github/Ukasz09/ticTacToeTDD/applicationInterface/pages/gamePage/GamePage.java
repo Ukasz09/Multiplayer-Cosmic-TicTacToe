@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.ChoosePage;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.WinnerGamePane;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
@@ -11,21 +12,23 @@ import javafx.scene.image.ImageView;
 
 //todo: usuwac view z animacji po skonczeniu
 public class GamePage extends ChoosePage {
-    private static final String HEADER_TEXT = "Tic-Tac-Toe";
+    private static final String GAME_HEADER_TEXT = "Tic-Tac-Toe";
+    private static final String WINNER_HEADER_TEXT_PREFIX = "Winner: ";
 
     private GameBoard gameBoard;
-    private PlayerInfoPage[] playerInfoPage;
+    private PlayerInfoPage[] playerInfoPane;
+    private WinnerGamePane winnerGamePane = null;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public GamePage() {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND, null), HEADER_TEXT);
-        playerInfoPage = new PlayerInfoPage[2];
+        super(new ImageGameBackground(DEFAULT_BACKGROUND, null), GAME_HEADER_TEXT);
+        playerInfoPane = new PlayerInfoPage[2];
         initializeGameBoard();
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
     private void initializeGameBoard() {
-        gameBoard = new GameBoard(getLabelPaneHeight());
+        gameBoard = new GameBoard(getHeaderPaneHeight());
         gameBoard.setVisible(false);
     }
 
@@ -40,13 +43,13 @@ public class GamePage extends ChoosePage {
     public void initializePlayerInfoPage(ImageView avatar, String nick, ImageSheetProperty signSheetProperty, boolean left) {
         double pageWidth = (manager.getRightFrameBorder() - gameBoard.getWidth()) / 2;
         if (left) {
-            playerInfoPage[0] = new PlayerInfoPage(pageWidth, getLabelPaneHeight(), 0);
-            setLeft(playerInfoPage[0]);
-            playerInfoPage[0].initialize(avatar, nick, signSheetProperty);
+            playerInfoPane[0] = new PlayerInfoPage(pageWidth, getHeaderPaneHeight(), 0);
+            setLeft(playerInfoPane[0]);
+            playerInfoPane[0].initialize(avatar, nick, signSheetProperty);
         } else {
-            playerInfoPage[1] = new PlayerInfoPage(pageWidth, getLabelPaneHeight(), manager.getRightFrameBorder() - pageWidth);
-            setRight(playerInfoPage[1]);
-            playerInfoPage[1].initialize(avatar, nick, signSheetProperty);
+            playerInfoPane[1] = new PlayerInfoPage(pageWidth, getHeaderPaneHeight(), manager.getRightFrameBorder() - pageWidth);
+            setRight(playerInfoPane[1]);
+            playerInfoPane[1].initialize(avatar, nick, signSheetProperty);
         }
 
     }
@@ -66,11 +69,17 @@ public class GamePage extends ChoosePage {
     public void update() {
         gameBoard.update();
         updatePlayerInfoPage();
+        updateWinnerGamePage();
     }
 
     private void updatePlayerInfoPage() {
-        for (PlayerInfoPage playerInfoPage : playerInfoPage)
+        for (PlayerInfoPage playerInfoPage : playerInfoPane)
             playerInfoPage.update();
+    }
+
+    private void updateWinnerGamePage() {
+        if (winnerGamePane != null)
+            winnerGamePane.update();
     }
 
     @Override
@@ -78,11 +87,17 @@ public class GamePage extends ChoosePage {
         super.render();
         gameBoard.render();
         renderPlayerInfoPage();
+        renderWinnerGamePage();
     }
 
     private void renderPlayerInfoPage() {
-        for (PlayerInfoPage playerInfoPage : playerInfoPage)
+        for (PlayerInfoPage playerInfoPage : playerInfoPane)
             playerInfoPage.render();
+    }
+
+    private void renderWinnerGamePage() {
+        if (winnerGamePane != null)
+            winnerGamePane.render();
     }
 
     public Point2D getLastChosenBoxCoords() {
@@ -94,11 +109,25 @@ public class GamePage extends ChoosePage {
     }
 
     public void showVisibleOnlyActualPlayer(int playerIndex) {
-        for (int i = 0; i < playerInfoPage.length; i++)
-            playerInfoPage[i].disablePage(playerIndex != i);
+        for (int i = 0; i < playerInfoPane.length; i++)
+            playerInfoPane[i].disablePage(playerIndex != i);
     }
 
-    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY){
-        gameBoard.changeGridBoxState(state,coordsX,coordsY);
+    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
+        gameBoard.changeGridBoxState(state, coordsX, coordsY);
     }
+
+    public void addWinnerGamePage(int winningPlayerIndex) {
+        int nextPlayerInfoPaneIndex = (winningPlayerIndex + 1) % playerInfoPane.length;
+        playerInfoPane[nextPlayerInfoPaneIndex].removeSignSpriteFromRoot();
+        playerInfoPane[nextPlayerInfoPaneIndex].setVisible(false);
+        playerInfoPane[nextPlayerInfoPaneIndex].setSignVisible(false);
+        winnerGamePane = new WinnerGamePane(playerInfoPane[winningPlayerIndex].getWidth(), getHeaderPaneHeight(), playerInfoPane[winningPlayerIndex].getPagePositionX());
+    }
+
+    public void setWinnerHeaderText(String player) {
+        String headerText = WINNER_HEADER_TEXT_PREFIX + player;
+        setLabelText(headerText);
+    }
+
 }

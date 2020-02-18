@@ -16,6 +16,7 @@ public class SignButtonSprite extends AnimatedButtonSprite {
     private final Image sheetForDisableStatus;
     private final Image normalSheet;
     private Image signSheetToRender;
+    private boolean isVisible = true;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public SignButtonSprite(ImageSheetProperty sheetProperty) {
@@ -51,6 +52,23 @@ public class SignButtonSprite extends AnimatedButtonSprite {
 
     @Override
     public void render() {
-        renderSprite(signSheetToRender);
+        if (isVisible)
+            renderSprite(signSheetToRender);
+    }
+
+    @Override
+    public void update() {
+        if (isVisible)
+            super.update();
+    }
+
+    public void setVisible(boolean value) {
+        isVisible = value;
+    }
+
+    //todo: usunac
+    @Override
+    public void setImageViewVisible(boolean visible) {
+        super.setImageViewVisible(visible);
     }
 }
