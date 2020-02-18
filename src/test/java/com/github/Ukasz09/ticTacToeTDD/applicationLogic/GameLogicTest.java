@@ -27,6 +27,12 @@ class GameLogicTest {
         @Nested
         class MarkFieldTest {
             @Test
+            void whenFirstTurnThenNoWinner() throws IncorrectFieldException {
+                GameResult winner = gameLogic.markField(0, 0);
+                assertEquals(GameResult.GAME_NOT_FINISHED, winner);
+            }
+
+            @Test
             void whenXOutsideBoardThenException() {
                 assertThrows(IncorrectFieldException.class, () -> gameLogic.markField(gameLogic.getBoardSize(), 2));
             }
@@ -109,12 +115,6 @@ class GameLogicTest {
         @Nested
         class WinnerTest {
             @Test
-            void whenFirstTurnThenNoWinner() throws IncorrectFieldException {
-                GameResult winner = gameLogic.markField(0, 0);
-                assertEquals(GameResult.GAME_NOT_FINISHED, winner);
-            }
-
-            @Test
             void whenHorizontalLineThenWinner() throws IncorrectFieldException {
                 gameLogic.markField(0, 0); //X
                 gameLogic.markField(1, 1); //O
@@ -170,7 +170,7 @@ class GameLogicTest {
             }
 
             @Test
-            void givenBoardSize3WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardSizeException, IncorrectFieldException, IncorrectPlayerException {
+            void WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardSizeException, IncorrectFieldException, IncorrectPlayerException {
                 gameLogic = new GameLogic(3);
                 gameLogic.markField(0, 0); //X
                 gameLogic.markField(0, 1); //O
@@ -314,202 +314,143 @@ class GameLogicTest {
             });
         }
 
-        //todo: przerobic z default
-//        @Nested
-//        class WinnerTest {
-//            @Test
-//            void whenFirstTurnThenNoWinner() throws IncorrectFieldException {
-//                GameResult winner = gameLogic.markField(0, 0);
-//                assertEquals(GameResult.GAME_NOT_FINISHED, winner);
-//            }
-//
-//            @Test
-//            void whenHorizontalLineThenWinner() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(0, 1); //X
-//                gameLogic.markField(2, 1); //O
-//                GameResult winner = gameLogic.markField(0, 2); //X
-//                assertEquals(GameResult.WIN_PLAYER_0, winner);
-//            }
-//
-//            @Test
-//            void whenVerticalLineThenWinner() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(0, 2); //X
-//                gameLogic.markField(2, 1); //O
-//                gameLogic.markField(1, 0); //X
-//                GameResult winner = gameLogic.markField(0, 1); //O
-//                assertEquals(GameResult.WIN_PLAYER_1, winner);
-//            }
-//
-//            @Test
-//            void whenRightDiagonalLineThenWinner() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(1, 0); //O
-//                gameLogic.markField(1, 1); //X
-//                gameLogic.markField(2, 1); //O
-//                GameResult winner = gameLogic.markField(2, 2); //X
-//                assertEquals(GameResult.WIN_PLAYER_0, winner);
-//            }
-//
-//
-//            @Test
-//            void whenLeftDiagonalLineThenWinner() throws IncorrectFieldException {
-//                gameLogic.markField(0, 1); //X
-//                gameLogic.markField(0, 2); //O
-//                gameLogic.markField(1, 2); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(2, 1); //X
-//                GameResult winner = gameLogic.markField(2, 0); //O
-//                assertEquals(GameResult.WIN_PLAYER_1, winner);
-//            }
-//
-//            @Test
-//            void whenNoFullLineThenNoWinner() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(0, 1); //O
-//                gameLogic.markField(0, 2); //X
-//                gameLogic.markField(1, 2); //O
-//                gameLogic.markField(1, 0); //X
-//                gameLogic.markField(1, 1); //O
-//                GameResult winner = gameLogic.markField(2, 1); //X
-//                assertEquals(GameResult.GAME_NOT_FINISHED, winner);
-//            }
-//
-//            @Test
-//            void givenBoardSize3WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardSizeException, IncorrectFieldException, IncorrectPlayerException {
-//                gameLogic = new GameLogic(3);
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(0, 1); //O
-//                gameLogic.markField(0, 2); //X
-//                gameLogic.markField(1, 2); //O
-//                gameLogic.markField(1, 0); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(2, 1); //X
-//                gameLogic.markField(2, 0); //O
-//                GameResult lastTurn = gameLogic.markField(2, 2); //X
-//                assertEquals(GameResult.DRAW, lastTurn);
-//            }
-//
-//            @Test
-//            void whenAllBoxesFiledAndIsWinnerThenWinner() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(0, 1); //O
-//                gameLogic.markField(0, 2); //X
-//                gameLogic.markField(1, 2); //O
-//                gameLogic.markField(1, 0); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(2, 1); //X
-//                gameLogic.markField(2, 2); //O
-//                GameResult winner = gameLogic.markField(2, 0); //X
-//                assertEquals(GameResult.WIN_PLAYER_0, winner);
-//            }
-//        }
-//
-//        @Nested
-//        class WinnerMarksTest {
-//            @Test
-//            void whenHorizontalLineWithWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(0, 1); //X
-//                gameLogic.markField(2, 1); //O
-//                gameLogic.markField(0, 2); //X
-//                Point[] winningCoordsArr = {
-//                        new Point(0, 0),
-//                        new Point(0, 1),
-//                        new Point(0, 2),
-//                };
-//                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
-//                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
-//                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
-//                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
-//            }
-//
-//            @Test
-//            void whenVerticalLineWithWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(0, 2); //X
-//                gameLogic.markField(2, 1); //O
-//                gameLogic.markField(1, 0); //X
-//                gameLogic.markField(0, 1); //O
-//
-//                Point[] winningCoordsArr = {
-//                        new Point(1, 1),
-//                        new Point(2, 1),
-//                        new Point(0, 1),
-//                };
-//                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
-//                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
-//                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
-//                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
-//            }
-//
-//            @Test
-//            void whenRightDiagonalLineWithWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(1, 0); //O
-//                gameLogic.markField(1, 1); //X
-//                gameLogic.markField(2, 1); //O
-//                gameLogic.markField(2, 2); //X
-//
-//                Point[] winningCoordsArr = {
-//                        new Point(0, 0),
-//                        new Point(1, 1),
-//                        new Point(2, 2),
-//                };
-//
-//                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
-//                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
-//                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
-//                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
-//            }
-//
-//            @Test
-//            void whenLeftDiagonalLineWithWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
-//                gameLogic.markField(0, 1); //X
-//                gameLogic.markField(0, 2); //O
-//                gameLogic.markField(1, 2); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(2, 1); //X
-//                gameLogic.markField(2, 0); //O
-//
-//                Point[] winningCoordsArr = {
-//                        new Point(0, 2),
-//                        new Point(1, 1),
-//                        new Point(2, 0),
-//                };
-//                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
-//                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
-//                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
-//                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
-//            }
-//
-//            @Test
-//            void whenAllBoxesFiledAndIsWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
-//                gameLogic.markField(0, 0); //X
-//                gameLogic.markField(0, 1); //O
-//                gameLogic.markField(0, 2); //X
-//                gameLogic.markField(1, 2); //O
-//                gameLogic.markField(1, 0); //X
-//                gameLogic.markField(1, 1); //O
-//                gameLogic.markField(2, 1); //X
-//                gameLogic.markField(2, 2); //O
-//                gameLogic.markField(2, 0); //X
-//
-//                Point[] winningCoordsArr = {
-//                        new Point(2, 0),
-//                        new Point(0, 0),
-//                        new Point(1, 0),
-//                };
-//                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
-//                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
-//                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
-//                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
-//            }
-//        }
+        @Nested
+        class WinnerTest {
+            @Test
+            void whenHorizontalLineThenWinner() throws IncorrectFieldException {
+                gameLogic.markField(3, 3); //X
+                gameLogic.markField(4, 4); //O
+                gameLogic.markField(3, 4); //X
+                gameLogic.markField(5, 4); //O
+                GameResult winner = gameLogic.markField(3, 5); //X
+                assertEquals(GameResult.WIN_PLAYER_0, winner);
+            }
+
+            @Test
+            void whenVerticalLineThenWinner() throws IncorrectFieldException {
+                gameLogic.markField(4, 4); //X
+                gameLogic.markField(5, 5); //O
+                gameLogic.markField(4, 6); //X
+                gameLogic.markField(6, 5); //O
+                gameLogic.markField(5, 4); //X
+                GameResult winner = gameLogic.markField(4, 5); //O
+                assertEquals(GameResult.WIN_PLAYER_1, winner);
+            }
+
+            @Test
+            void whenRightDiagonalLineThenWinner() throws IncorrectFieldException {
+                gameLogic.markField(4, 4); //X
+                gameLogic.markField(5, 4); //O
+                gameLogic.markField(5, 5); //X
+                gameLogic.markField(6, 5); //O
+                GameResult winner = gameLogic.markField(6, 6); //X
+                assertEquals(GameResult.WIN_PLAYER_0, winner);
+            }
+
+
+            @Test
+            void whenLeftDiagonalLineThenWinner() throws IncorrectFieldException {
+                gameLogic.markField(4, 5); //X
+                gameLogic.markField(4, 6); //O
+                gameLogic.markField(5, 6); //X
+                gameLogic.markField(5, 5); //O
+                gameLogic.markField(6, 5); //X
+                GameResult winner = gameLogic.markField(6, 4); //O
+                assertEquals(GameResult.WIN_PLAYER_1, winner);
+            }
+
+            @Test
+            void whenNoFullLineThenNoWinner() throws IncorrectFieldException {
+                gameLogic.markField(4, 4); //X
+                gameLogic.markField(4, 5); //O
+                gameLogic.markField(4, 6); //X
+                gameLogic.markField(5, 6); //O
+                gameLogic.markField(5, 4); //X
+                gameLogic.markField(5, 5); //O
+                GameResult winner = gameLogic.markField(6, 5); //X
+                assertEquals(GameResult.GAME_NOT_FINISHED, winner);
+            }
+        }
+
+        @Nested
+        class WinnerMarksTest {
+            @Test
+            void whenHorizontalLineWithWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
+                gameLogic.markField(3, 3); //X
+                gameLogic.markField(4, 4); //O
+                gameLogic.markField(3, 4); //X
+                gameLogic.markField(5, 4); //O
+                gameLogic.markField(3, 5); //X
+                Point[] winningCoordsArr = {
+                        new Point(3, 3),
+                        new Point(3, 4),
+                        new Point(3, 5),
+                };
+                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
+                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
+                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
+                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
+            }
+
+            @Test
+            void whenVerticalLineWithWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
+                gameLogic.markField(2, 2); //X
+                gameLogic.markField(3, 3); //O
+                gameLogic.markField(2, 4); //X
+                gameLogic.markField(4, 3); //O
+                gameLogic.markField(3, 2); //X
+                gameLogic.markField(2, 3); //O
+
+                Point[] winningCoordsArr = {
+                        new Point(2, 3),
+                        new Point(4, 3),
+                        new Point(3, 3),
+                };
+                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
+                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
+                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
+                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
+            }
+
+            @Test
+            void whenRightDiagonalLineWithWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
+                gameLogic.markField(1, 1); //X
+                gameLogic.markField(2, 1); //O
+                gameLogic.markField(2, 2); //X
+                gameLogic.markField(3, 2); //O
+                gameLogic.markField(3, 3); //X
+
+                Point[] winningCoordsArr = {
+                        new Point(1, 1),
+                        new Point(2, 2),
+                        new Point(3, 3),
+                };
+
+                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
+                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
+                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
+                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
+            }
+
+            @Test
+            void whenLeftDiagonalLineWithWinThenCorrectWinningCordsArr() throws IncorrectFieldException {
+                gameLogic.markField(4, 5); //X
+                gameLogic.markField(4, 6); //O
+                gameLogic.markField(5, 6); //X
+                gameLogic.markField(5, 5); //O
+                gameLogic.markField(6, 5); //X
+                gameLogic.markField(6, 4); //O
+
+                Point[] winningCoordsArr = {
+                        new Point(4, 6),
+                        new Point(5, 5),
+                        new Point(6, 4),
+                };
+                List<Point> expectedWinningCoords = Arrays.asList(winningCoordsArr);
+                List<Point> actualWinningCoords = Arrays.asList(gameLogic.getWinningCoords());
+                assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
+                        actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
+            }
+        }
     }
 }
