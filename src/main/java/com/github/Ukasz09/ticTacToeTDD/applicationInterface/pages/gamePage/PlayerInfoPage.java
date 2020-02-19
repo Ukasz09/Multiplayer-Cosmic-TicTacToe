@@ -1,20 +1,34 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.GameControlButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.IGameButtonProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.ImageButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.SignButtonSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.GameTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.LabelTextField;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.Confetti;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 
-public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
+import java.util.HashSet;
+import java.util.Set;
+
+public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventKindObservable {
     private static final double SIGN_PADDING_PROPORTION = 75 / 1080d;
     private static final String FONT_COLOR_CSS_FOR_DISABLE = "darkslategrey";
 
@@ -23,9 +37,13 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
     private LabelTextField nickField;
     private final double headerHeight;
     private final double pagePositionX;
+    private Set<IEventKindObserver> observers;
+    private Confetti confetti;
+    //    private Confetti confetti = null;
 
     //----------------------------------------------------------------------------------------------------------------//
     public PlayerInfoPage(double width, double headerHeight, double pagePositionX) {
+        observers = new HashSet<>();
         this.headerHeight = headerHeight;
         this.pagePositionX = pagePositionX;
         setPageSize(width);
@@ -78,11 +96,14 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
     @Override
     public void render() {
         sign.render();
+        if (confetti != null) confetti.render();
     }
 
     @Override
     public void update() {
         sign.update();
+//        if (confetti != null)
+//            confetti.update();
     }
 
     public void disablePage(boolean value) {
@@ -116,4 +137,49 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic {
     public void setSignVisible(boolean value) {
         sign.setVisible(value);
     }
+
+    public void addWinButtons() {
+        addRepeatGameButton();
+        addStartGameButton();
+        addEndGameButton();
+    }
+
+    private void addRepeatGameButton() {
+        Button button = new GameControlButton("REPEAT GAME");
+        button.setOnMouseClicked(event -> notifyObservers(EventKind.REPEAT_GAME_BUTTON));
+        getChildren().add(button);
+    }
+
+    private void addStartGameButton() {
+        Button button = new GameControlButton("NEW GAME");
+        button.setOnMouseClicked(event -> notifyObservers(EventKind.START_BUTTON_CLICKED));
+        getChildren().add(button);
+    }
+
+    private void addEndGameButton() {
+        Button button = new GameControlButton("END GAME");
+        button.setOnMouseClicked(event -> notifyObservers(EventKind.END_GAME_BUTTON_CLICKED));
+        getChildren().add(button);
+    }
+
+    public void addConfetti(double windowWidth, double windowHeight) {
+        confetti = new Confetti(windowWidth, windowHeight, 0, 0);
+    }
+
+    @Override
+    public void attachObserver(IEventKindObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detachObserver(IEventKindObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(EventKind eventKind) {
+        for (IEventKindObserver observer : observers)
+            observer.updateObserver(eventKind);
+    }
+
 }

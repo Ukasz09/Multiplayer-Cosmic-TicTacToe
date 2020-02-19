@@ -72,7 +72,7 @@ public class SignChoosePage extends ChoosePage {
     @Override
     public void update() {
         updateSignButtons();
-        setLabelText(LABEL_TEXT_PREFIX + actualInitializedPlayerNick);
+        setHeaderText(LABEL_TEXT_PREFIX + actualInitializedPlayerNick);
     }
 
     private void updateSignButtons() {

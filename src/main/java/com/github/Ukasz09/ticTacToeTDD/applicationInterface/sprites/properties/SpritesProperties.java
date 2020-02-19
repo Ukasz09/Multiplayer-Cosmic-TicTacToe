@@ -87,9 +87,20 @@ public class SpritesProperties {
         String spritePath = "sprites/oscar.png";
         ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
                 .withImagePath(spritePath)
-                .withSizeOfOneFrame(372, 372)
-                .withDefaultDurationPerOneFrame(4)
-                .withAddActionState(SpriteStates.STANDBY, 0, 70)
+                .withSizeOfOneFrame(395, 603)
+                .withDefaultDurationPerOneFrame(3)
+                .withAddActionState(SpriteStates.STANDBY, 0, 69)
+                .build();
+        return sheetProperty;
+    }
+
+    public static ImageSheetProperty confettiProperty() {
+        String spritePath = "sprites/confetti.png";
+        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
+                .withImagePath(spritePath)
+                .withSizeOfOneFrame(480, 480)
+                .withDefaultDurationPerOneFrame(2)
+                .withAddActionState(SpriteStates.STANDBY, 0, 48)
                 .build();
         return sheetProperty;
     }

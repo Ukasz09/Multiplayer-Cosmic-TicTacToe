@@ -3,7 +3,6 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.EditableTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.GameTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.UserNameValidator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -44,7 +43,7 @@ public class NickChoosePage extends ChoosePage {
     }
 
     private void updateLabelText() {
-        setLabelText(HEADER_TEXT_PREFIX + actualInitializedPlayerNumber);
+        setHeaderText(HEADER_TEXT_PREFIX + actualInitializedPlayerNumber);
     }
 
     public String getLastChosenCorrectName() {

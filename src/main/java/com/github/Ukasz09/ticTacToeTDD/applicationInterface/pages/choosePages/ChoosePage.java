@@ -6,6 +6,7 @@ import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKin
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.Page;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 
 import java.util.HashSet;
@@ -16,7 +17,7 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
     protected static final String DEFAULT_FONT_COLOR = "lightgray";
 
     private CenteredPane contentPanel;
-    private LabelPane headerPaneHeight;
+    private LabelPane headerPane;
     private Set<IEventKindObserver> observers;
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -28,10 +29,11 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
 
     //----------------------------------------------------------------------------------------------------------------//
     private void initializePanel(String labelText) {
-        headerPaneHeight = new LabelPane(labelText);
+        headerPane = new LabelPane(labelText);
+        setAlignment(headerPane, Pos.TOP_CENTER);
+        setTop(headerPane);
         contentPanel = new CenteredPane();
         setCenter(contentPanel);
-        setTop(headerPaneHeight);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -40,11 +42,11 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
     }
 
     public double getHeaderPaneHeight() {
-        return headerPaneHeight.getMinHeight();
+        return headerPane.getMinHeight();
     }
 
-    protected void setLabelText(String text) {
-        headerPaneHeight.setLabelText(text);
+    protected void setHeaderText(String text) {
+        headerPane.setLabelText(text);
     }
 
     @Override

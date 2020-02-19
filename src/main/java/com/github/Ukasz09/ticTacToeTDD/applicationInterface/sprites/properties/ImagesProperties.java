@@ -24,8 +24,7 @@ public class ImagesProperties {
     }
 
     public static Image confetti() {
-        String imagePath = "sprites/confetti.gif";
+        String imagePath = "images/backgrounds/confetti.gif";
         return new Image(imagePath);
     }
-
 }

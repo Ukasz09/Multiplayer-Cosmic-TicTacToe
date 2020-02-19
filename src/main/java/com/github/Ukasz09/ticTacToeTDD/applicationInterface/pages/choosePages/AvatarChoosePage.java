@@ -41,7 +41,7 @@ public class AvatarChoosePage extends ChoosePage {
 
     @Override
     public void update() {
-        setLabelText(DEFAULT_LABEL_TEXT_PREFIX + actualInitializedPlayerNick);
+        setHeaderText(DEFAULT_LABEL_TEXT_PREFIX + actualInitializedPlayerNick);
     }
 
     public ImageView getChosenImage() {

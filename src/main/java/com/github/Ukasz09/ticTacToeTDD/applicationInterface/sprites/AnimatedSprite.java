@@ -3,6 +3,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.FrameStatePositions;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.IKindOfState;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import javafx.scene.image.Image;
@@ -20,6 +21,7 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
         this.actualAnimationState = startedAnimationState;
         setRandomStartedFramePosition(sheetProperty);
         actualCooldownOnFrame = 0;
+        setImageViewVisible(false);
     }
 
     private void setRandomStartedFramePosition(ImageSheetProperty sheetProperty) {
@@ -91,9 +93,5 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
 
     public ImageSheetProperty getSpriteSheetProperty() {
         return spriteSheetProperty;
-    }
-
-    public void setSpriteSheet(Image sheetImage) {
-        spriteSheetProperty.setImageSheet(sheetImage);
     }
 }

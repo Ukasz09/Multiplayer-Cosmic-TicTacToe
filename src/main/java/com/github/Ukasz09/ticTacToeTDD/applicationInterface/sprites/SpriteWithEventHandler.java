@@ -93,4 +93,8 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
     public void setImageViewVisible(boolean visible) {
         spriteImageView.setVisible(visible);
     }
+
+    public ImageView getSpriteImageView() {
+        return spriteImageView;
+    }
 }

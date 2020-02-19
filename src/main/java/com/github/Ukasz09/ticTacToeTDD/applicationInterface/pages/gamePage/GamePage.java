@@ -8,7 +8,9 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.Sprit
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 
 //todo: usuwac view z animacji po skonczeniu
 public class GamePage extends ChoosePage {
@@ -86,8 +88,8 @@ public class GamePage extends ChoosePage {
     public void render() {
         super.render();
         gameBoard.render();
-        renderPlayerInfoPage();
         renderWinnerGamePage();
+        renderPlayerInfoPage();
     }
 
     private void renderPlayerInfoPage() {
@@ -119,15 +121,25 @@ public class GamePage extends ChoosePage {
 
     public void addWinnerGamePage(int winningPlayerIndex) {
         int nextPlayerInfoPaneIndex = (winningPlayerIndex + 1) % playerInfoPane.length;
+        playerInfoPane[nextPlayerInfoPaneIndex].setSignVisible(false);
         playerInfoPane[nextPlayerInfoPaneIndex].removeSignSpriteFromRoot();
         playerInfoPane[nextPlayerInfoPaneIndex].setVisible(false);
-        playerInfoPane[nextPlayerInfoPaneIndex].setSignVisible(false);
-        winnerGamePane = new WinnerGamePane(playerInfoPane[winningPlayerIndex].getWidth(), getHeaderPaneHeight(), playerInfoPane[winningPlayerIndex].getPagePositionX());
+
+        winnerGamePane = new WinnerGamePane(playerInfoPane[winningPlayerIndex].getWidth(),
+                getHeaderPaneHeight(), playerInfoPane[nextPlayerInfoPaneIndex].getPagePositionX(), playerInfoPane[winningPlayerIndex].getPagePositionX());
+        playerInfoPane[winningPlayerIndex].setSignVisible(false);
+        playerInfoPane[winningPlayerIndex].removeSignSpriteFromRoot();
+        playerInfoPane[winningPlayerIndex].addWinButtons();
+        playerInfoPane[winningPlayerIndex].addConfetti(manager.getRightFrameBorder(), manager.getBottomFrameBorder());
+
+        if (playerInfoPane[nextPlayerInfoPaneIndex].getPagePositionX() > 0)
+            setRight(winnerGamePane);
+        else setLeft(winnerGamePane);
     }
 
     public void setWinnerHeaderText(String player) {
         String headerText = WINNER_HEADER_TEXT_PREFIX + player;
-        setLabelText(headerText);
+        setHeaderText(headerText);
     }
 
 }
