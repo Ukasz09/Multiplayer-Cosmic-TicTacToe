@@ -128,9 +128,9 @@ public class ViewManager {
         root.getChildren().remove(iv);
     }
 
-    public void removeAllNodesFromRoot() {
-        int nodeQty = root.getChildren().size();
-        root.getChildren().remove(0, nodeQty);
+    public void clearActionNodes() {
+        int nodesInRootQty = root.getChildren().size();
+        root.getChildren().remove(0, nodesInRootQty);
         root.getChildren().add(canvas);
     }
 

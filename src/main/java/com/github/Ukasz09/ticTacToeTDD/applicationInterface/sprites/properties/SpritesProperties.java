@@ -75,7 +75,7 @@ public class SpritesProperties {
         ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
                 .withImagePath(spritePath)
                 .withSizeOfOneFrame(267, 266)
-                .withDefaultDurationPerOneFrame(4)
+                .withDefaultDurationPerOneFrame(3)
                 .withAddActionState(SpriteStates.STANDBY, 24, 20)
                 .withAddActionState(SpriteStates.NO_ANIMATION, 0, 1)
                 .withAddActionState(SpriteStates.IS_WIN_BOX_ANIMATION, 0, 31)
@@ -90,6 +90,17 @@ public class SpritesProperties {
                 .withSizeOfOneFrame(395, 603)
                 .withDefaultDurationPerOneFrame(3)
                 .withAddActionState(SpriteStates.STANDBY, 0, 69)
+                .build();
+        return sheetProperty;
+    }
+
+    public static ImageSheetProperty garfieldProperty() {
+        String spritePath = "sprites/garfield.png";
+        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
+                .withImagePath(spritePath)
+                .withSizeOfOneFrame(284, 308)
+                .withDefaultDurationPerOneFrame(3)
+                .withAddActionState(SpriteStates.STANDBY, 0, 8)
                 .build();
         return sheetProperty;
     }

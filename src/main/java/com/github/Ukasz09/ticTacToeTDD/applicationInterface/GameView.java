@@ -12,9 +12,10 @@ import javafx.scene.image.ImageView;
 
 public class GameView {
     private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
+    private static final int DEFAULT_PLAYER_ID = 0;
 
     private int playersQty = 0;
-    private int actualPlayerID = 0;
+    private int actualPlayerID = DEFAULT_PLAYER_ID;
     private PlayerViewProperties[] playerViewProperties;
     private ViewManager manager;
     private PagesManager pagesManager;
@@ -89,25 +90,32 @@ public class GameView {
         pagesManager.showHomePage();
     }
 
-    public void showBoardSizeChoosePage() {
-        pagesManager.showBoardSizeChoosePage();
+    public void changeSceneToNewBoardSizeChoosePage() {
+        pagesManager.changeSceneToNewBoardSizeChoosePage();
     }
 
-    public void showNickChoosePage() {
-        pagesManager.showNickChoosePage();
+    public void changeSceneToNewNickChoosePage() {
+        pagesManager.changeSceneToNewNickChoosePage();
     }
 
-    public void showAvatarChoosePage() {
+    public void changeSceneToNewAvatarChoosePage() {
         String firstPlayerNick = playerViewProperties[0].getName();
-        pagesManager.showAvatarChoosePage(firstPlayerNick);
+        pagesManager.changeSceneToNewAvatarChoosePage(firstPlayerNick);
     }
 
-    public void showSignChoosePage() {
+    public void changeSceneToNewSignChoosePage() {
         String firstPlayerNick = playerViewProperties[0].getName();
-        pagesManager.showSignChoosePage(firstPlayerNick);
+        pagesManager.changeSceneToNewSignChoosePage(firstPlayerNick);
     }
 
-    public void showGamePage(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
+    public void changeSceneToNewGameBoardPage() {
+        int boardSize = pagesManager.getGameBoardSize();
+        ImageView avatar1 = getPlayerAvatar(0);
+        ImageView avatar2 = getPlayerAvatar(1);
+        String nick1 = getPlayerNick(0);
+        String nick2 = getPlayerNick(1);
+        ImageSheetProperty sign1 = getPlayerSignSheet(0);
+        ImageSheetProperty sign2 = getPlayerSignSheet(1);
         pagesManager.showGamePage(actualPlayerID, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 
@@ -115,11 +123,7 @@ public class GameView {
 //        pagesManager.initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
 //    }
 
-    public int getGameBoardSize() {
-        return pagesManager.getGameBoardSize();
-    }
-
-    public ImageView getPlayerAvatar(int playerIndex) {
+    private ImageView getPlayerAvatar(int playerIndex) {
         if (playerIndexIsValid(playerIndex))
             return playerViewProperties[playerIndex].getAvatar();
         return null;
@@ -133,13 +137,13 @@ public class GameView {
         pagesManager.addSignToBox(rowIndex, columnIndex, getPlayerSignSheet(actualPlayerID));
     }
 
-    public ImageSheetProperty getPlayerSignSheet(int playerIndex) {
+    private ImageSheetProperty getPlayerSignSheet(int playerIndex) {
         if (playerIndexIsValid(playerIndex))
             return playerViewProperties[playerIndex].getSignSheetProperty();
         return null;
     }
 
-    public String getPlayerNick(int playerIndex) {
+    private String getPlayerNick(int playerIndex) {
         if (playerIndexIsValid(playerIndex))
             return playerViewProperties[playerIndex].getName();
         return null;
@@ -157,15 +161,20 @@ public class GameView {
         pagesManager.changeGridBoxState(state, coordsX, coordsY);
     }
 
-    public void addWinnerGamePage(int winningPlayerIndex) {
-        pagesManager.addWinnerGamePage(winningPlayerIndex);
+    public void changeSceneToWinnerGamePage(int winningPlayerIndex) {
+        pagesManager.changeSceneToWinnerGamePage(winningPlayerIndex, getPlayerNick(winningPlayerIndex));
     }
 
-    public void denyInteractionWithAllBoxes(){
+    public void denyInteractionWithAllBoxes() {
         pagesManager.denyInteractionWithAllBoxes();
     }
 
-    public void setWinnerHeaderText(String player) {
-        pagesManager.setWinnerHeaderText(player);
+
+    public void resetActualPlayerID() {
+        actualPlayerID = DEFAULT_PLAYER_ID;
+    }
+
+    public int getGameBoardSize() {
+        return pagesManager.getGameBoardSize();
     }
 }

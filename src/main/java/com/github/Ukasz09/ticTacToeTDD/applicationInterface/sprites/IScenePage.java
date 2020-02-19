@@ -6,4 +6,6 @@ public interface IScenePage extends IDrawingGraphic {
     boolean playBackgroundSound();
 
     boolean stopBackgroundSound();
+
+    void removeFromActionNode();
 }

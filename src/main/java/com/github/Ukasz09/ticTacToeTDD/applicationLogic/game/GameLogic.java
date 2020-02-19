@@ -11,8 +11,9 @@ public class GameLogic {
     public static final int DEFAULT_BOARD_SIZE = 3;
     public static final char[] DEFAULT_PLAYERS_IDENTIFIERS = {'X', 'O'};
     private static final char EMPTY_BOARD_MARK = '\0';
+    private static final int DEFAULT_PLAYER_ID = 1;
 
-    private int actualPlayerOffset = 1;
+    private int actualPlayerID = DEFAULT_PLAYER_ID;
     private List<Player> players;
     private int boardSize = DEFAULT_BOARD_SIZE;
     private char[][] board;
@@ -53,7 +54,6 @@ public class GameLogic {
             throw new IncorrectBoardSizeException();
         this.marksQtyForWin = Math.max(marksQtyForWin, DEFAULT_MARKS_QTY_FOR_WIN);
 
-
         this.boardSize = boardSize;
         board = new char[boardSize][boardSize];
         for (char[] chars : board)
@@ -82,12 +82,12 @@ public class GameLogic {
         checkAxisIsCorrect(x);
         checkAxisIsCorrect(y);
         checkFieldIsNotMarked(x, y);
-        setBox(x, y, (players.get(actualPlayerOffset)).getIdentifier());
+        setBox(x, y, (players.get(actualPlayerID)).getIdentifier());
         return getResult(x, y);
     }
 
     public void changePlayerToNext() {
-        actualPlayerOffset = ((actualPlayerOffset + 1) % players.size());
+        actualPlayerID = ((actualPlayerID + 1) % players.size());
     }
 
     private void checkAxisIsCorrect(int offset) throws IncorrectFieldException {
@@ -106,20 +106,20 @@ public class GameLogic {
 
     private GameResult getResult(int lastX, int lastY) {
         if (isWin(lastX, lastY))
-            return actualPlayerOffset == 0 ? GameResult.WIN_PLAYER_0 : GameResult.WIN_PLAYER_1;
+            return actualPlayerID == 0 ? GameResult.WIN_PLAYER_0 : GameResult.WIN_PLAYER_1;
         return cantDoAnyMove() ? GameResult.DRAW : GameResult.GAME_NOT_FINISHED;
     }
 
     private boolean isWin(int lastX, int lastY) {
-        return checkHorizontalLineFilled(lastX) || checkVerticalLineFilled(lastY) || checkDiagonalLineFilled(lastX, lastY, (players.get(actualPlayerOffset)).getIdentifier());
+        return checkHorizontalLineFilled(lastX) || checkVerticalLineFilled(lastY) || checkDiagonalLineFilled(lastX, lastY, (players.get(actualPlayerID)).getIdentifier());
     }
 
     private boolean checkHorizontalLineFilled(int lastX) {
-        return straightLineIsFilled(true, lastX, (players.get(actualPlayerOffset)).getIdentifier());
+        return straightLineIsFilled(true, lastX, (players.get(actualPlayerID)).getIdentifier());
     }
 
     private boolean checkVerticalLineFilled(int lastY) {
-        return straightLineIsFilled(false, lastY, (players.get(actualPlayerOffset)).getIdentifier());
+        return straightLineIsFilled(false, lastY, (players.get(actualPlayerID)).getIdentifier());
     }
 
     /**
@@ -155,20 +155,19 @@ public class GameLogic {
     }
 
     private boolean diagonalIsFilled(boolean right, int lastX, int lastY, char byWhichPlayer) {
-        int actualPlayerMarkCount = markedQtyInDiagonalFromGivenFields(true, right, lastX, lastY, byWhichPlayer);
+        int actualPlayerMarkCount = markedQtyInDiagonalFromGivenFields(0, true, right, lastX, lastY, byWhichPlayer);
         int startedOffsetY = right ? lastY - 1 : lastY + 1;
-        actualPlayerMarkCount += markedQtyInDiagonalFromGivenFields(false, right, lastX - 1, startedOffsetY, byWhichPlayer);
+        actualPlayerMarkCount = markedQtyInDiagonalFromGivenFields(actualPlayerMarkCount, false, right, lastX - 1, startedOffsetY, byWhichPlayer);
 
         return actualPlayerMarkCount >= marksQtyForWin;
     }
 
-    private int markedQtyInDiagonalFromGivenFields(boolean down, boolean right, int startedOffsetX, int startedOffsetY, char byWhichPlayer) {
-        int actualPlayerMarkCount = 0;
-        while (actualPlayerMarkCount < marksQtyForWin && !pointIsOutsideTheBoard(startedOffsetX, startedOffsetY)) {
+    private int markedQtyInDiagonalFromGivenFields(int startedPlayerMarkCountQty, boolean down, boolean right, int startedOffsetX, int startedOffsetY, char byWhichPlayer) {
+        while (startedPlayerMarkCountQty < marksQtyForWin && !pointIsOutsideTheBoard(startedOffsetX, startedOffsetY)) {
             if (board[startedOffsetX][startedOffsetY] != byWhichPlayer)
-                return actualPlayerMarkCount;
+                return startedPlayerMarkCountQty;
             addPointToWinningArr(startedOffsetX, startedOffsetY);
-            actualPlayerMarkCount += 1;
+            startedPlayerMarkCountQty += 1;
             if (down) {
                 startedOffsetX += 1;
                 startedOffsetY += right ? 1 : (-1);
@@ -177,7 +176,7 @@ public class GameLogic {
                 startedOffsetY += right ? -1 : (+1);
             }
         }
-        return actualPlayerMarkCount;
+        return startedPlayerMarkCountQty;
     }
 
     private boolean pointIsOutsideTheBoard(int offsetX, int offsetY) {
@@ -207,11 +206,11 @@ public class GameLogic {
     }
 
     public char getLastPlayerSignId() {
-        return (players.get(actualPlayerOffset)).getIdentifier();
+        return (players.get(actualPlayerID)).getIdentifier();
     }
 
     public int getLastPlayerIndex() {
-        return actualPlayerOffset;
+        return actualPlayerID;
     }
 
     public int getPlayersQty() {
@@ -225,5 +224,9 @@ public class GameLogic {
     private void addPointToWinningArr(int coordsX, int coordsY) {
         winningCoords[actualOffsetInWinningCoordsArr % marksQtyForWin].setLocation(coordsX, coordsY);
         actualOffsetInWinningCoordsArr++;
+    }
+
+    public void resetActualPlayerID() {
+        actualPlayerID = DEFAULT_PLAYER_ID;
     }
 }

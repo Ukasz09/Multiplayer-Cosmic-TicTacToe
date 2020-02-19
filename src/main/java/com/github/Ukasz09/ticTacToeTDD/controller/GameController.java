@@ -2,7 +2,6 @@ package com.github.Ukasz09.ticTacToeTDD.controller;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
@@ -11,7 +10,6 @@ import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameResult;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectFieldException;
 import javafx.geometry.Point2D;
-import javafx.scene.image.ImageView;
 
 import java.awt.*;
 
@@ -29,27 +27,24 @@ public class GameController implements IEventKindObserver {
     public void startGame() {
         gameView.startGame(gameLogic.getPlayersQty());
         gameView.attachObserverToPagesManager(this);
-        ViewManager.getInstance().printNodeQty(); //todo
     }
 
     @Override
     public void updateObserver(EventKind eventKind) {
         switch (eventKind) {
             case START_BUTTON_CLICKED: {
-                manager.removeAllNodesFromRoot();
-                gameView.showNickChoosePage();
-                ViewManager.getInstance().printNodeQty(); //todo
+                clearLevel();
+                resetActualPlayerID();
+                gameView.changeSceneToNewNickChoosePage();
             }
             break;
 
             case CHOSEN_VALID_NAME: {
                 boolean hasNextPlayerToUpdate = gameView.updateNextPlayerName();
                 if (!hasNextPlayerToUpdate) {
-                    manager.removeAllNodesFromRoot();
-                    gameView.showAvatarChoosePage();
+                    manager.clearActionNodes();
+                    gameView.changeSceneToNewAvatarChoosePage();
                 }
-
-                ViewManager.getInstance().printNodeQty();
             }
             break;
 
@@ -57,11 +52,9 @@ public class GameController implements IEventKindObserver {
                 gameView.updateNextPlayerAvatar();
                 boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
                 if (!hasNextPlayerToUpdate) {
-                    manager.removeAllNodesFromRoot();
-                    gameView.showSignChoosePage();
+                    manager.clearActionNodes();
+                    gameView.changeSceneToNewSignChoosePage();
                 }
-
-                ViewManager.getInstance().printNodeQty();
             }
             break;
 
@@ -69,55 +62,43 @@ public class GameController implements IEventKindObserver {
                 gameView.updatePlayerSignSheet();
                 boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
                 if (!hasNextPlayerToUpdate) {
-                    manager.removeAllNodesFromRoot();
-                    gameView.showBoardSizeChoosePage();
+                    manager.clearActionNodes();
+                    gameView.changeSceneToNewBoardSizeChoosePage();
                 }
-
-                ViewManager.getInstance().printNodeQty();
             }
             break;
 
-            case BOARD_SIZE_CHOSEN: {
-                manager.removeAllNodesFromRoot();
-                initializeGameBoard();
+            case BOARD_SIZE_CHOSEN:
+            case REPEAT_GAME_BUTTON: {
+                manager.clearActionNodes();
+                resetActualPlayerID();
+                gameView.changeSceneToNewGameBoardPage();
                 try {
                     gameLogic.resetBoard(gameView.getGameBoardSize());
                 } catch (IncorrectBoardSizeException e) {
                     //Unchecked
                 }
-
-                ViewManager.getInstance().printNodeQty();
             }
             break;
             case GAME_BOX_BUTTON_CLICKED: {
-
                 Point2D coords = gameView.getLastChosenBoxCoords();
                 int coordsX = (int) (coords.getX());
                 int coordsY = (int) (coords.getY());
-                if (!checkGameResult(markField(coordsX, coordsY)))
+                boolean gameIsOver = checkGameResult(markField(coordsX, coordsY));
+                if (!gameIsOver)
                     changePlayer();
-
-                ViewManager.getInstance().printNodeQty();
             }
             break;
 
             case END_GAME_BUTTON_CLICKED:
                 ViewManager.getInstance().closeMainStage();
                 break;
-            default:
-                System.out.println("XDD"); //todo: dodac repeat game button event + przetestowac new game button po wygranej
         }
     }
 
-    private void initializeGameBoard() {
-        int boardSize = gameView.getGameBoardSize();
-        ImageView avatar1 = gameView.getPlayerAvatar(0);
-        ImageView avatar2 = gameView.getPlayerAvatar(1);
-        String nick1 = gameView.getPlayerNick(0);
-        String nick2 = gameView.getPlayerNick(1);
-        ImageSheetProperty sign1 = gameView.getPlayerSignSheet(0);
-        ImageSheetProperty sign2 = gameView.getPlayerSignSheet(1);
-        gameView.showGamePage(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
+    private void resetActualPlayerID() {
+        gameView.resetActualPlayerID();
+        gameLogic.resetActualPlayerID();
     }
 
     private GameResult markField(int coordsX, int coordsY) {
@@ -131,17 +112,18 @@ public class GameController implements IEventKindObserver {
     }
 
     /**
-     * @return winner pane is visible or not
+     * @return game is over
      */
     private boolean checkGameResult(GameResult result) {
-        //todo: dac w jedna metode
         if (isWin(result)) {
-            Point[] winningCoords = gameLogic.getWinningCoords();
             gameView.denyInteractionWithAllBoxes();
-            changeGridBoxesState(winningCoords, SpriteStates.IS_WIN_BOX_ANIMATION);
-            int winnerPlayerIndex = gameLogic.getLastPlayerIndex();
-            gameView.addWinnerGamePage(winnerPlayerIndex);
-            gameView.setWinnerHeaderText(gameView.getPlayerNick(winnerPlayerIndex));
+            changeGridBoxesState(gameLogic.getWinningCoords(), SpriteStates.IS_WIN_BOX_ANIMATION);
+            int indexOfWinningPlayer = gameLogic.getLastPlayerIndex();
+            gameView.changeSceneToWinnerGamePage(indexOfWinningPlayer);
+            return true;
+        }
+        if (isDraw(result)) {
+            //todo: pokazac panel remisu
             return true;
         }
         return false;
@@ -149,6 +131,10 @@ public class GameController implements IEventKindObserver {
 
     private boolean isWin(GameResult result) {
         return (result == GameResult.WIN_PLAYER_0 || result == GameResult.WIN_PLAYER_1);
+    }
+
+    private boolean isDraw(GameResult result) {
+        return result == GameResult.DRAW;
     }
 
     private void changeGridBoxesState(Point[] coordsForStateChange, SpriteStates state) {
@@ -159,5 +145,9 @@ public class GameController implements IEventKindObserver {
     private void changePlayer() {
         gameView.changeToNextPlayer();
         gameView.showVisibleOnlyActualPlayer();
+    }
+
+    private void clearLevel() {
+        manager.clearActionNodes();
     }
 }

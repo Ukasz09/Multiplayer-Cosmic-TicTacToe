@@ -44,4 +44,9 @@ public abstract class Page extends BorderPane implements IScenePage {
     public void setSceneVisible(boolean value) {
         setVisible(value);
     }
+
+    @Override
+    public void removeFromActionNode() {
+        manager.removeNode(this);
+    }
 }
