@@ -71,7 +71,7 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private GameBoxButtonSprite getNewBox(int rowIndex, int columnIndex, double startedPositionX, double startedPositionY, double buttonSize, IEventKindObserver observer) {
-        GameBoxButtonSprite box = new GameBoxButtonSprite(rowIndex, columnIndex, buttonSize);
+        GameBoxButtonSprite box = new GameBoxButtonSprite(rowIndex, columnIndex, buttonSize, true);
         setBoxPosition(box, startedPositionX, startedPositionY, rowIndex, columnIndex);
         box.attachObserver(observer);
         addGameBoxOnMouseClickedEvent(box);
@@ -93,7 +93,7 @@ public class GameBoard implements IDrawingGraphic {
 
     public void addSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
         SignButtonSprite sign =
-                new SignButtonSprite(signSheetProperty, getGridButtonSize() * SIGN_TO_BOARD_PROPORTION, false);
+                new SignButtonSprite(signSheetProperty, getGridButtonSize() * SIGN_TO_BOARD_PROPORTION, false, false);
         setSignPosition(sign, rowIndex, columnIndex);
         signButtonSprites.add(sign);
     }
@@ -112,12 +112,20 @@ public class GameBoard implements IDrawingGraphic {
     private void addGameBoxOnMouseClickedEvent(GameBoxButtonSprite box) {
         box.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (box.isActive()) {
-                box.disable();
-                box.changeState(SpriteStates.NO_ANIMATION);
+                box.denyInteractionWithBox();
                 lastChosenBoxCoords = new Point2D(box.getCoordsX(), box.getCoordsY());
                 box.notifyObservers(EventKind.GAME_BOX_BUTTON_CLICKED);
             }
         });
+    }
+
+    public void denyInteractionWithAllBoxes() {
+        if (boxButtonSprites != null) {
+            for (int row = 0; row < boxButtonSprites.length; row++)
+                for (int column = 0; column < boxButtonSprites[0].length; column++)
+                    boxButtonSprites[row][column].denyInteractionWithBox();
+        }
+
     }
 
     public void setVisible(boolean value) {

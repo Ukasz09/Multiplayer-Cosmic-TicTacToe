@@ -93,15 +93,4 @@ public class SpritesProperties {
                 .build();
         return sheetProperty;
     }
-
-    public static ImageSheetProperty confettiProperty() {
-        String spritePath = "sprites/confetti.png";
-        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
-                .withImagePath(spritePath)
-                .withSizeOfOneFrame(480, 480)
-                .withDefaultDurationPerOneFrame(2)
-                .withAddActionState(SpriteStates.STANDBY, 0, 48)
-                .build();
-        return sheetProperty;
-    }
 }

@@ -20,7 +20,6 @@ public class ImageGameBackground extends GameBackground {
 
     //----------------------------------------------------------------------------------------------------------------//
     public void render() {
-        drawRectangle();
         drawBackground();
     }
 
@@ -31,10 +30,5 @@ public class ImageGameBackground extends GameBackground {
 
     private void drawBackground() {
         manager.getGraphicContext().drawImage(backgroundImage, 0, 0, manager.getRightFrameBorder(), manager.getBottomFrameBorder());
-    }
-
-    private void drawRectangle(){
-        manager.getGraphicContext().setFill(Color.BLACK);
-        manager.getGraphicContext().fillRect(0, 0, manager.getRightFrameBorder(), manager.getBottomFrameBorder());
     }
 }

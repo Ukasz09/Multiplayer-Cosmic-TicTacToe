@@ -15,13 +15,13 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
     private double actualFramePositionX;
     private double actualFramePositionY;
 
-    public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheetProperty, FrameStatePositions startedAnimationState) {
-        super(width, height, ImagesProperties.schemeSpriteForImageView(), positionX, positionY);
+    public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheetProperty, FrameStatePositions startedAnimationState,
+                          boolean withImageViewInRoot) {
+        super(width, height, ImagesProperties.schemeSpriteForImageView(), positionX, positionY, withImageViewInRoot);
         this.spriteSheetProperty = sheetProperty;
         this.actualAnimationState = startedAnimationState;
         setRandomStartedFramePosition(sheetProperty);
         actualCooldownOnFrame = 0;
-        setImageViewVisible(false);
     }
 
     private void setRandomStartedFramePosition(ImageSheetProperty sheetProperty) {

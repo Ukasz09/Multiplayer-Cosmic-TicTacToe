@@ -23,8 +23,8 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEv
     private Set<IEventKindObserver> observers;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public AnimatedButtonSprite(double width, double height, ImageSheetProperty sheetProperty) {
-        super(width, height, 0, 0, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY));
+    public AnimatedButtonSprite(double width, double height, ImageSheetProperty sheetProperty, boolean withImageViewInRoot) {
+        super(width, height, 0, 0, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY), withImageViewInRoot);
         observers = new HashSet<>();
     }
 
@@ -68,7 +68,7 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEv
         return newSheet;
     }
 
-    protected Image getHuedSheet() {
-        return getSheetWithEffect(getSpriteSheetProperty().getSheet(), HUE_EFFECT);
-    }
+//    protected Image getHuedSheet() {
+//        return getSheetWithEffect(getSpriteSheetProperty().getSheet(), HUE_EFFECT);
+//    }
 }

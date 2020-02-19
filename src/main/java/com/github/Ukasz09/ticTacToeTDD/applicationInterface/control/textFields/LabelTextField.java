@@ -18,11 +18,11 @@ public class LabelTextField extends GameTextField {
             setBackground(Background.EMPTY);
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public void setDefaultFontColor() {
         setFontColor(DEFAULT_FONT_COLOR_CSS);
     }
 
-    //----------------------------------------------------------------------------------------------------------------//
     public void maximizeWidth() {
         setMinWidth(manager.getRightFrameBorder());
         setWidth(manager.getRightFrameBorder());

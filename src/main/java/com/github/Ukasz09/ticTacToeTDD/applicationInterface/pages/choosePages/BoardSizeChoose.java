@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class BoardSizeChoose extends ChoosePage {
     private static final String HEADER_TEXT_PREFIX = "Choose board size ";
     private static final double HORIZONTAL_GAP_PROPORTION = 50 / 1920d;
-    private static final int[] AVAILABLE_BOARD_SIZES = {3, 5, 7, 9};
+    private static final int[] AVAILABLE_BOARD_SIZES = {3, 5, 7};
 
     private int actualChosenBoardSize = 0;
 

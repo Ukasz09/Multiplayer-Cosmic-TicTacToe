@@ -5,8 +5,8 @@ import javafx.scene.image.Image;
 public abstract class ImageSprite extends SpriteWithEventHandler {
     private Image spriteImage;
 
-    public ImageSprite(double width, double height, Image spriteImage, double positionX, double positionY) {
-        super(width, height, positionX, positionY);
+    public ImageSprite(double width, double height, Image spriteImage, double positionX, double positionY, boolean withImageViewInRoot) {
+        super(width, height, positionX, positionY, withImageViewInRoot);
         this.spriteImage = spriteImage;
     }
 

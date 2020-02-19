@@ -13,35 +13,33 @@ public class SignButtonSprite extends AnimatedButtonSprite {
     public final static double WIDTH_TO_FRAME_PROPORTION = 15 / 192d;
     private static final Effect EFFECT_FOR_DISABLE_STATUS = new Lighting(new Light.Distant(10, 10, Color.GRAY));
 
-    private final Image sheetForDisableStatus;
-    private final Image normalSheet;
     private Image signSheetToRender;
+    private Image disableSignSheetToRender = null;
+    private Image normalSheet;
     private boolean isVisible = true;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public SignButtonSprite(ImageSheetProperty sheetProperty) {
-        this(sheetProperty, false);
+    public SignButtonSprite(ImageSheetProperty sheetProperty, boolean huedColor, boolean withImageViewInRoot) {
+        this(sheetProperty, ViewManager.getInstance().getScaledWidth(WIDTH_TO_FRAME_PROPORTION), huedColor, withImageViewInRoot);
     }
 
-    public SignButtonSprite(ImageSheetProperty sheetProperty, boolean huedColor) {
-        this(sheetProperty, ViewManager.getInstance().getScaledWidth(WIDTH_TO_FRAME_PROPORTION), huedColor);
-    }
-
-    public SignButtonSprite(ImageSheetProperty sheetProperty, double size, boolean huedColor) {
-        super(size, size, sheetProperty);
-        if (huedColor) {
-            normalSheet = getHuedSheet();
-            sheetProperty.setImageSheet(normalSheet);
-        } else normalSheet = sheetProperty.getSheet();
+    public SignButtonSprite(ImageSheetProperty sheetProperty, double size, boolean huedColor, boolean withImageViewInRoot) {
+        super(size, size, sheetProperty, withImageViewInRoot);
+//        if (huedColor) {
+//            normalSheet = getHuedSheet();
+//            sheetProperty.setImageSheet(normalSheet);
+//        } else
+        normalSheet = sheetProperty.getSheet();
         signSheetToRender = normalSheet;
-        sheetForDisableStatus = getSheetWithEffect(normalSheet, EFFECT_FOR_DISABLE_STATUS);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
     @Override
     public void disable() {
         super.disable();
-        signSheetToRender = sheetForDisableStatus;
+        if (disableSignSheetToRender == null)
+            disableSignSheetToRender = getSheetWithEffect(signSheetToRender, EFFECT_FOR_DISABLE_STATUS);
+        signSheetToRender = disableSignSheetToRender;
     }
 
     @Override

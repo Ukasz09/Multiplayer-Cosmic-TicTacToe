@@ -14,7 +14,6 @@ import java.util.Set;
 
 public abstract class ChoosePage extends Page implements IEventKindObservable {
     protected static final Image DEFAULT_BACKGROUND = ImagesProperties.startGameBackground();
-    protected static final String DEFAULT_FONT_COLOR = "lightgray";
 
     private CenteredPane contentPanel;
     private LabelPane headerPane;

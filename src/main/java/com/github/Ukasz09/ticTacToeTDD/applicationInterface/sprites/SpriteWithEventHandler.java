@@ -13,27 +13,16 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
     private ImageView spriteImageView;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public SpriteWithEventHandler(double width, double height, double positionX, double positionY) {
+    public SpriteWithEventHandler(double width, double height, double positionX, double positionY, boolean withImageViewInRoot) {
         super(width, height, positionX, positionY);
-        makeAndAddImageView();
+        if (withImageViewInRoot)
+            makeAndAddImageView();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void makeAndAddImageView() {
         makeImageView();
         addImageViewToSceneRoot();
-    }
-
-    @Override
-    public void update() {
-        updateImageView();
-    }
-
-    private void updateImageView() {
-        if (spriteImageView != null) {
-            setImageViewPosition(spriteImageView, positionX, positionY);
-            setImageViewSize(spriteImageView, width, height);
-        }
     }
 
     private void makeImageView() {
@@ -43,7 +32,7 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
 
     private void setSamePropertyToImageViewAsImage(ImageView iv) {
         iv.setOpacity(0);
-        iv.setVisible(true);
+        iv.setVisible(false); //todo: ?
         setImageViewPosition(iv, positionX, positionY);
         setImageViewSize(iv, width, height);
     }
@@ -56,6 +45,19 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
     private void setImageViewSize(ImageView iv, double width, double height) {
         iv.setFitWidth(width);
         iv.setFitHeight(height);
+    }
+
+
+    @Override
+    public void update() {
+        updateImageView();
+    }
+
+    private void updateImageView() {
+        if (spriteImageView != null) {
+            setImageViewPosition(spriteImageView, positionX, positionY);
+            setImageViewSize(spriteImageView, width, height);
+        }
     }
 
     private void addImageViewToSceneRoot() {
@@ -92,9 +94,5 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
     @Override
     public void setImageViewVisible(boolean visible) {
         spriteImageView.setVisible(visible);
-    }
-
-    public ImageView getSpriteImageView() {
-        return spriteImageView;
     }
 }

@@ -38,8 +38,6 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
     private final double headerHeight;
     private final double pagePositionX;
     private Set<IEventKindObserver> observers;
-    private Confetti confetti;
-    //    private Confetti confetti = null;
 
     //----------------------------------------------------------------------------------------------------------------//
     public PlayerInfoPage(double width, double headerHeight, double pagePositionX) {
@@ -76,7 +74,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
 
     private void addSign(ImageSheetProperty signSheetProperty) {
         double signSize = getAvatarSize() / 2;
-        this.sign = new SignButtonSprite(signSheetProperty, signSize, false);
+        this.sign = new SignButtonSprite(signSheetProperty, signSize, false, false);
         sign.setPositionX(getSignCenterPositionX(signSize));
         sign.setPositionY(getSignPositionY());
     }
@@ -96,7 +94,6 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
     @Override
     public void render() {
         sign.render();
-        if (confetti != null) confetti.render();
     }
 
     @Override
@@ -160,10 +157,6 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
         Button button = new GameControlButton("END GAME");
         button.setOnMouseClicked(event -> notifyObservers(EventKind.END_GAME_BUTTON_CLICKED));
         getChildren().add(button);
-    }
-
-    public void addConfetti(double windowWidth, double windowHeight) {
-        confetti = new Confetti(windowWidth, windowHeight, 0, 0);
     }
 
     @Override

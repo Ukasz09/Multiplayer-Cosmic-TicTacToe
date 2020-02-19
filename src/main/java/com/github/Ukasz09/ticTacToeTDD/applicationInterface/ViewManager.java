@@ -65,7 +65,7 @@ public class ViewManager {
         });
     }
 
-    public void closeMainStage(){
+    public void closeMainStage() {
         mainStage.close();
     }
 
@@ -124,8 +124,18 @@ public class ViewManager {
         root.getChildren().add(iv);
     }
 
-    public void removeNode(Node iv) throws NullPointerException {
+    public void removeNode(Node iv) {
         root.getChildren().remove(iv);
+    }
+
+    public void removeAllNodesFromRoot() {
+        int nodeQty = root.getChildren().size();
+        root.getChildren().remove(0, nodeQty);
+        root.getChildren().add(canvas);
+    }
+
+    public void printNodeQty() {
+        System.out.println(root.getChildren().size());
     }
 
     public Stage getMainStage() {

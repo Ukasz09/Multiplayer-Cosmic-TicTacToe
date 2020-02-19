@@ -1,7 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IScenePage;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PagesManager implements IEventKindObservable, IEventKindObserver {
-    private IScenePage actualScene;
+    private Page actualScene;
     private Set<IEventKindObserver> observers;
 
     private GamePage gamePage;
@@ -29,19 +29,20 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     //----------------------------------------------------------------------------------------------------------------//
     public PagesManager() {
         observers = new HashSet<>();
-        initializeBoardSizeChoosePage();
+        //todo: nie inicjalizowac co nie trzeba
+//        initializeBoardSizeChoosePage();
         initializeStartGamePage();
-        initializeNameChoosePage();
-        initializeAvatarsChoosePage();
-        initializeSignChoosePage();
-        initializeGamePanel();
+//        initializeNameChoosePage();
+//        initializeAvatarsChoosePage();
+//        initializeSignChoosePage();
+//        initializeGamePanel();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
     private void initializeBoardSizeChoosePage() {
         boardSizeChoosePage = new BoardSizeChoose();
         boardSizeChoosePage.attachObserver(this);
-        boardSizeChoosePage.setVisible(false);
+//        boardSizeChoosePage.setVisible(false);
     }
 
     private void initializeStartGamePage() {
@@ -50,7 +51,11 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         startGamePage.setVisible(false);
     }
 
-    private void initializeNameChoosePage() {
+    private void removeActualSceneFromRoot() {
+        ViewManager.getInstance().removeNode(actualScene);
+    }
+
+    private void initializeNickChoosePage() {
         nickChoosePage = new NickChoosePage();
         nickChoosePage.attachObserver(this);
         nickChoosePage.setVisible(false);
@@ -68,8 +73,9 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         signChoosePanel.setVisible(false);
     }
 
-    private void initializeGamePanel() {
+    private void initializeGamePage() {
         gamePage = new GamePage();
+        gamePage.attachObserver(this);
         gamePage.setVisible(false);
     }
 
@@ -82,42 +88,53 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void setSceneToHomePage() {
-        actualScene = startGamePage;
+        if (actualScene != startGamePage) {
+            removeActualSceneFromRoot();
+            actualScene = startGamePage;
+        }
     }
 
     public void showBoardSizeChoosePage() {
-        setActualSceneVisible(false);
+        initializeBoardSizeChoosePage();
+        removeActualSceneFromRoot();
         actualScene = boardSizeChoosePage;
         setActualSceneVisible(true);
     }
 
     public void showNickChoosePage() {
-        setActualSceneVisible(false);
+        initializeNickChoosePage();
+        removeActualSceneFromRoot();
         actualScene = nickChoosePage;
         setActualSceneVisible(true);
     }
 
     public void showAvatarChoosePage(String firstPlayerNick) {
-        setActualSceneVisible(false);
+        initializeAvatarsChoosePage();
+        removeActualSceneFromRoot();
         avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
         actualScene = avatarChoosePage;
         setActualSceneVisible(true);
     }
 
     public void setActualInitializedPlayerNick(String firstPlayerNick) {
-        avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
-        signChoosePanel.setActualInitializedPlayerNick(firstPlayerNick);
+        if (avatarChoosePage != null)
+            avatarChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
+        if (signChoosePanel != null)
+            signChoosePanel.setActualInitializedPlayerNick(firstPlayerNick);
     }
 
     public void showSignChoosePage(String firstPlayerNick) {
-        setActualSceneVisible(false);
+        initializeSignChoosePage();
+        removeActualSceneFromRoot();
         signChoosePanel.setActualInitializedPlayerNick(firstPlayerNick);
         actualScene = signChoosePanel;
         setActualSceneVisible(true);
     }
 
-    public void showGamePage(int startedPlayerIndex) {
-        setActualSceneVisible(false);
+    public void showGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
+        initializeGamePage();
+        initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
+        removeActualSceneFromRoot();
         gamePage.showGameBoard(true);
         gamePage.showVisibleOnlyActualPlayer(startedPlayerIndex);
         actualScene = gamePage;
@@ -205,6 +222,10 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
 
     public void addWinnerGamePage(int winningPlayerIndex) {
         gamePage.addWinnerGamePage(winningPlayerIndex);
+    }
+
+    public void denyInteractionWithAllBoxes(){
+        gamePage.denyInteractionWithAllBoxes();
     }
 
     public void setWinnerHeaderText(String player) {

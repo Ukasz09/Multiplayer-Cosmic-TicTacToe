@@ -107,13 +107,13 @@ public class GameView {
         pagesManager.showSignChoosePage(firstPlayerNick);
     }
 
-    public void showGamePage() {
-        pagesManager.showGamePage(actualPlayerID);
+    public void showGamePage(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
+        pagesManager.showGamePage(actualPlayerID, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 
-    public void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
-        pagesManager.initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
-    }
+//    private void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
+//        pagesManager.initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
+//    }
 
     public int getGameBoardSize() {
         return pagesManager.getGameBoardSize();
@@ -153,12 +153,16 @@ public class GameView {
         pagesManager.showVisibleOnlyActualPlayer(actualPlayerID);
     }
 
-    public void changeGridBoxState(SpriteStates state,  int coordsX, int coordsY){
-        pagesManager.changeGridBoxState(state,coordsX,coordsY);
+    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
+        pagesManager.changeGridBoxState(state, coordsX, coordsY);
     }
 
-    public void addWinnerGamePage(int winningPlayerIndex){
+    public void addWinnerGamePage(int winningPlayerIndex) {
         pagesManager.addWinnerGamePage(winningPlayerIndex);
+    }
+
+    public void denyInteractionWithAllBoxes(){
+        pagesManager.denyInteractionWithAllBoxes();
     }
 
     public void setWinnerHeaderText(String player) {

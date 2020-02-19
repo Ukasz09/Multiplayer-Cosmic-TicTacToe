@@ -4,16 +4,19 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.Ch
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.WinnerGamePane;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
 //todo: usuwac view z animacji po skonczeniu
-public class GamePage extends ChoosePage {
+public class GamePage extends ChoosePage implements IEventKindObserver {
     private static final String GAME_HEADER_TEXT = "Tic-Tac-Toe";
     private static final String WINNER_HEADER_TEXT_PREFIX = "Winner: ";
 
@@ -48,10 +51,12 @@ public class GamePage extends ChoosePage {
             playerInfoPane[0] = new PlayerInfoPage(pageWidth, getHeaderPaneHeight(), 0);
             setLeft(playerInfoPane[0]);
             playerInfoPane[0].initialize(avatar, nick, signSheetProperty);
+            playerInfoPane[0].attachObserver(this);
         } else {
             playerInfoPane[1] = new PlayerInfoPage(pageWidth, getHeaderPaneHeight(), manager.getRightFrameBorder() - pageWidth);
             setRight(playerInfoPane[1]);
             playerInfoPane[1].initialize(avatar, nick, signSheetProperty);
+            playerInfoPane[1].attachObserver(this);
         }
 
     }
@@ -130,7 +135,7 @@ public class GamePage extends ChoosePage {
         playerInfoPane[winningPlayerIndex].setSignVisible(false);
         playerInfoPane[winningPlayerIndex].removeSignSpriteFromRoot();
         playerInfoPane[winningPlayerIndex].addWinButtons();
-        playerInfoPane[winningPlayerIndex].addConfetti(manager.getRightFrameBorder(), manager.getBottomFrameBorder());
+
 
         if (playerInfoPane[nextPlayerInfoPaneIndex].getPagePositionX() > 0)
             setRight(winnerGamePane);
@@ -142,4 +147,12 @@ public class GamePage extends ChoosePage {
         setHeaderText(headerText);
     }
 
+    public void denyInteractionWithAllBoxes() {
+        gameBoard.denyInteractionWithAllBoxes();
+    }
+
+    @Override
+    public void updateObserver(EventKind eventKind) {
+        notifyObservers(eventKind);
+    }
 }

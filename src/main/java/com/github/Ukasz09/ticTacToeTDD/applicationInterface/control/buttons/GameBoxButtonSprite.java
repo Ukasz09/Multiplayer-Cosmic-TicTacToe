@@ -21,8 +21,8 @@ public class GameBoxButtonSprite extends AnimatedButtonSprite {
     private int coordsY;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameBoxButtonSprite(int coordsX, int coordsY, double buttonSize) {
-        super(buttonSize, buttonSize, SHEET_PROPERTY);
+    public GameBoxButtonSprite(int coordsX, int coordsY, double buttonSize, boolean withImageViewInRoot) {
+        super(buttonSize, buttonSize, SHEET_PROPERTY, withImageViewInRoot);
         this.coordsX = coordsX;
         this.coordsY = coordsY;
     }
@@ -34,5 +34,11 @@ public class GameBoxButtonSprite extends AnimatedButtonSprite {
 
     public int getCoordsY() {
         return coordsY;
+    }
+
+    public void denyInteractionWithBox() {
+        disable();
+        removeNodeFromRoot();
+        changeState(SpriteStates.NO_ANIMATION);
     }
 }
