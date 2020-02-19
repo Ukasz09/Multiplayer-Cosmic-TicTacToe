@@ -18,12 +18,14 @@ public class GameController implements IEventKindObserver {
     private GameLogic gameLogic;
     private ViewManager manager;
 
+    //----------------------------------------------------------------------------------------------------------------//
     public GameController(GameView gameView, GameLogic gameLogic) {
         this.gameView = gameView;
         this.gameLogic = gameLogic;
         this.manager = ViewManager.getInstance();
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public void startGame() {
         gameView.startGame(gameLogic.getPlayersQty());
         gameView.attachObserverToPagesManager(this);
@@ -42,7 +44,7 @@ public class GameController implements IEventKindObserver {
             case CHOSEN_VALID_NAME: {
                 boolean hasNextPlayerToUpdate = gameView.updateNextPlayerName();
                 if (!hasNextPlayerToUpdate) {
-                    manager.clearActionNodes();
+                    clearLevel();
                     gameView.changeSceneToNewAvatarChoosePage();
                 }
             }
@@ -52,7 +54,7 @@ public class GameController implements IEventKindObserver {
                 gameView.updateNextPlayerAvatar();
                 boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
                 if (!hasNextPlayerToUpdate) {
-                    manager.clearActionNodes();
+                    clearLevel();
                     gameView.changeSceneToNewSignChoosePage();
                 }
             }
@@ -62,7 +64,7 @@ public class GameController implements IEventKindObserver {
                 gameView.updatePlayerSignSheet();
                 boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
                 if (!hasNextPlayerToUpdate) {
-                    manager.clearActionNodes();
+                    clearLevel();
                     gameView.changeSceneToNewBoardSizeChoosePage();
                 }
             }
@@ -70,7 +72,7 @@ public class GameController implements IEventKindObserver {
 
             case BOARD_SIZE_CHOSEN:
             case REPEAT_GAME_BUTTON: {
-                manager.clearActionNodes();
+                clearLevel();
                 resetActualPlayerID();
                 gameView.changeSceneToNewGameBoardPage();
                 try {
@@ -85,13 +87,15 @@ public class GameController implements IEventKindObserver {
                 int coordsX = (int) (coords.getX());
                 int coordsY = (int) (coords.getY());
                 boolean gameIsOver = checkGameResult(markField(coordsX, coordsY));
-                if (!gameIsOver)
-                    changePlayer();
+                if (!gameIsOver) {
+                    gameView.changeToNextPlayer();
+                    gameView.updateGamePage();
+                }
             }
             break;
 
             case END_GAME_BUTTON_CLICKED:
-                ViewManager.getInstance().closeMainStage();
+                manager.closeMainStage();
                 break;
         }
     }
@@ -104,7 +108,7 @@ public class GameController implements IEventKindObserver {
     private GameResult markField(int coordsX, int coordsY) {
         try {
             GameResult result = gameLogic.markField(coordsX, coordsY);
-            gameView.addSignToBox(coordsX, coordsY);
+            gameView.addPlayerSignToBox(coordsX, coordsY);
             return result;
         } catch (IncorrectFieldException e) {
             return GameResult.GAME_NOT_FINISHED;
@@ -122,10 +126,12 @@ public class GameController implements IEventKindObserver {
             gameView.changeSceneToWinnerGamePage(indexOfWinningPlayer);
             return true;
         }
+
         if (isDraw(result)) {
             //todo: pokazac panel remisu
             return true;
         }
+
         return false;
     }
 
@@ -133,18 +139,13 @@ public class GameController implements IEventKindObserver {
         return (result == GameResult.WIN_PLAYER_0 || result == GameResult.WIN_PLAYER_1);
     }
 
-    private boolean isDraw(GameResult result) {
-        return result == GameResult.DRAW;
-    }
-
     private void changeGridBoxesState(Point[] coordsForStateChange, SpriteStates state) {
         for (Point point : coordsForStateChange)
             gameView.changeGridBoxState(state, (int) (point.getX()), (int) (point.getY()));
     }
 
-    private void changePlayer() {
-        gameView.changeToNextPlayer();
-        gameView.showVisibleOnlyActualPlayer();
+    private boolean isDraw(GameResult result) {
+        return result == GameResult.DRAW;
     }
 
     private void clearLevel() {

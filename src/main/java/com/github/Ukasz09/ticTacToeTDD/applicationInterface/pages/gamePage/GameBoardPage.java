@@ -4,16 +4,12 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.Ch
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.WinnerGamePane;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 
 //todo: usuwac view z animacji po skonczeniu
 public class GameBoardPage extends ChoosePage implements IEventKindObserver {
@@ -45,20 +41,20 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
         }
     }
 
-    public void initializePlayerInfoPage(ImageView avatar, String nick, ImageSheetProperty signSheetProperty, boolean left) {
-        double pageWidth = (manager.getRightFrameBorder() - gameBoard.getWidth()) / 2;
-        if (left) {
-            playerInfoPane[0] = new PlayerInfoPage(pageWidth, getHeaderPaneHeight(), 0);
-            setLeft(playerInfoPane[0]);
-            playerInfoPane[0].initialize(avatar, nick, signSheetProperty);
-            playerInfoPane[0].attachObserver(this);
+    public boolean initializePlayerInfoPage(ImageView avatar, String nick, ImageSheetProperty signSheetProperty, int playerIndex) {
+        if (playerIndex < 0)
+            return false;
+        double infoPageWidth = (manager.getRightFrameBorder() - gameBoard.getWidth()) / 2;
+        if (playerIndex == 0) {
+            playerInfoPane[playerIndex] = new PlayerInfoPage(infoPageWidth, getHeaderPaneHeight(), 0);
+            setLeft(playerInfoPane[playerIndex]);
         } else {
-            playerInfoPane[1] = new PlayerInfoPage(pageWidth, getHeaderPaneHeight(), manager.getRightFrameBorder() - pageWidth);
-            setRight(playerInfoPane[1]);
-            playerInfoPane[1].initialize(avatar, nick, signSheetProperty);
-            playerInfoPane[1].attachObserver(this);
+            playerInfoPane[playerIndex] = new PlayerInfoPage(infoPageWidth, getHeaderPaneHeight(), manager.getRightFrameBorder() - infoPageWidth);
+            setRight(playerInfoPane[playerIndex]);
         }
-
+        playerInfoPane[playerIndex].initialize(avatar, nick, signSheetProperty);
+        playerInfoPane[playerIndex].attachObserver(this);
+        return true;
     }
 
     @Override
@@ -111,8 +107,8 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
         return gameBoard.getLastChosenBoxCoords();
     }
 
-    public void addSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
-        gameBoard.addSignToBox(rowIndex, columnIndex, signSheetProperty);
+    public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
+        gameBoard.addPlayerSignToBox(rowIndex, columnIndex, signSheetProperty);
     }
 
     public void showVisibleOnlyActualPlayer(int playerIndex) {

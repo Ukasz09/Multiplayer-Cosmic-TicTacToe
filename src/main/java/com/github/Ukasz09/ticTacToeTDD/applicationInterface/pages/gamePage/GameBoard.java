@@ -91,7 +91,7 @@ public class GameBoard implements IDrawingGraphic {
         return startedPosition + columnIndex * buttonHeight;
     }
 
-    public void addSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
+    public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
         SignButtonSprite sign =
                 new SignButtonSprite(signSheetProperty, getGridButtonSize() * SIGN_TO_BOARD_PROPORTION, false, false);
         setSignPosition(sign, rowIndex, columnIndex);

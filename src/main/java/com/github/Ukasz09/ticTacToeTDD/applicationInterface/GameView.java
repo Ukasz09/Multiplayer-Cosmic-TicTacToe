@@ -14,10 +14,10 @@ public class GameView {
     private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
     private static final int DEFAULT_PLAYER_ID = 0;
 
+    private ViewManager manager;
     private int playersQty = 0;
     private int actualPlayerID = DEFAULT_PLAYER_ID;
     private PlayerViewProperties[] playerViewProperties;
-    private ViewManager manager;
     private PagesManager pagesManager;
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -29,9 +29,10 @@ public class GameView {
         }
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public GameView() {
         manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, false);
+        manager.initialize(APPLICATION_TITLE, true);
         pagesManager = new PagesManager();
     }
 
@@ -52,7 +53,19 @@ public class GameView {
 
     public boolean updateNextPlayerName() {
         playerViewProperties[actualPlayerID].setName(pagesManager.getLastChosenCorrectName());
-        return changeIdOfInitializedPlayerToNext();
+        return setActualPlayerIDToNext();
+    }
+
+    /**
+     * @return actual player index != 0
+     */
+    private boolean setActualPlayerIDToNext() {
+        actualPlayerID++;
+        if (actualPlayerID >= playersQty) {
+            actualPlayerID = 0;
+            return false;
+        }
+        return true;
     }
 
     public void updateNextPlayerAvatar() {
@@ -64,30 +77,13 @@ public class GameView {
     }
 
     public boolean changeToNextPlayer() {
-        boolean hasNextPlayer = changeIdOfInitializedPlayerToNext();
+        boolean hasNextPlayer = setActualPlayerIDToNext();
         pagesManager.setActualInitializedPlayerNick(playerViewProperties[actualPlayerID].getName());
         return hasNextPlayer;
     }
 
-    private boolean changeIdOfInitializedPlayerToNext() {
-        actualPlayerID++;
-        if (actualPlayerID >= playersQty) {
-            actualPlayerID = 0;
-            return false;
-        }
-        return true;
-    }
-
     public void attachObserverToPagesManager(IEventKindObserver observer) {
         pagesManager.attachObserver(observer);
-    }
-
-    public void detachObserverToPagesManager(IEventKindObserver observer) {
-        pagesManager.detachObserver(observer);
-    }
-
-    public void showHomePage() {
-        pagesManager.showHomePage();
     }
 
     public void changeSceneToNewBoardSizeChoosePage() {
@@ -119,10 +115,36 @@ public class GameView {
         pagesManager.showGamePage(actualPlayerID, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 
-//    private void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
-//        pagesManager.initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
-//    }
 
+    public void addPlayerSignToBox(int rowIndex, int columnIndex) {
+        pagesManager.addPlayerSignToBox(rowIndex, columnIndex, getPlayerSignSheet(actualPlayerID));
+    }
+
+    public void updateGamePage() {
+        pagesManager.showVisibleOnlyActualPlayer(actualPlayerID);
+    }
+
+    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
+        pagesManager.changeGridBoxState(state, coordsX, coordsY);
+    }
+
+    public void changeSceneToWinnerGamePage(int winningPlayerIndex) {
+        pagesManager.changeSceneToWinnerGamePage(winningPlayerIndex, getPlayerNick(winningPlayerIndex));
+    }
+
+    public void denyInteractionWithAllBoxes() {
+        pagesManager.denyInteractionWithAllBoxes();
+    }
+
+    public void resetActualPlayerID() {
+        actualPlayerID = DEFAULT_PLAYER_ID;
+    }
+
+    public int getGameBoardSize() {
+        return pagesManager.getGameBoardSize();
+    }
+
+    //----------------------------------------------------------------------------------------------------------------//
     private ImageView getPlayerAvatar(int playerIndex) {
         if (playerIndexIsValid(playerIndex))
             return playerViewProperties[playerIndex].getAvatar();
@@ -131,10 +153,6 @@ public class GameView {
 
     public Point2D getLastChosenBoxCoords() {
         return pagesManager.getLastChosenBoxCoords();
-    }
-
-    public void addSignToBox(int rowIndex, int columnIndex) {
-        pagesManager.addSignToBox(rowIndex, columnIndex, getPlayerSignSheet(actualPlayerID));
     }
 
     private ImageSheetProperty getPlayerSignSheet(int playerIndex) {
@@ -151,30 +169,5 @@ public class GameView {
 
     private boolean playerIndexIsValid(int playerIndex) {
         return (playerIndex >= 0 && playerIndex < playerViewProperties.length);
-    }
-
-    public void showVisibleOnlyActualPlayer() {
-        pagesManager.showVisibleOnlyActualPlayer(actualPlayerID);
-    }
-
-    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
-        pagesManager.changeGridBoxState(state, coordsX, coordsY);
-    }
-
-    public void changeSceneToWinnerGamePage(int winningPlayerIndex) {
-        pagesManager.changeSceneToWinnerGamePage(winningPlayerIndex, getPlayerNick(winningPlayerIndex));
-    }
-
-    public void denyInteractionWithAllBoxes() {
-        pagesManager.denyInteractionWithAllBoxes();
-    }
-
-
-    public void resetActualPlayerID() {
-        actualPlayerID = DEFAULT_PLAYER_ID;
-    }
-
-    public int getGameBoardSize() {
-        return pagesManager.getGameBoardSize();
     }
 }
