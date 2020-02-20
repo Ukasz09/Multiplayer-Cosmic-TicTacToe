@@ -16,10 +16,10 @@ public class EditableTextField extends GameTextField {
 
     //----------------------------------------------------------------------------------------------------------------//
     public EditableTextField(String promptText) {
-        super();
+        super(true);
         setPromptText(promptText);
         setDefaultEvents();
-        setAlignment(Pos.CENTER);
+        setEditable(true);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -29,7 +29,7 @@ public class EditableTextField extends GameTextField {
         setOnMouseExited(event -> setEffect(null));
     }
 
-    public void setDefaultIncorrectDataEffect() {
+    public void applyIncorrectDataEffect() {
         setEffect(DEFAULT_INCORRECT_DATA_EFFECT);
     }
 }

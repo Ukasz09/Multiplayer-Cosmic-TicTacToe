@@ -35,3 +35,4 @@ fabric.properties
 #Not used staff and others
 *.lnk
 *.iml
+*.log

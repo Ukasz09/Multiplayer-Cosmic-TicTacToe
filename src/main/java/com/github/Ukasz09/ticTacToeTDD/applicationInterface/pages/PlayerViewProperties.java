@@ -13,20 +13,15 @@ public class PlayerViewProperties {
     private ImageView avatar;
     private ImageSheetProperty signSheetProperty;
     private String name;
-    private int winQty = 0;
 
-    public PlayerViewProperties(ImageView avatar, ImageSheetProperty signSheetProperty, String name) {
-        this.avatar = avatar;
-        this.signSheetProperty = signSheetProperty;
-        this.name = name;
-    }
-
+    //----------------------------------------------------------------------------------------------------------------//
     public PlayerViewProperties() {
         this.avatar = DEFAULT_AVATAR;
         this.signSheetProperty = DEFAULT_SIGN_SHEET_PROPERTY;
         this.name = DEFAULT_NAME;
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public void setAvatar(ImageView avatar) {
         this.avatar = avatar;
     }
@@ -37,10 +32,6 @@ public class PlayerViewProperties {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setWinQty(int winQty) {
-        this.winQty = winQty;
     }
 
     public String getName() {

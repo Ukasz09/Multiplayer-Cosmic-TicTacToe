@@ -10,7 +10,7 @@ import javafx.scene.input.KeyCode;
 public class NickChoosePage extends ChoosePage {
     private static final String HEADER_TEXT_PREFIX = "Choose name of player no. ";
     private static final int FIRST_PLAYER_NUMBER = 1;
-    private static final String DEFAULT_PROMPT_TEXT = "Choose nick ... ";
+    private static final String DEFAULT_PROMPT_TEXT = "Your nickname ";
 
     private int actualInitializedPlayerNumber = FIRST_PLAYER_NUMBER;
     private String lastChosenCorrectName = null;
@@ -21,6 +21,7 @@ public class NickChoosePage extends ChoosePage {
         initializeTextField();
     }
 
+    //-----------------------------------------------------------------------------------------------------------------//
     private void initializeTextField() {
         EditableTextField textField = new EditableTextField(DEFAULT_PROMPT_TEXT);
         setOnEnterKeyPressedEvent(textField);
@@ -30,16 +31,23 @@ public class NickChoosePage extends ChoosePage {
     private void setOnEnterKeyPressedEvent(EditableTextField textField) {
         setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                String textFromTextField = textField.getText();
-                if (UserNameValidator.validate(textFromTextField) && !textFromTextField.equals(lastChosenCorrectName)) {
-                    lastChosenCorrectName = textFromTextField;
-                    actualInitializedPlayerNumber++;
-                    updateLabelText();
-                    clearTextField(textField);
-                    notifyObservers(EventKind.CHOSEN_VALID_NAME);
-                } else textField.setDefaultIncorrectDataEffect();
+                if (usernameIsValid(textField.getText()))
+                    actionWhenCorrectDataInTextField(textField);
+                else textField.applyIncorrectDataEffect();
             }
         });
+    }
+
+    private boolean usernameIsValid(String username) {
+        return (UserNameValidator.validate(username) && !username.equals(lastChosenCorrectName));
+    }
+
+    private void actionWhenCorrectDataInTextField(EditableTextField textField) {
+        lastChosenCorrectName = textField.getText();
+        actualInitializedPlayerNumber++;
+        updateLabelText();
+        clearTextField(textField);
+        notifyObservers(EventKind.CHOSEN_VALID_NAME);
     }
 
     private void updateLabelText() {

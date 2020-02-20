@@ -1,18 +1,18 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.IBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IScenePage;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.GameBackground;
 import javafx.scene.layout.*;
 
 public abstract class Page extends BorderPane implements IScenePage {
-    protected GameBackground background;
+    protected IBackground background;
     protected ViewManager manager;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public Page(GameBackground background) {
-        this.background = background;
+    public Page(IBackground background) {
         manager = ViewManager.getInstance();
+        this.background = background;
         initializePanel();
     }
 
@@ -32,10 +32,12 @@ public abstract class Page extends BorderPane implements IScenePage {
         background.render();
     }
 
+    @Override
     public boolean playBackgroundSound() {
         return background.playBackgroundSound();
     }
 
+    @Override
     public boolean stopBackgroundSound() {
         return background.stopBackgroundSound();
     }
@@ -46,7 +48,7 @@ public abstract class Page extends BorderPane implements IScenePage {
     }
 
     @Override
-    public void removeFromActionNode() {
+    public void removeFromActionNodes() {
         manager.removeNode(this);
     }
 }

@@ -3,6 +3,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.FontProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.IGameButtonProperties;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
@@ -20,28 +21,31 @@ public class GameTextField extends TextField implements IGameButtonProperties {
     protected ViewManager manager;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameTextField() {
-        manager = ViewManager.getInstance();
-        initializeTextField();
+    public GameTextField(boolean opacity) {
+        this("", opacity);
     }
 
-    public GameTextField(String text) {
+    public GameTextField(String text, boolean opacity) {
         manager = ViewManager.getInstance();
-        initializeTextField();
+        initializeTextField(opacity);
         setText(text);
+        setEditable(false);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    private void initializeTextField() {
-        setDefaultAppearance();
+    private void initializeTextField(boolean opacity) {
+        setDefaultAppearance(opacity);
         setDefaultSize();
     }
 
-    private void setDefaultAppearance() {
-        setBackground(new Background(new BackgroundFill(DEFAULT_BACKGROUND_COLOR, new CornerRadii(DEFAULT_CORNER_RADIUS), DEFAULT_INSETS)));
+    private void setDefaultAppearance(boolean opacity) {
+        if (opacity)
+            setBackground(new Background(new BackgroundFill(DEFAULT_BACKGROUND_COLOR, new CornerRadii(DEFAULT_CORNER_RADIUS), DEFAULT_INSETS)));
+        else setBackground(Background.EMPTY);
         int fontSize = (int) (manager.getScaledWidth(FONT_SIZE_PROPORTION));
         setDefaultTextFieldFont(DEFAULT_FONT_COLOR_CSS, fontSize);
         setFocusTraversable(false);
+        setAlignment(Pos.CENTER);
     }
 
     protected void setDefaultTextFieldFont(String fontColorCSS, int fontSize) {
@@ -59,5 +63,9 @@ public class GameTextField extends TextField implements IGameButtonProperties {
         double textFieldHeight = manager.getScaledHeight(HEIGHT_PROPORTION);
         setMinSize(textFieldWidth, textFieldHeight);
         setPrefSize(textFieldWidth, textFieldHeight);
+    }
+
+    public void setDefaultFontColor() {
+        setFontColor(DEFAULT_FONT_COLOR_CSS);
     }
 }

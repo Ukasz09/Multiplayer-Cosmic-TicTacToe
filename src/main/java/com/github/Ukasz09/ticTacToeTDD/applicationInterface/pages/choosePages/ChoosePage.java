@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.IBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
@@ -20,7 +21,7 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
     private Set<IEventKindObserver> observers;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ChoosePage(ImageGameBackground background, String labelText) {
+    public ChoosePage(IBackground background, String labelText) {
         super(background);
         observers = new HashSet<>();
         initializePanel(labelText);
@@ -29,7 +30,6 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
     //----------------------------------------------------------------------------------------------------------------//
     private void initializePanel(String labelText) {
         headerPane = new LabelPane(labelText);
-        setAlignment(headerPane, Pos.TOP_CENTER);
         setTop(headerPane);
         contentPanel = new CenteredPane();
         setCenter(contentPanel);

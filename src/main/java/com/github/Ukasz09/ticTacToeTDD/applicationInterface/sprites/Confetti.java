@@ -1,6 +1,5 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.SpritesProperties;

@@ -135,7 +135,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
 
     private void removeActualSceneFromRoot() {
         if (actualScene != null)
-            actualScene.removeFromActionNode();
+            actualScene.removeFromActionNodes();
     }
 
     public void setActualInitializedPlayerNick(String playerNick) {

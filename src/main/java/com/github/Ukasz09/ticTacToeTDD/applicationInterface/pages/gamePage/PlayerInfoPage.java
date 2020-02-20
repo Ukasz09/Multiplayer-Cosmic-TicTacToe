@@ -6,24 +6,17 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.IGam
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.ImageButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.SignButtonSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.GameTextField;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.LabelTextField;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.Confetti;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.HeaderTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +27,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
 
     private ImageButton avatar;
     private SignButtonSprite sign;
-    private LabelTextField nickField;
+    private GameTextField nickField;
     private final double headerHeight;
     private final double pagePositionX;
     private Set<IEventKindObserver> observers;
@@ -68,7 +61,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
     }
 
     private void addNicField(String nick) {
-        nickField = new LabelTextField(nick, false);
+        nickField = new GameTextField(nick, false);
         getChildren().add(nickField);
     }
 

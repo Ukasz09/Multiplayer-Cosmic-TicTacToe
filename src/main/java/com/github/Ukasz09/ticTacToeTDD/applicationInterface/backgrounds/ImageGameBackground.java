@@ -19,6 +19,7 @@ public class ImageGameBackground extends GameBackground {
     }
 
     //----------------------------------------------------------------------------------------------------------------//
+    @Override
     public void render() {
         drawBackground();
     }
