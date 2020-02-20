@@ -1,18 +1,18 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ImageButton extends GameButton {
+public class GameImageButton extends GameButton {
     private static final double SIZE_PROPORTION = 14 / 108d;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ImageButton(Image image) {
+    public GameImageButton(Image image) {
         super();
         setIconImage(image);
     }
 
-    public ImageButton(ImageView imageView, double width, double height) {
+    public GameImageButton(ImageView imageView, double width, double height) {
         super();
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);

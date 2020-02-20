@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages.*;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IScenePage;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
@@ -7,7 +8,6 @@ import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.*;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage.GameBoardPage;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
@@ -24,7 +24,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     private NickChoosePage nickChoosePage;
     private AvatarChoosePage avatarChoosePage;
     private SignChoosePage signChoosePage;
-    private BoardSizeChoose boardSizeChoosePage;
+    private BoardSizeChoosePage boardSizeChoosePage;
 
     //----------------------------------------------------------------------------------------------------------------//
     public PagesManager() {
@@ -91,7 +91,7 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
     }
 
     private void initializeBoardSizeChoosePage() {
-        boardSizeChoosePage = new BoardSizeChoose();
+        boardSizeChoosePage = new BoardSizeChoosePage();
         boardSizeChoosePage.attachObserver(this);
     }
 

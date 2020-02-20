@@ -1,13 +1,14 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.ChoosePage;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.WinnerGamePane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages.ChoosePage;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes.WinnerGamePane;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
+import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
@@ -22,7 +23,7 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
 
     //-----------------------------------------------------------------------------------------------------------------//
     public GameBoardPage() {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND, null), GAME_HEADER_TEXT);
+        super(new ImageGameBackground(DEFAULT_BACKGROUND, null), GAME_HEADER_TEXT, Orientation.HORIZONTAL, 0);
         playerInfoPane = new PlayerInfoPage[2];
         initializeGameBoard();
     }

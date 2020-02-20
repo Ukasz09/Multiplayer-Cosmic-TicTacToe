@@ -1,8 +1,8 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.GameBoxButtonSprite;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.SignButtonSprite;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.animated.GameBoxButtonSprite;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.animated.SignButtonSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
@@ -93,7 +93,7 @@ public class GameBoard implements IDrawingGraphic {
 
     public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
         SignButtonSprite sign =
-                new SignButtonSprite(signSheetProperty, getGridButtonSize() * SIGN_TO_BOARD_PROPORTION, false, false);
+                new SignButtonSprite(signSheetProperty, getGridButtonSize() * SIGN_TO_BOARD_PROPORTION, false);
         setSignPosition(sign, rowIndex, columnIndex);
         signButtonSprites.add(sign);
     }

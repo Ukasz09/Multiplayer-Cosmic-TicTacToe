@@ -1,9 +1,10 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.HoveredActiveImageButton;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal.HoveredActiveImageButton;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,7 +18,7 @@ public class AvatarChoosePage extends ChoosePage {
 
     //----------------------------------------------------------------------------------------------------------------//
     public AvatarChoosePage(String firstPlayerName) {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND), DEFAULT_LABEL_TEXT_PREFIX + firstPlayerName);
+        super(new ImageGameBackground(DEFAULT_BACKGROUND), DEFAULT_LABEL_TEXT_PREFIX + firstPlayerName, Orientation.HORIZONTAL, 0);
         actualInitializedPlayerNick = firstPlayerName;
         addAvatarButtons();
     }
@@ -27,7 +28,7 @@ public class AvatarChoosePage extends ChoosePage {
         for (Image avatarImage : DEFAULT_AVATARS_IMAGES) {
             Button button = new HoveredActiveImageButton(avatarImage);
             addMouseClickedActionToButton(button);
-            getContentPane().getChildren().add(button);
+            addToContentPane(button);
         }
     }
 
@@ -44,6 +45,7 @@ public class AvatarChoosePage extends ChoosePage {
         setHeaderText(DEFAULT_LABEL_TEXT_PREFIX + actualInitializedPlayerNick);
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public ImageView getChosenImage() {
         return chosenImage;
     }
@@ -51,4 +53,5 @@ public class AvatarChoosePage extends ChoosePage {
     public void setActualInitializedPlayerNick(String actualInitializedPlayerNick) {
         this.actualInitializedPlayerNick = actualInitializedPlayerNick;
     }
+
 }

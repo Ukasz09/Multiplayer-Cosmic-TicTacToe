@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.animated;
 
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
@@ -19,16 +19,12 @@ public class SignButtonSprite extends AnimatedButtonSprite {
     private boolean isVisible = true;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public SignButtonSprite(ImageSheetProperty sheetProperty, boolean huedColor, boolean withImageViewInRoot) {
-        this(sheetProperty, ViewManager.getInstance().getScaledWidth(WIDTH_TO_FRAME_PROPORTION), huedColor, withImageViewInRoot);
+    public SignButtonSprite(ImageSheetProperty sheetProperty, boolean withImageViewInRoot) {
+        this(sheetProperty, ViewManager.getInstance().getScaledWidth(WIDTH_TO_FRAME_PROPORTION), withImageViewInRoot);
     }
 
-    public SignButtonSprite(ImageSheetProperty sheetProperty, double size, boolean huedColor, boolean withImageViewInRoot) {
+    public SignButtonSprite(ImageSheetProperty sheetProperty, double size, boolean withImageViewInRoot) {
         super(size, size, sheetProperty, withImageViewInRoot);
-//        if (huedColor) {
-//            normalSheet = getHuedSheet();
-//            sheetProperty.setImageSheet(normalSheet);
-//        } else
         normalSheet = sheetProperty.getSheet();
         signSheetToRender = normalSheet;
     }
@@ -37,6 +33,10 @@ public class SignButtonSprite extends AnimatedButtonSprite {
     @Override
     public void disable() {
         super.disable();
+        changeSheetToDisable();
+    }
+
+    private void changeSheetToDisable() {
         if (disableSignSheetToRender == null)
             disableSignSheetToRender = getSheetWithEffect(signSheetToRender, EFFECT_FOR_DISABLE_STATUS);
         signSheetToRender = disableSignSheetToRender;
@@ -62,11 +62,5 @@ public class SignButtonSprite extends AnimatedButtonSprite {
 
     public void setVisible(boolean value) {
         isVisible = value;
-    }
-
-    //todo: usunac
-    @Override
-    public void setImageViewVisible(boolean visible) {
-        super.setImageViewVisible(visible);
     }
 }

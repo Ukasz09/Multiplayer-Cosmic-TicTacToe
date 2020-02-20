@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.FontProperties;
 

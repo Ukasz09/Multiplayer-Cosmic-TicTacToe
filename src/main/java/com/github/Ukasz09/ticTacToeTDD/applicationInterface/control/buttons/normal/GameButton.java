@@ -1,6 +1,7 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.IGameButtonProperties;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;

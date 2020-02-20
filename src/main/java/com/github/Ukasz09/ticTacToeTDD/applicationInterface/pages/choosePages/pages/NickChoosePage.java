@@ -1,9 +1,10 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.EditableTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.UserNameValidator;
+import javafx.geometry.Orientation;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
@@ -17,7 +18,7 @@ public class NickChoosePage extends ChoosePage {
 
     //-----------------------------------------------------------------------------------------------------------------//
     public NickChoosePage() {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND), HEADER_TEXT_PREFIX + FIRST_PLAYER_NUMBER);
+        super(new ImageGameBackground(DEFAULT_BACKGROUND), HEADER_TEXT_PREFIX + FIRST_PLAYER_NUMBER, Orientation.HORIZONTAL, 0);
         initializeTextField();
     }
 
@@ -25,7 +26,7 @@ public class NickChoosePage extends ChoosePage {
     private void initializeTextField() {
         EditableTextField textField = new EditableTextField(DEFAULT_PROMPT_TEXT);
         setOnEnterKeyPressedEvent(textField);
-        getContentPane().getChildren().add(textField);
+        addToContentPane(textField);
     }
 
     private void setOnEnterKeyPressedEvent(EditableTextField textField) {

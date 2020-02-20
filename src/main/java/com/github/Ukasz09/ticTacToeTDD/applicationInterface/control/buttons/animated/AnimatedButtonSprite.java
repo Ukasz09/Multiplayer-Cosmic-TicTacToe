@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.animated;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.AnimatedSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
@@ -17,8 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEventKindObservable {
-    private final Effect HUE_EFFECT = new ColorAdjust((int) (Math.random() * 3) - 1, 0, 0, 0);
-
     private boolean isActive = true;
     private Set<IEventKindObserver> observers;
 
@@ -64,11 +62,6 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEv
         snapshot.setFill(Color.TRANSPARENT);
         view.setImage(sheet);
         view.setEffect(effectToApply);
-        Image newSheet = view.snapshot(snapshot, null);
-        return newSheet;
+        return view.snapshot(snapshot, null);
     }
-
-//    protected Image getHuedSheet() {
-//        return getSheetWithEffect(getSpriteSheetProperty().getSheet(), HUE_EFFECT);
-//    }
 }

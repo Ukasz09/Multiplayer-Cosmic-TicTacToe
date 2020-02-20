@@ -1,12 +1,11 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.GameControlButton;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal.GameControlButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.IGameButtonProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.ImageButton;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.SignButtonSprite;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal.GameImageButton;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.animated.SignButtonSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.GameTextField;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.HeaderTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
@@ -25,7 +24,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
     private static final double SIGN_PADDING_PROPORTION = 75 / 1080d;
     private static final String FONT_COLOR_CSS_FOR_DISABLE = "darkslategrey";
 
-    private ImageButton avatar;
+    private GameImageButton avatar;
     private SignButtonSprite sign;
     private GameTextField nickField;
     private final double headerHeight;
@@ -56,7 +55,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
     }
 
     private void addAvatar(ImageView avatarImageView) {
-        this.avatar = new ImageButton(avatarImageView, getAvatarSize(), getAvatarSize());
+        this.avatar = new GameImageButton(avatarImageView, getAvatarSize(), getAvatarSize());
         getChildren().add(avatar);
     }
 
@@ -67,7 +66,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
 
     private void addSign(ImageSheetProperty signSheetProperty) {
         double signSize = getAvatarSize() / 2;
-        this.sign = new SignButtonSprite(signSheetProperty, signSize, false, false);
+        this.sign = new SignButtonSprite(signSheetProperty, signSize, false);
         sign.setPositionX(getSignCenterPositionX(signSize));
         sign.setPositionY(getSignPositionY());
     }

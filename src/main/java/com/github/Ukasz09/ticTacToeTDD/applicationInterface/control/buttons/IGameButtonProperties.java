@@ -9,12 +9,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public interface IGameButtonProperties {
+    //colors
     Color DEFAULT_BACKGROUND_COLOR = new Color(0.23, 0.23, 0.23, 0.4);
-    //    Color DEFAULT_BACKGROUND_COLOR = new Color(0.7, 0.1, 0.9, 0.1);
-    double DEFAULT_CORNER_RADIUS = 25;
-    Insets DEFAULT_INSETS = Insets.EMPTY;
     Paint DEFAULT_FONT_COLOR = Color.LIGHTGRAY;
     String DEFAULT_FONT_COLOR_CSS = "lightgray";
+
+    //effects
     Effect DEFAULT_MOUSE_ENTERED_EFFECT = new InnerShadow(1, Color.PURPLE);
     Effect BUTTON_EXITED_EFFECT = new Lighting(new Light.Distant(10, 15, Color.DARKSLATEBLUE));
+
+    //others
+    double DEFAULT_CORNER_RADIUS = 25;
+    Insets DEFAULT_INSETS = Insets.EMPTY;
 }

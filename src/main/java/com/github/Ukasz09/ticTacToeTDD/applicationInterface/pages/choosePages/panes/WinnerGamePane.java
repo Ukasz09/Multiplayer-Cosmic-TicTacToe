@@ -1,15 +1,7 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.GameControlButton;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.OscarStatue;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
-import javafx.scene.control.Button;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class WinnerGamePane extends CenteredPane implements IDrawingGraphic {
     private static final double OSCAR_STATUE_WIDTH_PROPORTION = 7 / 8d;

@@ -1,11 +1,12 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.SignButtonSprite;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.animated.SignButtonSprite;
+import javafx.geometry.Orientation;
 import javafx.scene.input.MouseEvent;
 
 public class SignChoosePage extends ChoosePage {
@@ -19,7 +20,7 @@ public class SignChoosePage extends ChoosePage {
 
     //-----------------------------------------------------------------------------------------------------------------//
     public SignChoosePage(String firstPlayerName) {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND), LABEL_TEXT_PREFIX + firstPlayerName);
+        super(new ImageGameBackground(DEFAULT_BACKGROUND), String.format("%s%s", LABEL_TEXT_PREFIX, firstPlayerName), Orientation.HORIZONTAL, 0);
         actualInitializedPlayerNick = firstPlayerName;
         addSignButtons();
     }
@@ -29,17 +30,21 @@ public class SignChoosePage extends ChoosePage {
         int signButtonsQty = DEFAULT_SHEET_PROPERTIES.length;
         signButtonSprites = new SignButtonSprite[signButtonsQty];
         for (int i = 0; i < signButtonsQty; i++) {
-            SignButtonSprite signButtonSprite = new SignButtonSprite(DEFAULT_SHEET_PROPERTIES[i], true, true);
+            SignButtonSprite signButtonSprite = new SignButtonSprite(DEFAULT_SHEET_PROPERTIES[i], true);
             signButtonSprites[i] = signButtonSprite;
-            signButtonSprite.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                if (signButtonSprite.isActive()) {
-                    lastChosenSign = signButtonSprite.getSpriteSheetProperty();
-                    signButtonSprite.disable();
-                    signButtonSprite.notifyObservers(EventKind.SIGN_BUTTON_CLICKED);
-                }
-            });
+            addSignButtonEventHandler(signButtonSprite);
         }
         setSignButtonsCorrectPositions(manager.getScaledWidth(BUTTONS_PADDING_TO_SCREEN_PROPORTION));
+    }
+
+    private void addSignButtonEventHandler(SignButtonSprite signButtonSprite) {
+        signButtonSprite.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (signButtonSprite.isActive()) {
+                lastChosenSign = signButtonSprite.getSpriteSheetProperty();
+                signButtonSprite.disable();
+                signButtonSprite.notifyObservers(EventKind.SIGN_BUTTON_CLICKED);
+            }
+        });
     }
 
     private void setSignButtonsCorrectPositions(double buttonPadding) {
@@ -110,7 +115,7 @@ public class SignChoosePage extends ChoosePage {
 
     private void setButtonsImageViewVisible(boolean value) {
         for (SignButtonSprite button : signButtonSprites)
-            button.setImageViewVisible(value); //todo: dodac usuwanie view z roota
+            button.setImageViewVisible(value);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//

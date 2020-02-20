@@ -1,13 +1,15 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.IBackground;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes.CenteredPane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes.LabelPane;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.Page;
-import javafx.geometry.Pos;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 
 import java.util.HashSet;
@@ -16,30 +18,36 @@ import java.util.Set;
 public abstract class ChoosePage extends Page implements IEventKindObservable {
     protected static final Image DEFAULT_BACKGROUND = ImagesProperties.startGameBackground();
 
-    private CenteredPane contentPanel;
+    private CenteredPane contentPane;
     private LabelPane headerPane;
     private Set<IEventKindObserver> observers;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ChoosePage(IBackground background, String labelText) {
+    public ChoosePage(IBackground background, String labelText, Orientation orientation, double horizontalGap) {
         super(background);
         observers = new HashSet<>();
-        initializePanel(labelText);
+        initializePage(labelText, orientation, horizontalGap);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    private void initializePanel(String labelText) {
+    private void initializePage(String labelText, Orientation orientation, double horizontalGap) {
         headerPane = new LabelPane(labelText);
         setTop(headerPane);
-        contentPanel = new CenteredPane();
-        setCenter(contentPanel);
+        initializeContentPane(orientation, horizontalGap);
+    }
+
+    private void initializeContentPane(Orientation orientation, double horizontalGap) {
+        contentPane = new CenteredPane();
+        setCenter(contentPane);
+        contentPane.setOrientation(orientation);
+        contentPane.setHgap(horizontalGap);
+    }
+
+    public void addToContentPane(Node node) {
+        contentPane.getChildren().add(node);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public CenteredPane getContentPane() {
-        return contentPanel;
-    }
-
     public double getHeaderPaneHeight() {
         return headerPane.getMinHeight();
     }
