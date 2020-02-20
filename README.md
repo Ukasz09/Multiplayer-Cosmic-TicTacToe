@@ -29,7 +29,7 @@ ___
 - `Esc`: shortcut for end game button
 - `Enter`: shortcut for confirm button
 ---
----
+
 # JAR
 If there is a problem with running, try to open it by console with command:
 ```cmd
