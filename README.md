@@ -1,4 +1,4 @@
-# Cosmic Tic-Tac-Toe [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) ![stability-frozen](https://img.shields.io/badge/stability-locked-blue.svg)
+﻿# Cosmic Tic-Tac-Toe [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) ![stability-frozen](https://img.shields.io/badge/stability-locked-blue.svg)
 
 > Cosmic Tic-Tac-Toe (TDD, Gradle, MVC) in Java language with JavaFX library
 
@@ -21,6 +21,7 @@ ___
 
 ## Screenshots 
 ![gameplay image](https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/screen1.png)
+![gameplay image](https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/screen2.png)
 
 ---
 ## Game control
