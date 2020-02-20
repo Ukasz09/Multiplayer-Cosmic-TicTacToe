@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 
 public class StartGamePage extends ChoosePage {
     private static final String HEADER_TEXT = "Cosmic Tic-Tac-Toe Game";
-    private static final double DEFAULT_VOLUME = 0.5;
+    private static final double DEFAULT_VOLUME = 0.8;
     private static final SoundsPlayer DEFAULT_MUSIC = SoundsProperties.gameBackground(DEFAULT_VOLUME);
 
     //----------------------------------------------------------------------------------------------------------------//
