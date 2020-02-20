@@ -33,6 +33,7 @@ public class SoundsPlayer {
     }
 
     public void playSound() {
+        mediaPlayer.stop();
         mediaPlayer.play();
         isPlayingNow = true;
     }

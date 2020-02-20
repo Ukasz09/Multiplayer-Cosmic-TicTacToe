@@ -3,7 +3,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties;
 import javafx.scene.image.Image;
 
 public class ImagesProperties {
-    private static final int AVATARS_QTY = 12;
+    private static final int AVATARS_QTY = 14;
 
     public static Image schemeSpriteForImageView() {
         String imagePath = "images/decorations/testedForImageView.png";
