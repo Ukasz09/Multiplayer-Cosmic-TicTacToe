@@ -2,7 +2,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages.*;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IScenePage;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages.IScenePage;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;

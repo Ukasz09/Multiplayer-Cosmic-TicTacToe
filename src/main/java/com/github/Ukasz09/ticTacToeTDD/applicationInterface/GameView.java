@@ -24,8 +24,8 @@ public class GameView {
     class GameAnimationTimer extends AnimationTimer {
         @Override
         public void handle(long currentNanoTime) {
-            pagesManager.getActualScene().render();
             pagesManager.getActualScene().update();
+            pagesManager.getActualScene().render();
         }
     }
 

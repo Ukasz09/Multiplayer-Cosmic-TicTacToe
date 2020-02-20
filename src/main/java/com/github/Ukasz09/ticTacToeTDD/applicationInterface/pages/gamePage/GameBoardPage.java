@@ -1,7 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages.ChoosePage;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes.WinnerGamePane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes.OscarStatuePane;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
@@ -19,7 +19,7 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
 
     private GameBoard gameBoard;
     private PlayerInfoPage[] playerInfoPane;
-    private WinnerGamePane winnerGamePane = null;
+    private OscarStatuePane oscarStatuePane = null;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public GameBoardPage() {
@@ -82,8 +82,8 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     }
 
     private void updateWinnerGamePage() {
-        if (winnerGamePane != null)
-            winnerGamePane.update();
+        if (oscarStatuePane != null)
+            oscarStatuePane.update();
     }
 
     @Override
@@ -100,8 +100,8 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     }
 
     private void renderWinnerGamePage() {
-        if (winnerGamePane != null)
-            winnerGamePane.render();
+        if (oscarStatuePane != null)
+            oscarStatuePane.render();
     }
 
     public Point2D getLastChosenBoxCoords() {
@@ -127,17 +127,17 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
         playerInfoPane[nextPlayerInfoPaneIndex].removeSignSpriteFromRoot();
         playerInfoPane[nextPlayerInfoPaneIndex].setVisible(false);
 
-        winnerGamePane = new WinnerGamePane(playerInfoPane[winningPlayerIndex].getWidth(),
-                getHeaderPaneHeight(), playerInfoPane[nextPlayerInfoPaneIndex].getPagePositionX(), playerInfoPane[winningPlayerIndex].getPagePositionX());
+        oscarStatuePane = new OscarStatuePane
+                (playerInfoPane[winningPlayerIndex].getWidth(), playerInfoPane[nextPlayerInfoPaneIndex].getLayoutX(), playerInfoPane[nextPlayerInfoPaneIndex].getLayoutY());
         playerInfoPane[winningPlayerIndex].setSignVisible(false);
         playerInfoPane[winningPlayerIndex].removeSignSpriteFromRoot();
         playerInfoPane[winningPlayerIndex].addWinButtons();
 
 
-        if (playerInfoPane[nextPlayerInfoPaneIndex].getPagePositionX() > 0)
-            setRight(winnerGamePane);
-        else setLeft(winnerGamePane);
-
+        if (playerInfoPane[nextPlayerInfoPaneIndex].getPagePositionX() > 0) {
+            setRight(oscarStatuePane);
+            System.out.println(playerInfoPane[1].getLayoutX());
+        } else setLeft(oscarStatuePane);
         setWinnerHeaderText(playerNick);
     }
 

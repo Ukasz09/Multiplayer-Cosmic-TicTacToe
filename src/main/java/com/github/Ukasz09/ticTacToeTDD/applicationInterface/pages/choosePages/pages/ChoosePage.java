@@ -43,12 +43,12 @@ public abstract class ChoosePage extends Page implements IEventKindObservable {
         contentPane.setHgap(horizontalGap);
     }
 
-    public void addToContentPane(Node node) {
+    protected void addToContentPane(Node node) {
         contentPane.getChildren().add(node);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public double getHeaderPaneHeight() {
+    protected double getHeaderPaneHeight() {
         return headerPane.getMinHeight();
     }
 

@@ -1,4 +1,6 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages;
+
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 
 public interface IScenePage extends IDrawingGraphic {
     void setSceneVisible(boolean value);

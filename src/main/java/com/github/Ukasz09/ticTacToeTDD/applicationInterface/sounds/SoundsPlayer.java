@@ -11,6 +11,7 @@ public class SoundsPlayer {
     private boolean inLoop;
     private boolean isPlayingNow;
 
+    //----------------------------------------------------------------------------------------------------------------//
     public SoundsPlayer(String soundPath, double volume, boolean inLoop) {
         this.soundPath = soundPath;
         this.inLoop = inLoop;
@@ -20,6 +21,7 @@ public class SoundsPlayer {
         addPlayingChecking();
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     private void makeSound() {
         java.net.URL soundURL = ResourceTemplate.class.getResource(soundPath);
         Media media = new Media(soundURL.toString());
