@@ -10,15 +10,16 @@ import javafx.stage.Stage;
 
 public class ApplicationMain extends Application {
     private GameController gameController;
-    private GameView gameView;
-    private GameLogic gameLogic;
 
+    //----------------------------------------------------------------------------------------------------------------//
     public ApplicationMain() {
         initializeGameController();
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     private void initializeGameController() {
-        gameView = new GameView();
+        GameView gameView = new GameView();
+        GameLogic gameLogic = null;
         try {
             gameLogic = new GameLogic();
         } catch (TicTacToeExceptions err) {

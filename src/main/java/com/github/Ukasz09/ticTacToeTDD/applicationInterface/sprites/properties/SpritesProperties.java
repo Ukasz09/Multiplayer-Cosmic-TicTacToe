@@ -3,15 +3,15 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 
 public class SpritesProperties {
-    private static final int AVAILABLE_SIGNS_QTY = 5;
-
     public static ImageSheetProperty[] signSheetsProperties() {
-        ImageSheetProperty[] sheetProperties = new ImageSheetProperty[AVAILABLE_SIGNS_QTY];
+        ImageSheetProperty[] sheetProperties = new ImageSheetProperty[7];
         sheetProperties[0] = sign1SheetProperty();
         sheetProperties[1] = sign2SheetProperty();
         sheetProperties[2] = sign3SheetProperty();
         sheetProperties[3] = sign4SheetProperty();
         sheetProperties[4] = sign5SheetProperty();
+        sheetProperties[5] = sign6SheetProperty();
+        sheetProperties[6] = sign7SheetProperty();
         return sheetProperties;
     }
 
@@ -52,9 +52,9 @@ public class SpritesProperties {
         String spritePath = "sprites/signs/4.png";
         ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
                 .withImagePath(spritePath)
-                .withSizeOfOneFrame(256, 256)
-                .withDefaultDurationPerOneFrame(3)
-                .withAddActionState(SpriteStates.STANDBY, 0, 19)
+                .withSizeOfOneFrame(242, 243)
+                .withDefaultDurationPerOneFrame(4)
+                .withAddActionState(SpriteStates.STANDBY, 0, 36)
                 .build();
         return sheetProperty;
     }
@@ -65,7 +65,29 @@ public class SpritesProperties {
                 .withImagePath(spritePath)
                 .withSizeOfOneFrame(256, 256)
                 .withDefaultDurationPerOneFrame(3)
-                .withAddActionState(SpriteStates.STANDBY, 0, 60)
+                .withAddActionState(SpriteStates.STANDBY, 0, 47)
+                .build();
+        return sheetProperty;
+    }
+
+    public static ImageSheetProperty sign6SheetProperty() {
+        String spritePath = "sprites/signs/6.png";
+        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
+                .withImagePath(spritePath)
+                .withSizeOfOneFrame(369, 330)
+                .withDefaultDurationPerOneFrame(3)
+                .withAddActionState(SpriteStates.STANDBY, 0, 72)
+                .build();
+        return sheetProperty;
+    }
+
+    public static ImageSheetProperty sign7SheetProperty() {
+        String spritePath = "sprites/signs/7.png";
+        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
+                .withImagePath(spritePath)
+                .withSizeOfOneFrame(337, 326)
+                .withDefaultDurationPerOneFrame(1)
+                .withAddActionState(SpriteStates.STANDBY, 0, 48)
                 .build();
         return sheetProperty;
     }
@@ -94,14 +116,4 @@ public class SpritesProperties {
         return sheetProperty;
     }
 
-    public static ImageSheetProperty garfieldProperty() {
-        String spritePath = "sprites/garfield.png";
-        ImageSheetProperty sheetProperty = ImageSheetProperty.builder()
-                .withImagePath(spritePath)
-                .withSizeOfOneFrame(284, 308)
-                .withDefaultDurationPerOneFrame(3)
-                .withAddActionState(SpriteStates.STANDBY, 0, 8)
-                .build();
-        return sheetProperty;
-    }
 }

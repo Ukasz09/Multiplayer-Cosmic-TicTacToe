@@ -1,13 +1,12 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.IBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes.CenteredPane;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes.LabelPane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes.CenteredPane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes.LabelPane;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.Page;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.image.Image;

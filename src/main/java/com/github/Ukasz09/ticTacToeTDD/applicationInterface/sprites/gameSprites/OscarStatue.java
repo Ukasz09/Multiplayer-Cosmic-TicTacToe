@@ -1,5 +1,6 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.gameSprites;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.AnimatedSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;

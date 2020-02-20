@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;

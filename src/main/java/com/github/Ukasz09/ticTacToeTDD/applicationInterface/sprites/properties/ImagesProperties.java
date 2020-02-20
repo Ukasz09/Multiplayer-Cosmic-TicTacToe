@@ -22,9 +22,4 @@ public class ImagesProperties {
             images[i] = new Image(imagePathPrefix + (i + 1) + ".png");
         return images;
     }
-
-    public static Image confetti() {
-        String imagePath = "images/backgrounds/confetti.gif";
-        return new Image(imagePath);
-    }
 }

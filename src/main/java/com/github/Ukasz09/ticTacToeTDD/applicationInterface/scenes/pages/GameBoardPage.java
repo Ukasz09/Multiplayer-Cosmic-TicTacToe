@@ -1,7 +1,8 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages.ChoosePage;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes.OscarStatuePane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes.GameResultPane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.GameBoard;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes.PlayerInfoPane;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
@@ -12,19 +13,19 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
-//todo: usuwac view z animacji po skonczeniu
 public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     private static final String GAME_HEADER_TEXT = "Tic-Tac-Toe";
     private static final String WINNER_HEADER_TEXT_PREFIX = "Winner: ";
+    private static final String DRAW_HEADER_TEXT = "Unlucky. It's a draw! ";
 
     private GameBoard gameBoard;
-    private PlayerInfoPage[] playerInfoPane;
-    private OscarStatuePane oscarStatuePane = null;
+    private PlayerInfoPane[] playerInfoPanes;
+    private GameResultPane gameResultPane = null;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public GameBoardPage() {
         super(new ImageGameBackground(DEFAULT_BACKGROUND, null), GAME_HEADER_TEXT, Orientation.HORIZONTAL, 0);
-        playerInfoPane = new PlayerInfoPage[2];
+        playerInfoPanes = new PlayerInfoPane[2];
         initializeGameBoard();
     }
 
@@ -47,14 +48,14 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
             return false;
         double infoPageWidth = (manager.getRightFrameBorder() - gameBoard.getWidth()) / 2;
         if (playerIndex == 0) {
-            playerInfoPane[playerIndex] = new PlayerInfoPage(infoPageWidth, getHeaderPaneHeight(), 0);
-            setLeft(playerInfoPane[playerIndex]);
+            playerInfoPanes[playerIndex] = new PlayerInfoPane(infoPageWidth, getHeaderPaneHeight(), 0);
+            setLeft(playerInfoPanes[playerIndex]);
         } else {
-            playerInfoPane[playerIndex] = new PlayerInfoPage(infoPageWidth, getHeaderPaneHeight(), manager.getRightFrameBorder() - infoPageWidth);
-            setRight(playerInfoPane[playerIndex]);
+            playerInfoPanes[playerIndex] = new PlayerInfoPane(infoPageWidth, getHeaderPaneHeight(), manager.getRightFrameBorder() - infoPageWidth);
+            setRight(playerInfoPanes[playerIndex]);
         }
-        playerInfoPane[playerIndex].initialize(avatar, nick, signSheetProperty);
-        playerInfoPane[playerIndex].attachObserver(this);
+        playerInfoPanes[playerIndex].initialize(avatar, nick, signSheetProperty);
+        playerInfoPanes[playerIndex].attachObserver(this);
         return true;
     }
 
@@ -65,7 +66,6 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     }
 
     public void showGameBoard(boolean value) {
-        setVisible(true);
         gameBoard.setVisible(value);
     }
 
@@ -77,13 +77,13 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     }
 
     private void updatePlayerInfoPage() {
-        for (PlayerInfoPage playerInfoPage : playerInfoPane)
-            playerInfoPage.update();
+        for (PlayerInfoPane playerInfoPane : this.playerInfoPanes)
+            playerInfoPane.update();
     }
 
     private void updateWinnerGamePage() {
-        if (oscarStatuePane != null)
-            oscarStatuePane.update();
+        if (gameResultPane != null)
+            gameResultPane.update();
     }
 
     @Override
@@ -95,13 +95,13 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     }
 
     private void renderPlayerInfoPage() {
-        for (PlayerInfoPage playerInfoPage : playerInfoPane)
-            playerInfoPage.render();
+        for (PlayerInfoPane playerInfoPane : this.playerInfoPanes)
+            playerInfoPane.render();
     }
 
     private void renderWinnerGamePage() {
-        if (oscarStatuePane != null)
-            oscarStatuePane.render();
+        if (gameResultPane != null)
+            gameResultPane.render();
     }
 
     public Point2D getLastChosenBoxCoords() {
@@ -113,37 +113,63 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     }
 
     public void showVisibleOnlyActualPlayer(int playerIndex) {
-        for (int i = 0; i < playerInfoPane.length; i++)
-            playerInfoPane[i].disablePage(playerIndex != i);
+        for (int i = 0; i < playerInfoPanes.length; i++)
+            playerInfoPanes[i].disablePage(playerIndex != i);
     }
 
     public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
         gameBoard.changeGridBoxState(state, coordsX, coordsY);
     }
 
-    public void changeSceneToWinnerGamePage(int winningPlayerIndex, String playerNick) {
-        int nextPlayerInfoPaneIndex = (winningPlayerIndex + 1) % playerInfoPane.length;
-        playerInfoPane[nextPlayerInfoPaneIndex].setSignVisible(false);
-        playerInfoPane[nextPlayerInfoPaneIndex].removeSignSpriteFromRoot();
-        playerInfoPane[nextPlayerInfoPaneIndex].setVisible(false);
-
-        oscarStatuePane = new OscarStatuePane
-                (playerInfoPane[winningPlayerIndex].getWidth(), playerInfoPane[nextPlayerInfoPaneIndex].getLayoutX(), playerInfoPane[nextPlayerInfoPaneIndex].getLayoutY());
-        playerInfoPane[winningPlayerIndex].setSignVisible(false);
-        playerInfoPane[winningPlayerIndex].removeSignSpriteFromRoot();
-        playerInfoPane[winningPlayerIndex].addWinButtons();
-
-
-        if (playerInfoPane[nextPlayerInfoPaneIndex].getPagePositionX() > 0) {
-            setRight(oscarStatuePane);
-            System.out.println(playerInfoPane[1].getLayoutX());
-        } else setLeft(oscarStatuePane);
+    public void changeSceneToWinResultPage(int winningPlayerIndex, String playerNick) {
+        int nextPlayerInfoPaneIndex = getPlayerNextIndex(winningPlayerIndex);
+        changeSceneToGameResultPage(nextPlayerInfoPaneIndex);
+        gameResultPane.addOscarStatue();
         setWinnerHeaderText(playerNick);
+    }
+
+    private void changeSceneToGameResultPage(int playerIndex) {
+        int nextPlayerInfoPaneIndex = getPlayerNextIndex(playerIndex);
+        changePlayerInfoPaneToGameResultPane(playerIndex);
+        addGameOverButtonsToPlayerInfoPane(nextPlayerInfoPaneIndex);
+    }
+
+    private int getPlayerNextIndex(int index) {
+        return (index + 1) % playerInfoPanes.length;
+    }
+
+    private void changePlayerInfoPaneToGameResultPane(int playerInfoPaneIndex) {
+        playerInfoPanes[playerInfoPaneIndex].setPaneVisible(false);
+        initializeGameResultPane(playerInfoPaneIndex);
+        addGameResultPane(playerInfoPaneIndex);
+    }
+
+    private void initializeGameResultPane(int playerInfoPaneIndex) {
+        double paneWidth = playerInfoPanes[playerInfoPaneIndex].getWidth();
+        double positionX = playerInfoPanes[playerInfoPaneIndex].getLayoutX();
+        double positionY = playerInfoPanes[playerInfoPaneIndex].getLayoutY();
+        gameResultPane = new GameResultPane(paneWidth, positionX, positionY);
+    }
+
+    private void addGameResultPane(int playerInfoPaneIndex) {
+        if (playerInfoPanes[playerInfoPaneIndex].getLayoutX() > 0) setRight(gameResultPane);
+        else setLeft(gameResultPane);
+    }
+
+    private void addGameOverButtonsToPlayerInfoPane(int playerInfoPaneIndex) {
+        playerInfoPanes[playerInfoPaneIndex].setSignVisible(false);
+        playerInfoPanes[playerInfoPaneIndex].addGameOverButtons();
     }
 
     private void setWinnerHeaderText(String player) {
         String headerText = WINNER_HEADER_TEXT_PREFIX + player;
         setHeaderText(headerText);
+    }
+
+    public void changeSceneToDrawResultPage() {
+        getChildren().remove(playerInfoPanes[0]); //todo: tmmp
+        changeSceneToGameResultPage(1);
+        setHeaderText(DRAW_HEADER_TEXT);
     }
 
     public void denyInteractionWithAllBoxes() {

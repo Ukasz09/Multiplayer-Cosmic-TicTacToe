@@ -7,6 +7,7 @@ public abstract class Sprite implements IDrawingGraphic {
     protected double positionX, positionY;
     protected double width, height;
 
+    //----------------------------------------------------------------------------------------------------------------//
     public Sprite(double width, double height, double positionX, double positionY) {
         manager = ViewManager.getInstance();
         this.width = width;
@@ -16,14 +17,7 @@ public abstract class Sprite implements IDrawingGraphic {
         this.positionY = positionY;
     }
 
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
+    //----------------------------------------------------------------------------------------------------------------//
     public double getWidth() {
         return width;
     }

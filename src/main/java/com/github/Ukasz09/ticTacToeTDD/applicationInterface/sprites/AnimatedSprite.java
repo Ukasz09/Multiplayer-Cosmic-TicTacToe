@@ -15,6 +15,8 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
     private double actualFramePositionX;
     private double actualFramePositionY;
 
+
+    //-----------------------------------------------------------------------------------------------------------------//
     public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheetProperty, FrameStatePositions startedAnimationState,
                           boolean withImageViewInRoot) {
         super(width, height, ImagesProperties.schemeSpriteForImageView(), positionX, positionY, withImageViewInRoot);
@@ -24,6 +26,7 @@ public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpr
         actualCooldownOnFrame = 0;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------//
     private void setRandomStartedFramePosition(ImageSheetProperty sheetProperty) {
         int randomFrameIndex = sheetProperty.getAction(SpriteStates.STANDBY).getRandomIndex();
         actualFramePositionX = sheetProperty.getPositionOfIndex(randomFrameIndex).getX();

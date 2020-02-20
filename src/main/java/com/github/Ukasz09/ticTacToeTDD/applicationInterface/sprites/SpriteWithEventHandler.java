@@ -2,6 +2,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.Logger;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.image.Image;
@@ -12,14 +13,14 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
 
     private ImageView spriteImageView;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------------------------//
     public SpriteWithEventHandler(double width, double height, double positionX, double positionY, boolean withImageViewInRoot) {
         super(width, height, positionX, positionY);
         if (withImageViewInRoot)
             makeAndAddImageView();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------------------------//
     private void makeAndAddImageView() {
         makeImageView();
         addImageViewToSceneRoot();
@@ -32,7 +33,7 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
 
     private void setSamePropertyToImageViewAsImage(ImageView iv) {
         iv.setOpacity(0);
-        iv.setVisible(false); //todo: ?
+        iv.setVisible(false);
         setImageViewPosition(iv, positionX, positionY);
         setImageViewSize(iv, width, height);
     }
@@ -46,7 +47,6 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
         iv.setFitWidth(width);
         iv.setFitHeight(height);
     }
-
 
     @Override
     public void update() {
@@ -65,12 +65,12 @@ public abstract class SpriteWithEventHandler extends Sprite implements ISpriteGr
     }
 
     @Override
-    public void addNewEventHandler(EventType eventType, EventHandler eventHandler) {
+    public <T extends Event> void addNewEventHandler(EventType<T> eventType, EventHandler<T> eventHandler) {
         spriteImageView.addEventHandler(eventType, eventHandler);
     }
 
     @Override
-    public boolean removeEventHandler(EventType eventType, EventHandler eventHandler) {
+    public <T extends Event> boolean removeEventHandler(EventType<T> eventType, EventHandler<T> eventHandler) {
         try {
             spriteImageView.removeEventHandler(eventType, eventHandler);
         } catch (NullPointerException e) {

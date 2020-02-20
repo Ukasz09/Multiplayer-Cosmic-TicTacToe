@@ -33,10 +33,12 @@ public class ViewManager {
 
     private static ViewManager instance;
 
+    //----------------------------------------------------------------------------------------------------------------//
     private ViewManager() {
         //nothing to do
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public static ViewManager getInstance() {
         if (instance == null)
             instance = new ViewManager();
@@ -132,10 +134,6 @@ public class ViewManager {
         int nodesInRootQty = root.getChildren().size();
         root.getChildren().remove(0, nodesInRootQty);
         root.getChildren().add(canvas);
-    }
-
-    public void printNodeQty() {
-        System.out.println(root.getChildren().size());
     }
 
     public Stage getMainStage() {

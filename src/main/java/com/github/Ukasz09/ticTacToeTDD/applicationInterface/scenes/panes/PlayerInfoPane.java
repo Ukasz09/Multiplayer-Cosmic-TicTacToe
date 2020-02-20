@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal.GameControlButton;
@@ -20,29 +20,34 @@ import javafx.scene.layout.FlowPane;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventKindObservable {
+public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IEventKindObservable {
     private static final double SIGN_PADDING_PROPORTION = 75 / 1080d;
     private static final String FONT_COLOR_CSS_FOR_DISABLE = "darkslategrey";
 
     private GameImageButton avatar;
     private SignButtonSprite sign;
     private GameTextField nickField;
-    private final double headerHeight;
-    private final double pagePositionX;
+    private double headerHeight;
+    private double pagePositionX;
     private Set<IEventKindObserver> observers;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public PlayerInfoPage(double width, double headerHeight, double pagePositionX) {
+    public PlayerInfoPane(double width, double headerHeight, double pagePositionX) {
         observers = new HashSet<>();
         this.headerHeight = headerHeight;
         this.pagePositionX = pagePositionX;
-        setPageSize(width);
-        setOrientation(Orientation.HORIZONTAL);
-        setAlignment(Pos.BASELINE_CENTER);
+        setUpPane(width, pagePositionX);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    private void setPageSize(double width) {
+    private void setUpPane(double paneWidth, double pagePositionX) {
+        setPaneWidth(paneWidth);
+        setOrientation(Orientation.HORIZONTAL);
+        setAlignment(Pos.BASELINE_CENTER);
+        setLayoutX(pagePositionX);
+    }
+
+    private void setPaneWidth(double width) {
         setWidth(width);
         setMinWidth(width);
         setPrefWidth(width);
@@ -51,12 +56,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
     public void initialize(ImageView avatarImageView, String nick, ImageSheetProperty signSheetProperty) {
         addNicField(nick);
         addAvatar(avatarImageView);
-        addSign(signSheetProperty);
-    }
-
-    private void addAvatar(ImageView avatarImageView) {
-        this.avatar = new GameImageButton(avatarImageView, getAvatarSize(), getAvatarSize());
-        getChildren().add(avatar);
+        addPlayerSign(signSheetProperty);
     }
 
     private void addNicField(String nick) {
@@ -64,7 +64,16 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
         getChildren().add(nickField);
     }
 
-    private void addSign(ImageSheetProperty signSheetProperty) {
+    private void addAvatar(ImageView avatarImageView) {
+        this.avatar = new GameImageButton(avatarImageView, getAvatarSize(), getAvatarSize());
+        getChildren().add(avatar);
+    }
+
+    private double getAvatarSize() {
+        return getWidth() / 2;
+    }
+
+    private void addPlayerSign(ImageSheetProperty signSheetProperty) {
         double signSize = getAvatarSize() / 2;
         this.sign = new SignButtonSprite(signSheetProperty, signSize, false);
         sign.setPositionX(getSignCenterPositionX(signSize));
@@ -79,10 +88,6 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
         return nickField.getMinHeight() + getAvatarSize() + headerHeight + ViewManager.getInstance().getScaledHeight(SIGN_PADDING_PROPORTION);
     }
 
-    private double getAvatarSize() {
-        return getWidth() / 2;
-    }
-
     @Override
     public void render() {
         sign.render();
@@ -91,8 +96,6 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
     @Override
     public void update() {
         sign.update();
-//        if (confetti != null)
-//            confetti.update();
     }
 
     public void disablePage(boolean value) {
@@ -115,19 +118,7 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
         nickField.setDefaultFontColor();
     }
 
-    public double getPagePositionX() {
-        return pagePositionX;
-    }
-
-    public void removeSignSpriteFromRoot() {
-        sign.removeNodeFromRoot();
-    }
-
-    public void setSignVisible(boolean value) {
-        sign.setVisible(value);
-    }
-
-    public void addWinButtons() {
+    public void addGameOverButtons() {
         addRepeatGameButton();
         addStartGameButton();
         addEndGameButton();
@@ -151,6 +142,16 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
         getChildren().add(button);
     }
 
+    public void setPaneVisible(boolean value) {
+        setSignVisible(value);
+        setVisible(value);
+    }
+
+    public void setSignVisible(boolean value) {
+        sign.setVisible(value);
+    }
+
+    //----------------------------------------------------------------------------------------------------------------//
     @Override
     public void attachObserver(IEventKindObserver observer) {
         observers.add(observer);
@@ -166,5 +167,4 @@ public class PlayerInfoPage extends FlowPane implements IDrawingGraphic, IEventK
         for (IEventKindObserver observer : observers)
             observer.updateObserver(eventKind);
     }
-
 }

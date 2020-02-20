@@ -1,14 +1,14 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages.*;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages.*;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages.IScenePage;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages.IScenePage;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage.GameBoardPage;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages.GameBoardPage;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
@@ -164,8 +164,12 @@ public class PagesManager implements IEventKindObservable, IEventKindObserver {
         gameBoardPage.changeGridBoxState(state, coordsX, coordsY);
     }
 
-    public void changeSceneToWinnerGamePage(int winningPlayerIndex, String playerNick) {
-        gameBoardPage.changeSceneToWinnerGamePage(winningPlayerIndex, playerNick);
+    public void changeSceneToWinGamePage(int winningPlayerIndex, String playerNick) {
+        gameBoardPage.changeSceneToWinResultPage(winningPlayerIndex, playerNick);
+    }
+
+    public void changeSceneToDrawGamePage() {
+        gameBoardPage.changeSceneToDrawResultPage();
     }
 
     public void denyInteractionWithAllBoxes() {

@@ -128,7 +128,7 @@ public class GameController implements IEventKindObserver {
         }
 
         if (isDraw(result)) {
-            //todo: pokazac panel remisu
+            gameView.changeSceneToDrawGamePage();
             return true;
         }
 

@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.gamePage;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.animated.GameBoxButtonSprite;
@@ -26,18 +26,18 @@ public class GameBoard implements IDrawingGraphic {
     private List<SignButtonSprite> signButtonSprites;
     private Point2D lastChosenBoxCoords;
     private int boardSize = DEFAULT_BOARD_SIZE;
-    private double labelPaneHeight;
+    private double headerPaneHeight;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public GameBoard(double labelPaneHeight) {
-        initializeGameBoard(labelPaneHeight);
+    public GameBoard(double headerPaneHeight) {
+        initializeGameBoard(headerPaneHeight);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
-    private void initializeGameBoard(double labelPaneHeight) {
+    private void initializeGameBoard(double headerPaneHeight) {
         manager = ViewManager.getInstance();
         signButtonSprites = new ArrayList<>();
-        this.labelPaneHeight = labelPaneHeight;
+        this.headerPaneHeight = headerPaneHeight;
     }
 
     public void initializeGameGrid(int boardSize, IEventKindObserver observer) throws IncorrectBoardSizeException {
@@ -49,17 +49,17 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private void addGameGridBoxes(int boardSize, IEventKindObserver observer) {
-        double buttonSize = getGridButtonSize();
+        double buttonSize = getBoxSpriteSize();
         double startedPositionX = getFirstButtonXPositionToCenterWithOthers(boardSize, 0, buttonSize);
         for (int row = 0; row < boardSize; row++) {
             for (int column = 0; column < boardSize; column++) {
-                boxButtonSprites[row][column] = getNewBox(row, column, startedPositionX, getFirstButtonYPosition(), buttonSize, observer);
+                boxButtonSprites[row][column] = getNewBoxSprite(row, column, startedPositionX, getFirstButtonYPosition(), buttonSize, observer);
             }
         }
     }
 
-    private double getGridButtonSize() {
-        return (manager.getBottomFrameBorder() - labelPaneHeight) * BOARD_SIZE_PROPORTION / boardSize;
+    private double getBoxSpriteSize() {
+        return (manager.getBottomFrameBorder() - headerPaneHeight) * BOARD_SIZE_PROPORTION / boardSize;
     }
 
     public double getFirstButtonXPositionToCenterWithOthers(int buttonsInRowQty, double buttonsPadding, double buttonWidth) {
@@ -67,15 +67,25 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private double getFirstButtonYPosition() {
-        return labelPaneHeight;
+        return headerPaneHeight;
     }
 
-    private GameBoxButtonSprite getNewBox(int rowIndex, int columnIndex, double startedPositionX, double startedPositionY, double buttonSize, IEventKindObserver observer) {
+    private GameBoxButtonSprite getNewBoxSprite(int rowIndex, int columnIndex, double startedPositionX, double startedPositionY, double buttonSize, IEventKindObserver observer) {
         GameBoxButtonSprite box = new GameBoxButtonSprite(rowIndex, columnIndex, buttonSize, true);
         setBoxPosition(box, startedPositionX, startedPositionY, rowIndex, columnIndex);
         box.attachObserver(observer);
         addGameBoxOnMouseClickedEvent(box);
         return box;
+    }
+
+    private void addGameBoxOnMouseClickedEvent(GameBoxButtonSprite box) {
+        box.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (box.isActive()) {
+                box.denyInteractionWithBox();
+                lastChosenBoxCoords = new Point2D(box.getCoordsX(), box.getCoordsY());
+                box.notifyObservers(EventKind.GAME_BOX_BUTTON_CLICKED);
+            }
+        });
     }
 
     private void setBoxPosition(GameBoxButtonSprite box, double startedPositionX, double startedPositionY, int rowIndex, int columnIndex) {
@@ -92,14 +102,10 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
-        SignButtonSprite sign =
-                new SignButtonSprite(signSheetProperty, getGridButtonSize() * SIGN_TO_BOARD_PROPORTION, false);
+        double signInBoxSize = getBoxSpriteSize() * SIGN_TO_BOARD_PROPORTION;
+        SignButtonSprite sign = new SignButtonSprite(signSheetProperty, signInBoxSize, false);
         setSignPosition(sign, rowIndex, columnIndex);
         signButtonSprites.add(sign);
-    }
-
-    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
-        boxButtonSprites[coordsX][coordsY].changeState(state);
     }
 
     private void setSignPosition(SignButtonSprite sign, int rowIndex, int columnIndex) {
@@ -109,14 +115,8 @@ public class GameBoard implements IDrawingGraphic {
         sign.setPositionY(getBoxPositionY(columnIndex, buttonSize, getFirstButtonYPosition() + buttonSize / 2 - sign.getHeight() / 2));
     }
 
-    private void addGameBoxOnMouseClickedEvent(GameBoxButtonSprite box) {
-        box.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (box.isActive()) {
-                box.denyInteractionWithBox();
-                lastChosenBoxCoords = new Point2D(box.getCoordsX(), box.getCoordsY());
-                box.notifyObservers(EventKind.GAME_BOX_BUTTON_CLICKED);
-            }
-        });
+    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
+        boxButtonSprites[coordsX][coordsY].changeState(state);
     }
 
     public void denyInteractionWithAllBoxes() {
@@ -170,17 +170,9 @@ public class GameBoard implements IDrawingGraphic {
             sign.update();
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
     public Point2D getLastChosenBoxCoords() {
         return lastChosenBoxCoords;
-    }
-
-    public Point2D getFirstButtonPosition() {
-        if (boxButtonSprites != null) {
-            double posX = boxButtonSprites[0][0].getPositionX();
-            double posY = boxButtonSprites[0][0].getPositionY();
-            return new Point2D(posX, posY);
-        }
-        return null;
     }
 
     public double getWidth() {

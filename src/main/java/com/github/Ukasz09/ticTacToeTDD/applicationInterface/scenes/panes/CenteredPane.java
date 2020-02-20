@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.panes;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import javafx.geometry.Orientation;

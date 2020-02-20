@@ -1,10 +1,10 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PlayerViewProperties;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.PlayerViewProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.PagesManager;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.PagesManager;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
@@ -115,7 +115,6 @@ public class GameView {
         pagesManager.showGamePage(actualPlayerID, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 
-
     public void addPlayerSignToBox(int rowIndex, int columnIndex) {
         pagesManager.addPlayerSignToBox(rowIndex, columnIndex, getPlayerSignSheet(actualPlayerID));
     }
@@ -129,7 +128,11 @@ public class GameView {
     }
 
     public void changeSceneToWinnerGamePage(int winningPlayerIndex) {
-        pagesManager.changeSceneToWinnerGamePage(winningPlayerIndex, getPlayerNick(winningPlayerIndex));
+        pagesManager.changeSceneToWinGamePage(winningPlayerIndex, getPlayerNick(winningPlayerIndex));
+    }
+
+    public void changeSceneToDrawGamePage() {
+        pagesManager.changeSceneToDrawGamePage();
     }
 
     public void denyInteractionWithAllBoxes() {

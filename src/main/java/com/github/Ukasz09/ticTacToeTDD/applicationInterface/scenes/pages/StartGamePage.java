@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationInterface.pages.choosePages.pages;
+package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsProperties;
