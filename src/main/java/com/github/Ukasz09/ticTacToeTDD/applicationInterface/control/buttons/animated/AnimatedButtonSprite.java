@@ -56,12 +56,13 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IEv
         return isActive;
     }
 
-    protected Image getSheetWithEffect(Image sheet, Effect effectToApply) {
+    protected Image getSheetWithEffect(Image sheet, Effect effectToApply, double opacity) {
         ImageView view = new ImageView();
         SnapshotParameters snapshot = new SnapshotParameters();
         snapshot.setFill(Color.TRANSPARENT);
         view.setImage(sheet);
         view.setEffect(effectToApply);
+        view.setOpacity(opacity);
         return view.snapshot(snapshot, null);
     }
 }

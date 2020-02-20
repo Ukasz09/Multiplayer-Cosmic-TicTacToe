@@ -3,10 +3,13 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.ani
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class SignButtonSprite extends AnimatedButtonSprite {
@@ -16,7 +19,6 @@ public class SignButtonSprite extends AnimatedButtonSprite {
     private Image signSheetToRender;
     private Image disableSignSheetToRender = null;
     private Image normalSheet;
-    private boolean isVisible = true;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public SignButtonSprite(ImageSheetProperty sheetProperty, boolean withImageViewInRoot) {
@@ -38,7 +40,7 @@ public class SignButtonSprite extends AnimatedButtonSprite {
 
     private void changeSheetToDisable() {
         if (disableSignSheetToRender == null)
-            disableSignSheetToRender = getSheetWithEffect(signSheetToRender, EFFECT_FOR_DISABLE_STATUS);
+            disableSignSheetToRender = getSheetWithEffect(signSheetToRender, EFFECT_FOR_DISABLE_STATUS, 1);
         signSheetToRender = disableSignSheetToRender;
     }
 
@@ -50,17 +52,20 @@ public class SignButtonSprite extends AnimatedButtonSprite {
 
     @Override
     public void render() {
-        if (isVisible)
-            renderSprite(signSheetToRender);
+        renderSprite(signSheetToRender);
     }
 
     @Override
     public void update() {
-        if (isVisible)
-            super.update();
+        super.update();
     }
 
-    public void setVisible(boolean value) {
-        isVisible = value;
+    /**
+     * Bloat operation. Use judiciously
+     */
+    public void setVisible(boolean visible) {
+        if (visible)
+            signSheetToRender = normalSheet;
+        else signSheetToRender = getSheetWithEffect(normalSheet, null, 0);
     }
 }

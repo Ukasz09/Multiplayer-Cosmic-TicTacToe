@@ -3,6 +3,8 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes.GameResultPane;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.GameBoard;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes.PlayerInfoPane;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
@@ -17,6 +19,9 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     private static final String GAME_HEADER_TEXT = "Tic-Tac-Toe";
     private static final String WINNER_HEADER_TEXT_PREFIX = "Winner: ";
     private static final String DRAW_HEADER_TEXT = "Unlucky. It's a draw! ";
+    private static final double SOUND_VOLUME = 1;
+    private static final SoundsPlayer DRAW_SOUND_EFFECT = SoundsProperties.drawEffect(SOUND_VOLUME);
+    private static final SoundsPlayer WIN_SOUND_EFFECT = SoundsProperties.winEffect(SOUND_VOLUME);
 
     private GameBoard gameBoard;
     private PlayerInfoPane[] playerInfoPanes;
@@ -126,6 +131,7 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
         changeSceneToGameResultPage(nextPlayerInfoPaneIndex);
         gameResultPane.addOscarStatue();
         setWinnerHeaderText(playerNick);
+        WIN_SOUND_EFFECT.playSound();
     }
 
     private void changeSceneToGameResultPage(int playerIndex) {
@@ -167,9 +173,13 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
     }
 
     public void changeSceneToDrawResultPage() {
-        getChildren().remove(playerInfoPanes[0]); //todo: tmmp
+        playerInfoPanes[0].setSignVisible(false);
+        playerInfoPanes[0].removeAvatarNode();
+        playerInfoPanes[0].removeNickFieldNode();
+        playerInfoPanes[0].centerButtonInPane();
         changeSceneToGameResultPage(1);
         setHeaderText(DRAW_HEADER_TEXT);
+        DRAW_SOUND_EFFECT.playSound();
     }
 
     public void denyInteractionWithAllBoxes() {

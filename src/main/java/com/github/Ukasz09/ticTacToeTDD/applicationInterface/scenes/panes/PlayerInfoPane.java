@@ -151,6 +151,19 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IEventK
         sign.setVisible(value);
     }
 
+    public void removeAvatarNode() {
+        getChildren().remove(avatar);
+    }
+
+    public void removeNickFieldNode() {
+        getChildren().remove(nickField);
+    }
+
+    public void centerButtonInPane() {
+        setOrientation(Orientation.VERTICAL);
+        setAlignment(Pos.CENTER);
+    }
+
     //----------------------------------------------------------------------------------------------------------------//
     @Override
     public void attachObserver(IEventKindObserver observer) {
