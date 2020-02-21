@@ -21,6 +21,8 @@ public abstract class GameBackground implements IBackground {
     public boolean playBackgroundSound() {
         if (backgroundSound == null)
             return false;
+        if (backgroundSoundIsPlaying)
+            backgroundSound.stopSound();
         backgroundSound.playSound();
         backgroundSoundIsPlaying = true;
         return true;

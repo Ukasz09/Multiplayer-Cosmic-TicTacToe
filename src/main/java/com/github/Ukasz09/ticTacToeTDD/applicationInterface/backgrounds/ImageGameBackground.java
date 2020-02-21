@@ -8,11 +8,6 @@ public class ImageGameBackground extends GameBackground {
     private Image backgroundImage;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ImageGameBackground(Image backgroundImage) {
-        super(null);
-        this.backgroundImage = backgroundImage;
-    }
-
     public ImageGameBackground(Image backgroundImage, SoundsPlayer backgroundSound) {
         super(backgroundSound);
         this.backgroundImage = backgroundImage;

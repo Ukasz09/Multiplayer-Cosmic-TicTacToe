@@ -18,7 +18,7 @@ public class BoardSizeChoosePage extends ChoosePage {
 
     //----------------------------------------------------------------------------------------------------------------//
     public BoardSizeChoosePage() {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND), HEADER_TEXT_PREFIX, Orientation.HORIZONTAL, getHGap(ViewManager.getInstance()));
+        super(StartGamePage.GAME_BACKGROUND, HEADER_TEXT_PREFIX, Orientation.HORIZONTAL, getHGap(ViewManager.getInstance()));
         addButtons();
     }
 

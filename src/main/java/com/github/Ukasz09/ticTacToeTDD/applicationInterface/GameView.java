@@ -2,6 +2,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.PlayerViewProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.PagesManager;

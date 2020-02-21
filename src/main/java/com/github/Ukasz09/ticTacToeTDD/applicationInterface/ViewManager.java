@@ -1,11 +1,13 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
+import com.github.Ukasz09.ticTacToeTDD.ResourceTemplate;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -14,6 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.awt.*;
+
 
 public class ViewManager {
     private static final String DEFAULT_FONT_FAMILY = "Helvetica";
@@ -165,6 +168,5 @@ public class ViewManager {
     public double getScaledWidth(double widthToScreenProportion) {
         return widthToScreenProportion * rightFrameBorder;
     }
-
 }
 

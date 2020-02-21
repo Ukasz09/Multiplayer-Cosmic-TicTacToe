@@ -18,7 +18,7 @@ public class NickChoosePage extends ChoosePage {
 
     //-----------------------------------------------------------------------------------------------------------------//
     public NickChoosePage() {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND), HEADER_TEXT_PREFIX + FIRST_PLAYER_NUMBER, Orientation.HORIZONTAL, 0);
+        super(StartGamePage.GAME_BACKGROUND, HEADER_TEXT_PREFIX + FIRST_PLAYER_NUMBER, Orientation.HORIZONTAL, 0);
         initializeTextField();
     }
 

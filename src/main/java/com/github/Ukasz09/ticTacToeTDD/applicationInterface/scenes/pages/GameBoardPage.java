@@ -29,7 +29,7 @@ public class GameBoardPage extends ChoosePage implements IEventKindObserver {
 
     //-----------------------------------------------------------------------------------------------------------------//
     public GameBoardPage() {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND, null), GAME_HEADER_TEXT, Orientation.HORIZONTAL, 0);
+        super(StartGamePage.GAME_BACKGROUND, GAME_HEADER_TEXT, Orientation.HORIZONTAL, 0);
         playerInfoPanes = new PlayerInfoPane[2];
         initializeGameBoard();
     }

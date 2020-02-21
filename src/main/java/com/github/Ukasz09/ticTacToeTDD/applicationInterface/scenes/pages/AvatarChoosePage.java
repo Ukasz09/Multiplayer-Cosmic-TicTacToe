@@ -18,7 +18,7 @@ public class AvatarChoosePage extends ChoosePage {
 
     //----------------------------------------------------------------------------------------------------------------//
     public AvatarChoosePage(String firstPlayerName) {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND), DEFAULT_LABEL_TEXT_PREFIX + firstPlayerName, Orientation.HORIZONTAL, 0);
+        super(StartGamePage.GAME_BACKGROUND, DEFAULT_LABEL_TEXT_PREFIX + firstPlayerName, Orientation.HORIZONTAL, 0);
         actualInitializedPlayerNick = firstPlayerName;
         addAvatarButtons();
     }

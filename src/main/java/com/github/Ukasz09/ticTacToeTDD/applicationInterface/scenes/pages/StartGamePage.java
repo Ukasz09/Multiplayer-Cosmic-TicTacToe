@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
@@ -13,9 +14,11 @@ public class StartGamePage extends ChoosePage {
     private static final double DEFAULT_VOLUME = 0.8;
     private static final SoundsPlayer DEFAULT_MUSIC = SoundsProperties.gameBackground(DEFAULT_VOLUME);
 
+    public static final GameBackground GAME_BACKGROUND = new ImageGameBackground(DEFAULT_BACKGROUND, DEFAULT_MUSIC);
+
     //----------------------------------------------------------------------------------------------------------------//
     public StartGamePage() {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND, DEFAULT_MUSIC), HEADER_TEXT, Orientation.VERTICAL, 0);
+        super(GAME_BACKGROUND, HEADER_TEXT, Orientation.VERTICAL, 0);
         addButtons();
     }
 

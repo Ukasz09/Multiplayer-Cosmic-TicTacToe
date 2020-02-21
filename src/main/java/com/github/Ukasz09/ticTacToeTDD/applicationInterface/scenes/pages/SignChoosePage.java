@@ -20,7 +20,7 @@ public class SignChoosePage extends ChoosePage {
 
     //-----------------------------------------------------------------------------------------------------------------//
     public SignChoosePage(String firstPlayerName) {
-        super(new ImageGameBackground(DEFAULT_BACKGROUND), String.format("%s%s", LABEL_TEXT_PREFIX, firstPlayerName), Orientation.HORIZONTAL, 0);
+        super(StartGamePage.GAME_BACKGROUND, String.format("%s%s", LABEL_TEXT_PREFIX, firstPlayerName), Orientation.HORIZONTAL, 0);
         actualInitializedPlayerNick = firstPlayerName;
         addSignButtons();
     }
