@@ -1,8 +1,6 @@
-﻿# Cosmic Tic-Tac-Toe [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) ![stability-frozen](https://img.shields.io/badge/stability-locked-blue.svg)
-
-> Cosmic Tic-Tac-Toe (TDD, Gradle, MVC) in Java language with JavaFX library
-
-Enhanced version of Tic-Tac-Toe game in cosmic atmosphere 🌠
+﻿# Cosmic Tic-Tac-Toe [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) [![stability-frozen](https://img.shields.io/badge/stability-locked-blue.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe)
+ 
+Enhanced version of Tic-Tac-Toe game in cosmic atmosphere
 - Selectable various size of game map
 - Fun, various available avatars
 - Animated game signs instead traditional ❌⭕️
