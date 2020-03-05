@@ -1,4 +1,4 @@
-﻿# Cosmic Tic-Tac-Toe[![License](https://img.shields.io/badge/licence-MIT-blue)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) [![Status](https://img.shields.io/badge/status-finished-brightgreen)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe)
+﻿# 🌠 Cosmic Tic-Tac-Toe [![License](https://img.shields.io/badge/licence-MIT-blue)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) [![Status](https://img.shields.io/badge/status-finished-brightgreen)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe)
 
  
 Enhanced version of Tic-Tac-Toe game in cosmic atmosphere
@@ -26,7 +26,7 @@ Enhanced version of Tic-Tac-Toe game in cosmic atmosphere
 - `Esc`: shortcut for end game button
 - `Enter`: shortcut for confirm button
 
-# JAR
+# How to use it
 If there is a problem with running, try to open it by console with command:
 ```cmd
 java -jar TicTacToe.jar
