@@ -26,13 +26,13 @@ Enhanced version of Tic-Tac-Toe game in cosmic atmosphere
 - `Esc`: shortcut for end game button
 - `Enter`: shortcut for confirm button
 
-# How to use it
+## How to use it
 If there is a problem with running, try to open it by console with command:
 ```cmd
 java -jar TicTacToe.jar
 ```
 
-# Software design stuff
+## Software design stuff
 **Used development process:**
 <br/><br/>
 ✅ TDD (for game logic) <br/>
