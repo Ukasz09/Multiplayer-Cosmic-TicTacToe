@@ -87,7 +87,15 @@ public class GameLogic {
     }
 
     public void changePlayerToNext() {
-        actualPlayerID = ((actualPlayerID + 1) % players.size());
+        actualPlayerID = getNextPlayerId();
+    }
+
+    private int getNextPlayerId() {
+        return (actualPlayerID + 1) % players.size();
+    }
+
+    public char getNextPlayer() {
+        return players.get(getNextPlayerId()).getIdentifier();
     }
 
     private void checkAxisIsCorrect(int offset) throws IncorrectFieldException {
@@ -229,4 +237,5 @@ public class GameLogic {
     public void resetActualPlayerID() {
         actualPlayerID = DEFAULT_PLAYER_ID;
     }
+
 }

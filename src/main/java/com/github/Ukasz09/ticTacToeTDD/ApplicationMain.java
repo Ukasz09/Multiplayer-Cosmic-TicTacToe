@@ -1,6 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.Gui;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.Logger;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameLogic;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.TicTacToeExceptions;
@@ -18,7 +18,7 @@ public class ApplicationMain extends Application {
 
     //----------------------------------------------------------------------------------------------------------------//
     private void initializeGameController() {
-        GameView gameView = new GameView();
+        Gui gui = new Gui();
         GameLogic gameLogic = null;
         try {
             gameLogic = new GameLogic();
@@ -26,7 +26,7 @@ public class ApplicationMain extends Application {
             Logger.logError(getClass(), "Critical game logic implementation error!");
             System.exit(-1);
         }
-        gameController = new GameController(gameView, gameLogic);
+        gameController = new GameController(gui, gameLogic);
     }
 
     @Override

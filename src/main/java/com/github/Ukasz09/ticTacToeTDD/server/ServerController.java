@@ -2,19 +2,20 @@ package com.github.Ukasz09.ticTacToeTDD.server;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameLogic;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.GameResult;
+import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectFieldException;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class ServerController implements IMsgObserver {
     public static final int SERVER_PORT = 6666;
 
     private GameLogic gameLogic;
     private Server server;
+
+
+    private boolean otherPlayerMadeChoice = false;
 
     //----------------------------------------------------------------------------------------------------------------//
     public ServerController(GameLogic gameLogic) {
@@ -29,70 +30,76 @@ public class ServerController implements IMsgObserver {
 
     @Override
     public void updateSubscriber(String msg, char signIdentifier) {
+        //zmienic na ify
         switch (msg) {
             case Messages.START_BTN_CLICKED: {
-                clearLevel();
-                resetActualPlayerID();
-                server.sendMessage(Messages.SCENE_TO_NICK_PAGE, signIdentifier);
+                if (otherPlayerMadeChoice) {
+                    clearLevel();
+                    resetActualPlayerID();
+                    server.sendMessageToAll(Messages.SCENE_TO_NICK_PAGE);
+                } else {
+                    server.sendMessage(Messages.CLEAR_ACTION_NODES, signIdentifier);
+                    waitForOtherPlayerResponse(signIdentifier);
+                }
             }
             break;
 
-            //todo: jakos wymyslec
             case Messages.CHOSEN_VALID_NAME: {
-                //todo; boolean hasNextPlayerToUpdate = gameView.updateNextPlayerName();
-                //if (!hasNextPlayerToUpdate) {
-                //  clearLevel();
-                //todo: gameView.changeSceneToNewAvatarChoosePage();
-                //}
+                if (otherPlayerMadeChoice) {
+                    clearLevel();
+                    server.sendMessageToAll(Messages.SCENE_TO_AVATAR_PAGE);
+                } else {
+                    server.sendMessage(Messages.CLEAR_ACTION_NODES, signIdentifier);
+                    waitForOtherPlayerResponse(signIdentifier);
+                }
             }
             break;
 
             case Messages.AVATAR_BTN_CLICKED: {
-                //todo:
-                // gameView.updateNextPlayerAvatar();
-                //  boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
-                //  if (!hasNextPlayerToUpdate) {
-                //      clearLevel();
-                //      gameView.changeSceneToNewSignChoosePage();
-                //  }
+                if (otherPlayerMadeChoice) {
+                    clearLevel();
+                    server.sendMessageToAll(Messages.SCENE_TO_SIGN_CHOOSE_PAGE);
+                } else {
+                    server.sendMessage(Messages.CLEAR_ACTION_NODES, signIdentifier);
+                    waitForOtherPlayerResponse(signIdentifier);
+                }
             }
             break;
 
             case Messages.SIGN_BTN_CLICKED: {
-                //todo:
-                //  gameView.updatePlayerSignSheet();
-//                boolean hasNextPlayerToUpdate = gameView.changeToNextPlayer();
-//                if (!hasNextPlayerToUpdate) {
-//                    clearLevel();
-//                    gameView.changeSceneToNewBoardSizeChoosePage();
-//                }
+                if (otherPlayerMadeChoice) {
+                    clearLevel();
+                    server.sendMessageToAll(Messages.SCENE_TO_BOARD_SIZE_PAGE);
+                } else {
+                    server.sendMessage(Messages.CLEAR_ACTION_NODES, signIdentifier);
+                    waitForOtherPlayerResponse(signIdentifier);
+                }
             }
             break;
 
+            //todo: do wiadomosci dodac board size
             case Messages.BOARD_SIZE_CHOSEN:
             case Messages.REPEAT_GAME_BUTTON: {
                 clearLevel();
                 resetActualPlayerID();
-
                 server.sendMessage(Messages.SCENE_TO_BOARD_PAGE, signIdentifier);
-                //todo:
-//                try {
-//                    gameLogic.resetBoard(gameView.getGameBoardSize());
-//                } catch (IncorrectBoardSizeException e) {
-                //Unchecked
-//                }
+                try {
+                    gameLogic.resetBoard(Integer.parseInt(msg.split(Messages.DELIMITER)[1]));
+                } catch (IncorrectBoardSizeException e) {
+                    //Unchecked
+                }
             }
             break;
+
+            //todo: dodac do wiadomosci x,y boxa. Pamietac zeby zmienic gracza we view przed wyslaniem
             case Messages.BOX_BTN_CLICKED: {
                 //todo:
-//                Point2D coords = gameView.getLastChosenBoxCoords();
-//                int coordsX = (int) (coords.getX());
-//                int coordsY = (int) (coords.getY());
-//                boolean gameIsOver = checkGameResult(markField(coordsX, coordsY));
-//                if (!gameIsOver) {
-//                    gameView.changeToNextPlayer();
-//                    gameView.updateGamePage();
-//                }
+                String[] splited = msg.split(Messages.DELIMITER);
+                int coordsX = Integer.parseInt(splited[1]);
+                int coordsY = Integer.parseInt(splited[2]);
+                boolean gameIsOver = checkGameResult(markField(coordsX, coordsY));
+                if (!gameIsOver)
+                    server.sendMessage(Messages.WAITING_FOR_OTHER_PLAYER, gameLogic.getNextPlayer());
             }
             break;
 
@@ -104,11 +111,17 @@ public class ServerController implements IMsgObserver {
 
     private void clearLevel() {
         server.sendMessageToAll(Messages.CLEAR_ACTION_NODES);
+        otherPlayerMadeChoice = false;
     }
 
     private void resetActualPlayerID() {
         gameLogic.resetActualPlayerID();
         server.sendMessageToAll(Messages.RESET_ACTUAL_PLAYER_ID);
+    }
+
+    private void waitForOtherPlayerResponse(char waitingPlayerSign) {
+        otherPlayerMadeChoice = true;
+        server.sendMessage(Messages.WAITING_FOR_OTHER_PLAYER, waitingPlayerSign);
     }
 
     private GameResult markField(int coordsX, int coordsY) {

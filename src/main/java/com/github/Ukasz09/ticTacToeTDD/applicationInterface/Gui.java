@@ -11,7 +11,7 @@ import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
-public class GameView {
+public class Gui {
     private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
     private static final int DEFAULT_PLAYER_ID = 0;
 
@@ -31,7 +31,7 @@ public class GameView {
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameView() {
+    public Gui() {
         manager = ViewManager.getInstance();
         manager.initialize(APPLICATION_TITLE, false);
         pagesManager = new PagesManager();
