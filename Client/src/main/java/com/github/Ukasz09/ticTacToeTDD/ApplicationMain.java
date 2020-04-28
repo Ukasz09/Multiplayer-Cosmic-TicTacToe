@@ -1,7 +1,6 @@
 package com.github.Ukasz09.ticTacToeTDD;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.Logger;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.Gui;
 import com.github.Ukasz09.ticTacToeTDD.client.ClientController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,7 +12,7 @@ public class ApplicationMain extends Application {
 
     //----------------------------------------------------------------------------------------------------------------//
     public ApplicationMain() {
-        clientController = new ClientController(new GameView());
+        clientController = new ClientController(new Gui());
     }
 
     @Override

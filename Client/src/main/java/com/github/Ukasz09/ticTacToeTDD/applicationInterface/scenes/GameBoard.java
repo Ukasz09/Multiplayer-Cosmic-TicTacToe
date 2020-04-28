@@ -6,9 +6,9 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.anim
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.*;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.gameExceptions.*;
 
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;

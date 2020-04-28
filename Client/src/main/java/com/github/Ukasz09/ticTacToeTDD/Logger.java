@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationLogic;
+package com.github.Ukasz09.ticTacToeTDD;
 
 public class Logger {
 

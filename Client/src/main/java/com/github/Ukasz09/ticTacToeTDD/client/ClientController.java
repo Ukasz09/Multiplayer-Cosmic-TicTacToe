@@ -1,12 +1,12 @@
 package com.github.Ukasz09.ticTacToeTDD.client;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.GameView;
+import com.github.Ukasz09.ticTacToeTDD.Logger;
+import com.github.Ukasz09.ticTacToeTDD.applicationInterface.Gui;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.ViewManager;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
-import com.github.Ukasz09.ticTacToeTDD.server.Messages;
-import com.github.Ukasz09.ticTacToeTDD.server.ServerController;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.Messages;
 import javafx.geometry.Point2D;
 
 import java.awt.*;
@@ -14,54 +14,86 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientController implements IEventKindObserver {
-    private static final int PLAYERS_QTY = 2; //todo:
+public class ClientController extends Thread implements IEventKindObserver {
+    private static final int PLAYERS_QTY = 2;
+    private static final int SERVER_PORT = 6666;
 
-    private Client client;
-    private GameView gui;
+    private Gui gui;
     private ViewManager manager;
-    private Thread readerThread;
+    private Client client;
 
     private boolean gameIsEnd = false;
-
-    private class ResponseReader implements Runnable {
-//        Client client;
-
-//        public ResponseReader(Client client) {
-//            this.client = client;
-//        }
-
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    gui.setLastReadeResponse(client.readResponse());
-                } catch (IOException e) {
-                    System.out.println("ERR");
-                    System.exit(-1);
-                }
-            }
-        }
-    }
+    private String lastReaderMsg = null; //null = all messages proceeded
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ClientController(GameView gui) {
+//    public class ResponseReader extends Thread {
+//        @Override
+//        public void run() {
+//            while (gameIsEnd) {
+//                try {
+//                    if (lastReaderMsg == null)
+//                        lastReaderMsg = client.readResponse();
+//                } catch (IOException e) {
+//                    Logger.logError(getClass(), "Can't read server response: " + e.getMessage());
+//                    e.printStackTrace();
+//                    System.exit(-1);
+//                }
+//            }
+//        }
+//    }
+
+    //----------------------------------------------------------------------------------------------------------------//
+    public ClientController(Gui gui) {
         this.client = new Client();
         this.gui = gui;
         manager = ViewManager.getInstance();
-        readerThread = new Thread(new ResponseReader());
     }
 
     public void startGame() throws IOException {
-        client.startConnection(ServerController.SERVER_PORT);
+        client.startConnection(SERVER_PORT);
         gui.startGame(PLAYERS_QTY);
         gui.attachObserverToPagesManager(this);
         gui.attachObserver(this);
-        readerThread.start();
+        start();
+//        startResponseProcessingLoop();
     }
 
-    private void processResponse(String response) throws IOException {
+    @Override
+    public void run() {
+        while (!gameIsEnd) {
+            try {
+                lastReaderMsg = client.readResponse(); //because it is allowed to manipulate FX components only from FX thread
+                gui.isMessageToProcess(true);
+            } catch (IOException e) {
+                Logger.logError(getClass(), "Can't read server response: " + e.getMessage());
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+        endGame();
+    }
+
+//    private void startResponseProcessingLoop() {
+//        while (!gameIsEnd) {
+//            if (lastReaderMsg != null)
+//                processResponse(lastReaderMsg);
+//            lastReaderMsg = null;
+//        }
+//        endGame();
+//    }
+
+    private void endGame() {
+        try {
+            client.stopConnection();
+        } catch (IOException e) {
+            Logger.logError(getClass(), "Can't stop connection with client: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(-1);
+        }
+        System.exit(0);
+    }
+
+    private void processResponse(String response) {
         System.out.println("RESPONSE:" + response);
 
         switch (response) {
@@ -105,8 +137,7 @@ public class ClientController implements IEventKindObserver {
             break;
 
             case Messages.CLOSE_MAIN_STAGE: {
-                client.stopConnection();
-                System.exit(0);
+                gameIsEnd = true;
             }
             break;
 
@@ -137,6 +168,7 @@ public class ClientController implements IEventKindObserver {
                 }
             }
 
+
         }
     }
 
@@ -159,14 +191,7 @@ public class ClientController implements IEventKindObserver {
     public void updateObserver(EventKind eventKind) {
         switch (eventKind) {
             case READED_MSG:
-                try {
-                    processResponse(gui.getLastReadeResponse());
-                    gui.setLastReadeResponse(null);
-                } catch (IOException e) {
-                    System.out.println("CANT PROCESS MSG");
-                    e.printStackTrace();
-                    System.exit(-1);
-                }
+                processResponse(lastReaderMsg);
                 break;
 
             case START_BUTTON_CLICKED: {

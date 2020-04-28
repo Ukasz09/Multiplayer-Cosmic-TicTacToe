@@ -1,10 +1,9 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.SpritesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.animated.SignButtonSprite;
 import javafx.geometry.Orientation;
 import javafx.scene.input.MouseEvent;

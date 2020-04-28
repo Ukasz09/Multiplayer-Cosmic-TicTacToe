@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions;
+package com.github.Ukasz09.ticTacToeTDD.gameExceptions;
 
 public class IncorrectBoardSizeException extends TicTacToeExceptions {
     private static final String DEFAULT_MSG = "Incorrect board size";

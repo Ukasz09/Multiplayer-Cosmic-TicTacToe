@@ -8,9 +8,9 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.anim
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.GameTextField;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObservable;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObserver;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

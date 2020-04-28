@@ -1,8 +1,7 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal.HoveredActiveImageButton;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;

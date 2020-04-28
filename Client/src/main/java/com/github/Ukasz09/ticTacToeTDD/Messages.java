@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.server;
+package com.github.Ukasz09.ticTacToeTDD;
 
 public class Messages {
     //From clients

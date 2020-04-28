@@ -6,11 +6,10 @@ import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.panes.PlayerI
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.game.gameExceptions.IncorrectBoardSizeException;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.gameExceptions.IncorrectBoardSizeException;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;

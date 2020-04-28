@@ -3,7 +3,7 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsPlayer;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sounds.SoundsProperties;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.normal.GameControlButton;
 import javafx.geometry.Orientation;

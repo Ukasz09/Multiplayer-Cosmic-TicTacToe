@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers;
+package com.github.Ukasz09.ticTacToeTDD.eventObservers;
 
 public interface IEventKindObservable {
     void attachObserver(IEventKindObserver observer);

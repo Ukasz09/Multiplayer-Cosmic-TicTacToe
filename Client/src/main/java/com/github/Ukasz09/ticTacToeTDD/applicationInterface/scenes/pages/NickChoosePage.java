@@ -1,9 +1,8 @@
 package com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.pages;
 
+import com.github.Ukasz09.ticTacToeTDD.UserNameValidator;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.textFields.EditableTextField;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.backgrounds.ImageGameBackground;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.UserNameValidator;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
 import javafx.geometry.Orientation;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;

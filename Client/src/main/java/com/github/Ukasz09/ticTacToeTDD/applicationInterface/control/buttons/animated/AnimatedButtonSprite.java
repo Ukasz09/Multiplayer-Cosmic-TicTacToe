@@ -3,11 +3,10 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface.control.buttons.ani
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.AnimatedSprite;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObservable;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObserver;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

@@ -2,11 +2,10 @@ package com.github.Ukasz09.ticTacToeTDD.applicationInterface;
 
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.PlayerViewProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImageSheetProperty;
-import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.sprites.states.SpriteStates;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.EventKind;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObservable;
-import com.github.Ukasz09.ticTacToeTDD.applicationLogic.eventObservers.IEventKindObserver;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.EventKind;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObservable;
+import com.github.Ukasz09.ticTacToeTDD.eventObservers.IEventKindObserver;
 import com.github.Ukasz09.ticTacToeTDD.applicationInterface.scenes.PagesManager;
 
 import javafx.animation.AnimationTimer;
@@ -16,7 +15,7 @@ import javafx.scene.image.ImageView;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GameView implements IEventKindObservable {
+public class Gui implements IEventKindObservable {
     private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
     private static final int DEFAULT_PLAYER_ID = 0;
 
@@ -25,8 +24,8 @@ public class GameView implements IEventKindObservable {
     private int actualPlayerID = DEFAULT_PLAYER_ID;
     private PlayerViewProperties[] playerViewProperties;
     private PagesManager pagesManager;
-    private String lastReadeResponse = null;
     private Set<IEventKindObserver> observers;
+    private boolean isMessageToProcess = false;
 
     //----------------------------------------------------------------------------------------------------------------//
     class GameAnimationTimer extends AnimationTimer {
@@ -34,13 +33,15 @@ public class GameView implements IEventKindObservable {
         public void handle(long currentNanoTime) {
             pagesManager.getActualScene().update();
             pagesManager.getActualScene().render();
-            //todo
-            if (lastReadeResponse != null) notifyObservers(EventKind.READED_MSG);
+            if (isMessageToProcess) {
+                isMessageToProcess = false;
+                notifyObservers(EventKind.READED_MSG);
+            }
         }
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameView() {
+    public Gui() {
         observers = new HashSet<>();
         manager = ViewManager.getInstance();
         manager.initialize(APPLICATION_TITLE, true);
@@ -185,14 +186,6 @@ public class GameView implements IEventKindObservable {
         return (playerIndex >= 0 && playerIndex < playerViewProperties.length);
     }
 
-    public void setLastReadeResponse(String lastReadeResponse) {
-        this.lastReadeResponse = lastReadeResponse;
-    }
-
-    public String getLastReadeResponse() {
-        return lastReadeResponse;
-    }
-
     @Override
     public void attachObserver(IEventKindObserver observer) {
         observers.add(observer);
@@ -208,4 +201,9 @@ public class GameView implements IEventKindObservable {
         for (IEventKindObserver o : observers)
             o.updateObserver(eventKind);
     }
+
+    public void isMessageToProcess(boolean value) {
+        isMessageToProcess = value;
+    }
+
 }
