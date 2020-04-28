@@ -1,9 +1,12 @@
 package com.github.Ukasz09.ticTacToe.logic.client;
 
+import com.github.Ukasz09.ticTacToe.logic.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 
 public class Client {
@@ -15,7 +18,12 @@ public class Client {
 
     //----------------------------------------------------------------------------------------------------------------//
     public void startConnection(int port) throws IOException {
-        clientSocket = new Socket(SERVER_IP, port);
+        try {
+            clientSocket = new Socket(SERVER_IP, port);
+        } catch (ConnectException e) {
+            Logger.logError(getClass(), "Server is offline or other connection error: " + e.getMessage());
+            System.exit(-1);
+        }
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
