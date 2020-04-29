@@ -26,9 +26,15 @@ public class GameBoxButtonSprite extends AnimatedButtonSprite {
         return coordsY;
     }
 
-    public void denyInteractionWithBox() {
-        disable();
-        removeNodeFromRoot();
-        changeState(SpriteStates.NO_ANIMATION);
+    public void interactionWithBox(boolean allowed, boolean removeFromRoot) {
+        if (allowed) {
+            changeState(SpriteStates.STANDBY);
+            enable();
+        } else {
+            changeState(SpriteStates.NO_ANIMATION);
+            disable();
+        }
+        if (removeFromRoot)
+            removeNodeFromRoot();
     }
 }

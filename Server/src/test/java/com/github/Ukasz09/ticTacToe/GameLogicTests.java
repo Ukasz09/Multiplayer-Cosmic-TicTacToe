@@ -12,7 +12,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.github.Ukasz09.ticTacToe.logic.game.GameLogic.DEFAULT_PLAYERS_IDENTIFIERS;
+import static com.github.Ukasz09.ticTacToe.logic.game.GameLogic.PLAYERS_ID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameLogicTests {
@@ -73,37 +73,6 @@ class GameLogicTests {
                 assertEquals('X', gameLogic.getLastPlayerSignId());
             }
         }
-
-        @Nested
-        class InitializationTest {
-            @Test
-            void whenIncorrectBoardSizeThenIncorrectBoardException() {
-                assertThrows(IncorrectBoardSizeException.class, () -> gameLogic = new GameLogic(2));
-            }
-
-            @Test
-            void whenAddedPlayerWithTheSameIdentifierThenFalse() {
-                gameLogic.addPlayer('W');
-                assertFalse(gameLogic.addPlayer('W'));
-            }
-
-            @Test
-            void whenAdded2PlayersWithDifferentIdentifierThenTrueAndProperSize() {
-                gameLogic.addPlayer('W');
-                assertTrue(gameLogic.addPlayer('Z'));
-                assertEquals(DEFAULT_PLAYERS_IDENTIFIERS.length + 2, gameLogic.getPlayersQty());
-            }
-
-            @Test
-            void givenConstructorWithPlayersWhenPlayerWithTheSameIdentifierThenException() {
-                Player[] players = {
-                        new Player('X'),
-                        new Player('O'),
-                        new Player('X')
-                };
-                assertThrows(IncorrectPlayerException.class, () -> gameLogic = new GameLogic(3, GameLogic.DEFAULT_MARKS_QTY_FOR_WIN, players));
-            }
-        }
     }
 
     @Nested
@@ -112,6 +81,12 @@ class GameLogicTests {
         final void initializeDefaultTicTacGame() throws IncorrectBoardSizeException, IncorrectPlayerException {
             gameLogic = new GameLogic();
         }
+
+        @Test
+        void whenIncorrectBoardSizeThenIncorrectBoardException() {
+            assertThrows(IncorrectBoardSizeException.class, () -> gameLogic = new GameLogic(2));
+        }
+
 
         @Nested
         class WinnerTest {
@@ -309,10 +284,7 @@ class GameLogicTests {
     class TestsFor7x7BoardAndDefaultMarkQty {
         @BeforeEach
         final void initializeCustomTicTac() throws IncorrectBoardSizeException, IncorrectPlayerException {
-            gameLogic = new GameLogic(7, GameLogic.DEFAULT_MARKS_QTY_FOR_WIN, new Player[]{
-                    new Player(DEFAULT_PLAYERS_IDENTIFIERS[0]),
-                    new Player(DEFAULT_PLAYERS_IDENTIFIERS[1])
-            });
+            gameLogic = new GameLogic(7, GameLogic.DEFAULT_MARKS_QTY_FOR_WIN);
         }
 
         @Nested

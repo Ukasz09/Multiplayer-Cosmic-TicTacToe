@@ -16,15 +16,25 @@ public class SignChoosePage extends ChoosePage {
     private SignButtonSprite[] signButtonSprites;
     private ImageSheetProperty lastChosenSign = null;
     private String actualInitializedPlayerNick;
+    private int lastChosenSignId = -1;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public SignChoosePage(String firstPlayerName) {
         super(StartGamePage.GAME_BACKGROUND, String.format("%s%s", LABEL_TEXT_PREFIX, firstPlayerName), Orientation.HORIZONTAL, 0);
         actualInitializedPlayerNick = firstPlayerName;
         addSignButtons();
+        setSceneVisible(false);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
+    public void enable() {
+        setSceneVisible(true);
+        for (SignButtonSprite s : signButtonSprites) {
+            s.enable();
+            s.setVisible(true);
+        }
+    }
+
     private void addSignButtons() {
         int signButtonsQty = DEFAULT_SHEET_PROPERTIES.length;
         signButtonSprites = new SignButtonSprite[signButtonsQty];
@@ -32,6 +42,8 @@ public class SignChoosePage extends ChoosePage {
             SignButtonSprite signButtonSprite = new SignButtonSprite(DEFAULT_SHEET_PROPERTIES[i], true);
             signButtonSprites[i] = signButtonSprite;
             addSignButtonEventHandler(signButtonSprite);
+            signButtonSprite.setVisible(false);
+            signButtonSprite.disable();
         }
         setSignButtonsCorrectPositions(manager.getScaledWidth(BUTTONS_PADDING_TO_SCREEN_PROPORTION));
     }
@@ -40,10 +52,20 @@ public class SignChoosePage extends ChoosePage {
         signButtonSprite.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (signButtonSprite.isActive()) {
                 lastChosenSign = signButtonSprite.getSpriteSheetProperty();
+                setLastChosenId(signButtonSprite);
                 signButtonSprite.disable();
                 signButtonSprite.notifyObservers(GuiEvents.SIGN_BTN_CLICKED);
             }
         });
+    }
+
+    //todo: tmp: dac mape
+    private void setLastChosenId(SignButtonSprite signButtonSprite) {
+        for (int i = 0; i < signButtonSprites.length; i++)
+            if (signButtonSprites[i].equals(signButtonSprite)) {
+                lastChosenSignId = i;
+                return;
+            }
     }
 
     private void setSignButtonsCorrectPositions(double buttonPadding) {
@@ -115,6 +137,14 @@ public class SignChoosePage extends ChoosePage {
     private void setButtonsImageViewVisible(boolean value) {
         for (SignButtonSprite button : signButtonSprites)
             button.setImageViewVisible(value);
+    }
+
+    public ImageSheetProperty getSign(int signId) {
+        return signButtonSprites[signId].getSpriteSheetProperty();
+    }
+
+    public int getLastChosenSignId() {
+        return lastChosenSignId;
     }
 
     //-----------------------------------------------------------------------------------------------------------------//

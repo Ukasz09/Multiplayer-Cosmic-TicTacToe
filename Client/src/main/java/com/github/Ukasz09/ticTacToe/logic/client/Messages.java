@@ -21,10 +21,11 @@ public class Messages {
     public static final String SCENE_TO_SIGN_CHOOSE = "scene_to_sign_page";
     public static final String SCENE_TO_BOARD_SIZE = "scene_to_board_size_page";
     public static final String CLOSE_GUI = "close_main_stage";
-    public static final String CLEAR_NODES = "clear_action_nodes";
-    public static final String RESET_PLAYER_ID = "reset_actual_player_id";
     public static final String ADD_SIGN_TO_BOX = "add_player_sign_to_box";
     public static final String DENY_INTERACTION_WITH_BOXES = "deny_interaction_with_boxes";
+    public static final String ALLOW_INTERACTION_WITH_BOXES = "allow_interaction_with_boxes";
     public static final String CHANGE_BOXES_STATE = "change_boxes_state";
     public static final String WAITING_FOR_OTHER_PLAYER = "waiting_for_other_player";
+    public static final String OCCUPY_AVATAR = "occupy_avatar";
+    public static final String OCCUPY_GUI_SIGN = "occupy_gui_sign";
 }

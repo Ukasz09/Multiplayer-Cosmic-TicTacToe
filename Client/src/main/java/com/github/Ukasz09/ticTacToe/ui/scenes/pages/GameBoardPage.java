@@ -181,8 +181,8 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         DRAW_SOUND_EFFECT.playSound();
     }
 
-    public void denyInteractionWithAllBoxes() {
-        gameBoard.denyInteractionWithAllBoxes();
+    public void interactionWithAllBoxes(boolean allowed) {
+        gameBoard.interactionWithAllBoxes(allowed);
     }
 
     @Override

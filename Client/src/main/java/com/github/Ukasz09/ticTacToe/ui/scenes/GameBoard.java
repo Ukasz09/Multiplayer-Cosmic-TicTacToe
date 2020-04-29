@@ -81,7 +81,7 @@ public class GameBoard implements IDrawingGraphic {
     private void addGameBoxOnMouseClickedEvent(GameBoxButtonSprite box) {
         box.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (box.isActive()) {
-                box.denyInteractionWithBox();
+                box.interactionWithBox(false, true);
                 lastChosenBoxCoords = new Point2D(box.getCoordsX(), box.getCoordsY());
                 box.notifyObservers(GuiEvents.BOX_BTN_CLICKED);
             }
@@ -119,11 +119,11 @@ public class GameBoard implements IDrawingGraphic {
         boxButtonSprites[coordsX][coordsY].changeState(state);
     }
 
-    public void denyInteractionWithAllBoxes() {
+    public void interactionWithAllBoxes(boolean allowed) {
         if (boxButtonSprites != null) {
             for (int row = 0; row < boxButtonSprites.length; row++)
                 for (int column = 0; column < boxButtonSprites[0].length; column++)
-                    boxButtonSprites[row][column].denyInteractionWithBox();
+                    boxButtonSprites[row][column].interactionWithBox(allowed, false);
         }
 
     }

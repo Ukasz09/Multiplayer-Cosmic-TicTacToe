@@ -21,7 +21,7 @@ public class ServerController implements IMsgObserver {
     //----------------------------------------------------------------------------------------------------------------//
     public ServerController(GameLogic gameLogic) {
         this.gameLogic = gameLogic;
-        this.server = new Server(GameLogic.DEFAULT_PLAYERS_IDENTIFIERS);
+        this.server = new Server(GameLogic.PLAYERS_ID);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -30,72 +30,37 @@ public class ServerController implements IMsgObserver {
     }
 
     @Override
-    public void updateMsgObserver(String msg, char clientSignId) {
-        System.out.println("Message:" + msg); //todo: tmp
+    public synchronized void updateMsgObserver(String msg, char clientSignId) {
+        System.out.println("Otrzymana wiadomosc:" + msg); //todo: tmp
 
-        switch (msg) {
-            case Messages.START_BTN_CLICKED:
-                if (otherPlayerMadeChoice) {
-                    clearLevel();
-                    resetActualPlayerID();
-                    server.sendMessageToAll(Messages.SCENE_TO_NICK);
-                } else {
-                    server.sendMessage(Messages.CLEAR_NODES, clientSignId);
-                    waitForOtherPlayerResponse(clientSignId);
-                }
-                break;
-            case Messages.CHOSEN_VALID_NAME:
-                if (otherPlayerMadeChoice) {
-                    clearLevel();
-                    server.sendMessageToAll(Messages.SCENE_TO_AVATAR);
-                } else {
-                    server.sendMessage(Messages.CLEAR_NODES, clientSignId);
-                    waitForOtherPlayerResponse(clientSignId);
-                }
-                break;
-            case Messages.AVATAR_BTN_CLICKED:
-                if (otherPlayerMadeChoice) {
-                    clearLevel();
-                    server.sendMessageToAll(Messages.SCENE_TO_SIGN_CHOOSE);
-                } else {
-                    server.sendMessage(Messages.CLEAR_NODES, clientSignId);
-                    waitForOtherPlayerResponse(clientSignId);
-                }
-                break;
-            case Messages.SIGN_BTN_CLICKED:
-                if (otherPlayerMadeChoice) {
-                    clearLevel();
-                    server.sendMessageToAll(Messages.SCENE_TO_BOARD_SIZE);
-                } else {
-                    server.sendMessage(Messages.CLEAR_NODES, clientSignId);
-                    waitForOtherPlayerResponse(clientSignId);
-                }
-                break;
-            case Messages.END_GAME_BTN_CLICKED:
-                server.sendMessage(Messages.CLOSE_GUI, clientSignId);
-                break;
-            default:
-                processCompoundMsg(msg, clientSignId);
-        }
-    }
-
-    private void processCompoundMsg(String msg, char clientSignId) {
-        if (msg.contains(Messages.BOARD_SIZE_CHOSEN) || msg.contains(Messages.REPEAT_GAME_BTN))
+        if (msg.equals(Messages.START_BTN_CLICKED)) startBtnMsg(clientSignId);
+        else if (msg.equals(Messages.CHOSEN_VALID_NAME)) chosenNameMsg(clientSignId);
+        else if (msg.equals(Messages.END_GAME_BTN_CLICKED)) server.sendMessage(Messages.CLOSE_GUI, clientSignId);
+        else if (msg.contains(Messages.BOX_BTN_CLICKED)) boxClickedMsg(msg, clientSignId);
+        else if (msg.contains(Messages.SIGN_BTN_CLICKED)) signBtnClickedMsg(msg, clientSignId);
+        else if (msg.contains(Messages.AVATAR_BTN_CLICKED)) avatarBtnClickedMsg(msg, clientSignId);
+        else if (msg.contains(Messages.BOARD_SIZE_CHOSEN) || msg.contains(Messages.REPEAT_GAME_BTN))
             newGameBoardMsg(msg, clientSignId);
-        else if (msg.contains(Messages.BOX_BTN_CLICKED))
-            boxClickedMsg(msg);
         else Logger.logCommunicate("Unknown message");
     }
 
-    private void clearLevel() {
-        server.sendMessageToAll(Messages.CLEAR_NODES);
-        otherPlayerMadeChoice = false;
+    private void startBtnMsg(char clientSignId) {
+        server.sendMessage(Messages.SCENE_TO_NICK, clientSignId);
+    }
+
+    private void chosenNameMsg(char clientSignId) {
+        if (otherPlayerMadeChoice) {
+            otherPlayerMadeChoice = false;
+            server.sendMessage(Messages.SCENE_TO_AVATAR, clientSignId);
+        } else waitForOtherPlayerResponse(clientSignId);
+
     }
 
     private void newGameBoardMsg(String msg, char clientSignId) {
-        clearLevel();
-        resetActualPlayerID();
-        server.sendMessage(Messages.SCENE_TO_BOARD, clientSignId);
+        otherPlayerMadeChoice = false;
+        gameLogic.setActualPlayerID(gameLogic.getNextPlayer(clientSignId));
+        server.sendMessageToAll(Messages.SCENE_TO_BOARD + Messages.DELIMITER + gameLogic.getBoardSize() + Messages.DELIMITER + gameLogic.getActualPlayerIndex());
+        server.sendMessage(Messages.DENY_INTERACTION_WITH_BOXES, clientSignId);
         try {
             gameLogic.resetBoard(Integer.parseInt(msg.split(Messages.DELIMITER)[1]));
         } catch (IncorrectBoardSizeException e) {
@@ -103,18 +68,39 @@ public class ServerController implements IMsgObserver {
         }
     }
 
-    private void boxClickedMsg(String msg) {
+    private void boxClickedMsg(String msg, char clientSignId) {
         String[] split = msg.split(Messages.DELIMITER);
         int coordsX = Integer.parseInt(split[1]);
         int coordsY = Integer.parseInt(split[2]);
         boolean gameIsOver = checkGameResult(markField(coordsX, coordsY));
-        if (!gameIsOver)
-            server.sendMessage(Messages.WAITING_FOR_OTHER_PLAYER, gameLogic.getNextPlayer());
+        if (!gameIsOver) {
+            server.sendMessage(Messages.DENY_INTERACTION_WITH_BOXES, clientSignId);
+            server.sendMessage(Messages.ALLOW_INTERACTION_WITH_BOXES, gameLogic.getNextPlayer(clientSignId));
+        }
     }
 
-    private void resetActualPlayerID() {
-        gameLogic.resetActualPlayerID();
-        server.sendMessageToAll(Messages.RESET_PLAYER_ID);
+    private void signBtnClickedMsg(String msg, char clientSignId) {
+        String occupyMsg = Messages.OCCUPY_GUI_SIGN + Messages.DELIMITER + msg.split(Messages.DELIMITER)[1]; //occupyMsg:guiSignIndex
+        server.sendMessage(occupyMsg, gameLogic.getNextPlayer(clientSignId));
+        if (otherPlayerMadeChoice) {
+            otherPlayerMadeChoice = false;
+            server.sendMessage(Messages.SCENE_TO_BOARD_SIZE, clientSignId);
+        } else {
+            waitForOtherPlayerResponse(clientSignId);
+            server.sendMessage(Messages.SCENE_TO_SIGN_CHOOSE, gameLogic.getNextPlayer(clientSignId));
+        }
+    }
+
+    private void avatarBtnClickedMsg(String msg, char clientSignId) {
+        String occupyMsg = Messages.OCCUPY_AVATAR + Messages.DELIMITER + msg.split(Messages.DELIMITER)[1]; //occupyMsg:avatarIndex
+        server.sendMessage(occupyMsg, gameLogic.getNextPlayer(clientSignId));
+        if (otherPlayerMadeChoice) {
+            otherPlayerMadeChoice = false;
+            server.sendMessage(Messages.SCENE_TO_SIGN_CHOOSE, clientSignId);
+        } else {
+            waitForOtherPlayerResponse(clientSignId);
+            server.sendMessage(Messages.SCENE_TO_AVATAR, gameLogic.getNextPlayer(clientSignId));
+        }
     }
 
     private void waitForOtherPlayerResponse(char waitingPlayerSign) {
@@ -153,8 +139,7 @@ public class ServerController implements IMsgObserver {
         server.sendMessageToAll(Messages.DENY_INTERACTION_WITH_BOXES);
         String boxStatesMsg = Messages.CHANGE_BOXES_STATE + Messages.DELIMITER + getWinningCordsMsg();
         server.sendMessageToAll(boxStatesMsg);
-        int indexOfWinner = gameLogic.getLastPlayerIndex();
-        server.sendMessageToAll(Messages.SCENE_TO_WINNER + Messages.DELIMITER + indexOfWinner);
+        server.sendMessageToAll(Messages.SCENE_TO_WINNER + Messages.DELIMITER + gameLogic.getActualPlayerIndex());
     }
 
     private boolean isWin(GameResults result) {

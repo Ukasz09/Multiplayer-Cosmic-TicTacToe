@@ -35,6 +35,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     //----------------------------------------------------------------------------------------------------------------//
     private void initializeStartGamePage() {
         startGamePage = new StartGamePage();
+        initializeSignChoosePage("unknown");
         startGamePage.attachObserver(this);
     }
 
@@ -117,13 +118,14 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public void changeSceneToNewSignChoosePage(String firstPlayerNick) {
-        initializeSignChoosePage();
+//        initializeSignChoosePage(firstPlayerNick);
+        signChoosePage.enable();
         signChoosePage.setActualInitializedPlayerNick(firstPlayerNick);
         changeScene(signChoosePage);
     }
 
-    private void initializeSignChoosePage() {
-        signChoosePage = new SignChoosePage("unknown");
+    private void initializeSignChoosePage(String firstPlayerNick) {
+        signChoosePage = new SignChoosePage(firstPlayerNick);
         signChoosePage.attachObserver(this);
     }
 
@@ -145,7 +147,8 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
             signChoosePage.setActualInitializedPlayerNick(playerNick);
     }
 
-    private void setActualSceneVisible(boolean value) {
+    //todo: tmp - pozniej zmienic na wait_scene i private
+    public void setActualSceneVisible(boolean value) {
         if (actualScene != null)
             actualScene.setSceneVisible(value);
     }
@@ -172,8 +175,8 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         gameBoardPage.changeSceneToDrawResultPage();
     }
 
-    public void denyInteractionWithAllBoxes() {
-        gameBoardPage.denyInteractionWithAllBoxes();
+    public void interactionWithAllBoxes(boolean allowed) {
+        gameBoardPage.interactionWithAllBoxes(allowed);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -185,12 +188,24 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         return nickChoosePage.getLastChosenCorrectName();
     }
 
-    public ImageView getLastChosenAvatar() {
-        return avatarChoosePage.getChosenImage();
+    public ImageView getAvatarImage(int avatarIndex) {
+        return AvatarChoosePage.getAvatarImage(avatarIndex);
+    }
+
+    public int getLastChosenAvatarId() {
+        return avatarChoosePage.getLastChosenAvatarId();
+    }
+
+    public int getLastChosenSignId() {
+        return signChoosePage.getLastChosenSignId();
     }
 
     public ImageSheetProperty getLastChosenSignSheet() {
         return signChoosePage.getLastChosenSign();
+    }
+
+    public ImageSheetProperty getSignSheet(int signId) {
+        return signChoosePage.getSign(signId);
     }
 
     @Override

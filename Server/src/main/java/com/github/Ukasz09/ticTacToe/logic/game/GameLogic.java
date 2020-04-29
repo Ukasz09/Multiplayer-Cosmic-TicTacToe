@@ -2,21 +2,22 @@ package com.github.Ukasz09.ticTacToe.logic.game;
 
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectFieldException;
-import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectPlayerException;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class GameLogic {
     public static final int DEFAULT_MARKS_QTY_FOR_WIN = 3;
     public static final int DEFAULT_BOARD_SIZE = 3;
-    public static final char[] DEFAULT_PLAYERS_IDENTIFIERS = {'X', 'O'};
+    public static final char[] PLAYERS_ID = {'X', 'O'};
     private static final char EMPTY_BOARD_MARK = '\0';
-    private static final int DEFAULT_PLAYER_ID = 1;
+    private static final int PLAYERS_QTY = 2;
+//    private static final int DEFAULT_PLAYER_ID = 1;
 
-    private int actualPlayerID = DEFAULT_PLAYER_ID;
-    private List<Player> players;
+    //    private int actualPlayerID = DEFAULT_PLAYER_ID;
+//    private List<Player> players;
+    private char actualPlayer = PLAYERS_ID[1];
+    //    private HashMap<Character, Player> players;
     private int boardSize = DEFAULT_BOARD_SIZE;
     private char[][] board;
     private int marksQtyForWin = DEFAULT_MARKS_QTY_FOR_WIN;
@@ -24,20 +25,17 @@ public class GameLogic {
     private int actualOffsetInWinningCoordsArr = 0;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameLogic() throws IncorrectPlayerException, IncorrectBoardSizeException {
+    public GameLogic() throws IncorrectBoardSizeException {
         this(DEFAULT_BOARD_SIZE);
     }
 
-    public GameLogic(int boardSize) throws IncorrectBoardSizeException, IncorrectPlayerException {
-        this(boardSize, DEFAULT_MARKS_QTY_FOR_WIN, new Player[]{
-                new Player(DEFAULT_PLAYERS_IDENTIFIERS[0]),
-                new Player(DEFAULT_PLAYERS_IDENTIFIERS[1])
-        });
+    public GameLogic(int boardSize) throws IncorrectBoardSizeException {
+        this(boardSize, DEFAULT_MARKS_QTY_FOR_WIN);
     }
 
-    public GameLogic(int boardSize, int marksQtyForWin, Player[] playersToInitialize) throws IncorrectBoardSizeException, IncorrectPlayerException {
+    public GameLogic(int boardSize, int marksQtyForWin) throws IncorrectBoardSizeException {
         resetBoard(boardSize, marksQtyForWin);
-        initializePlayers(playersToInitialize);
+//        initializePlayers(playersToInitialize);
         initializeWinningCoords();
     }
 
@@ -63,42 +61,46 @@ public class GameLogic {
             Arrays.fill(chars, EMPTY_BOARD_MARK);
     }
 
-    private void initializePlayers(Player[] playersToInitialize) throws IncorrectPlayerException {
-        players = new ArrayList<>();
-        for (Player player : playersToInitialize) {
-            if (players.contains(player))
-                throw new IncorrectPlayerException();
-            players.add(player);
-        }
-    }
-
-    public boolean addPlayer(char identifier) {
-        Player newPlayer = new Player(identifier);
-        if (players.contains(newPlayer))
-            return false;
-        players.add(newPlayer);
-        return true;
-    }
+//    private void initializePlayers(Player[] playersToInitialize) throws IncorrectPlayerException {
+//        players = new HashMap<>();
+//        for (Player player : playersToInitialize) {
+//            if (players.containsValue(player))
+//                throw new IncorrectPlayerException();
+//            players.put(player.getIdentifier(), player);
+//        }
+//    }
+//
+//    public boolean addPlayer(char identifier) {
+//        Player newPlayer = new Player(identifier);
+//        if (players.containsKey(identifier))
+//            return false;
+//        players.put(identifier, newPlayer);
+//        return true;
+//    }
 
     public GameResults markField(int x, int y) throws IncorrectFieldException {
         changePlayerToNext();
         checkAxisIsCorrect(x);
         checkAxisIsCorrect(y);
         checkFieldIsNotMarked(x, y);
-        setBox(x, y, (players.get(actualPlayerID)).getIdentifier());
+        setBox(x, y, actualPlayer);
         return getResult(x, y);
     }
 
     public void changePlayerToNext() {
-        actualPlayerID = getNextPlayerId();
+        actualPlayer = getNextPlayer(actualPlayer);
     }
 
-    private int getNextPlayerId() {
-        return (actualPlayerID + 1) % players.size();
+    public char getNextPlayer(char actualPlayer) {
+        return actualPlayer == PLAYERS_ID[0] ? PLAYERS_ID[1] : PLAYERS_ID[0];
     }
 
     public char getNextPlayer() {
-        return players.get(getNextPlayerId()).getIdentifier();
+        return getNextPlayer(actualPlayer);
+    }
+
+    public char getActualPlayer() {
+        return actualPlayer;
     }
 
     private void checkAxisIsCorrect(int offset) throws IncorrectFieldException {
@@ -117,20 +119,20 @@ public class GameLogic {
 
     private GameResults getResult(int lastX, int lastY) {
         if (isWin(lastX, lastY))
-            return actualPlayerID == 0 ? GameResults.WIN_PLAYER_0 : GameResults.WIN_PLAYER_1;
+            return actualPlayer == PLAYERS_ID[0] ? GameResults.WIN_PLAYER_0 : GameResults.WIN_PLAYER_1;
         return cantDoAnyMove() ? GameResults.DRAW : GameResults.GAME_NOT_FINISHED;
     }
 
     private boolean isWin(int lastX, int lastY) {
-        return checkHorizontalLineFilled(lastX) || checkVerticalLineFilled(lastY) || checkDiagonalLineFilled(lastX, lastY, (players.get(actualPlayerID)).getIdentifier());
+        return checkHorizontalLineFilled(lastX) || checkVerticalLineFilled(lastY) || checkDiagonalLineFilled(lastX, lastY, actualPlayer);
     }
 
     private boolean checkHorizontalLineFilled(int lastX) {
-        return straightLineIsFilled(true, lastX, (players.get(actualPlayerID)).getIdentifier());
+        return straightLineIsFilled(true, lastX, actualPlayer);
     }
 
     private boolean checkVerticalLineFilled(int lastY) {
-        return straightLineIsFilled(false, lastY, (players.get(actualPlayerID)).getIdentifier());
+        return straightLineIsFilled(false, lastY, actualPlayer);
     }
 
     /**
@@ -217,15 +219,7 @@ public class GameLogic {
     }
 
     public char getLastPlayerSignId() {
-        return (players.get(actualPlayerID)).getIdentifier();
-    }
-
-    public int getLastPlayerIndex() {
-        return actualPlayerID;
-    }
-
-    public int getPlayersQty() {
-        return players.size();
+        return actualPlayer;
     }
 
     public Point[] getWinningCoords() {
@@ -237,7 +231,11 @@ public class GameLogic {
         actualOffsetInWinningCoordsArr++;
     }
 
-    public void resetActualPlayerID() {
-        actualPlayerID = DEFAULT_PLAYER_ID;
+    public int getActualPlayerIndex() {
+        return actualPlayer == PLAYERS_ID[0] ? 0 : 1;
+    }
+
+    public void setActualPlayerID(char playerSign) {
+        this.actualPlayer = playerSign;
     }
 }

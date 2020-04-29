@@ -8,12 +8,16 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AvatarChoosePage extends ChoosePage {
     private static final String DEFAULT_LABEL_TEXT_PREFIX = "Choose avatar of player: ";
     private static final Image[] DEFAULT_AVATARS_IMAGES = ImagesProperties.avatars();
 
-    private ImageView chosenImage = null;
     private String actualInitializedPlayerNick;
+    private int lastChosenAvatarId = -1;
+    private static HashMap<Button, Integer> avatarsIdMap = initializeAvatarButtons();
 
     //----------------------------------------------------------------------------------------------------------------//
     public AvatarChoosePage(String firstPlayerName) {
@@ -23,18 +27,27 @@ public class AvatarChoosePage extends ChoosePage {
     }
 
     //----------------------------------------------------------------------------------------------------------------//
+    private static HashMap<Button, Integer> initializeAvatarButtons() {
+        HashMap<Button, Integer> map = new HashMap<>();
+        for (int i = 0; i < DEFAULT_AVATARS_IMAGES.length; i++) {
+            Button button = new HoveredActiveImageButton(DEFAULT_AVATARS_IMAGES[i]);
+            map.put(button, i);
+        }
+        return map;
+    }
+
     private void addAvatarButtons() {
-        for (Image avatarImage : DEFAULT_AVATARS_IMAGES) {
-            Button button = new HoveredActiveImageButton(avatarImage);
-            addMouseClickedActionToButton(button);
-            addToContentPane(button);
+        for (Map.Entry<Button, Integer> entry : avatarsIdMap.entrySet()) {
+            Button btn = entry.getKey();
+            addMouseClickedActionToButton(btn);
+            addToContentPane(btn);
         }
     }
 
     private void addMouseClickedActionToButton(Button button) {
         button.setOnMouseClicked(event -> {
-            chosenImage = ((ImageView) button.getGraphic());
             button.setDisable(true);
+            lastChosenAvatarId = avatarsIdMap.get(button);
             notifyObservers(GuiEvents.AVATAR_BTN_CLICKED);
         });
     }
@@ -45,12 +58,19 @@ public class AvatarChoosePage extends ChoosePage {
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ImageView getChosenImage() {
-        return chosenImage;
+    public static ImageView getAvatarImage(int index) {
+        for (Map.Entry<Button, Integer> entry : avatarsIdMap.entrySet()) {
+            if (entry.getValue() == index)
+                return ((ImageView) entry.getKey().getGraphic());
+        }
+        return null;
     }
 
     public void setActualInitializedPlayerNick(String actualInitializedPlayerNick) {
         this.actualInitializedPlayerNick = actualInitializedPlayerNick;
     }
 
+    public int getLastChosenAvatarId() {
+        return lastChosenAvatarId;
+    }
 }

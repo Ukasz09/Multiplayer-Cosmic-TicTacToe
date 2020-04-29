@@ -55,6 +55,7 @@ public class Server {
     }
 
     public void sendMessage(String msg, char signIdentifier) {
+        System.out.println("Wiadmoasc do wyslaania: " + msg + ", do: " + signIdentifier); //todo: tmp
         clientHandlers.forEach((k, v) -> {
             if (k == signIdentifier)
                 v.sendMessage(msg);
