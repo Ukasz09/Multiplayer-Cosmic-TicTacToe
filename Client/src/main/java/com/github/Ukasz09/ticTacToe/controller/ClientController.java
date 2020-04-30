@@ -33,7 +33,7 @@ public class ClientController extends Thread implements IGuiObserver {
     public void startGame() throws IOException {
         client.startConnection(SERVER_PORT);
         gui.startGame();
-        gui.attachObserverToPagesManager(this);
+        gui.getPagesManager().attachObserver(this);
         gui.attachObserver(this);
         start();
     }
@@ -74,9 +74,11 @@ public class ClientController extends Thread implements IGuiObserver {
                     processServerResponse(messagesToProcess.poll());
                 break;
             case START_BTN_CLICKED:
-            case CHOSEN_VALID_NAME: {
-//                gui.clearActionNodes();
                 client.sendMessage(guiEvents.getMsg());
+                break;
+            case CHOSEN_VALID_NAME: {
+                gui.updatePlayerNick();
+                client.sendMessage(guiEvents.getMsg() + Messages.DELIMITER + gui.getPlayerNick()); //todo: w serwerze przeslac widomosc o nicku i zmienic odbior
             }
             break;
             case AVATAR_BTN_CLICKED:
@@ -88,7 +90,7 @@ public class ClientController extends Thread implements IGuiObserver {
             case BOARD_SIZE_CHOSEN:
             case REPEAT_GAME_BTN: {
                 gui.clearActionNodes();
-                String msgToSend = guiEvents.getMsg() + Messages.DELIMITER + gui.getGameBoardSize();
+                String msgToSend = guiEvents.getMsg() + Messages.DELIMITER + gui.getPagesManager().getGameBoardSize();
                 client.sendMessage(msgToSend);
             }
             break;
@@ -106,38 +108,38 @@ public class ClientController extends Thread implements IGuiObserver {
 
         switch (response) {
             case Messages.SCENE_TO_NICK:
-                gui.changeSceneToNewNickChoosePage();
+                gui.getPagesManager().sceneToNickPage(gui.getNextPlayerNick());
                 break;
             case Messages.WAITING_FOR_OTHER_PLAYER: {
                 //todo: show msg in gui
                 System.out.println("Czekam na drugiego gracza");
-                gui.setActualSceneVisible(false);
+                gui.getPagesManager().setActualSceneVisible(false);
             }
             break;
             case Messages.SCENE_TO_AVATAR:
-                gui.changeSceneToNewAvatarChoosePage();
+                gui.getPagesManager().sceneToAvatarPage();
                 break;
             case Messages.SCENE_TO_SIGN_CHOOSE:
-                gui.changeSceneToNewSignChoosePage();
+                gui.getPagesManager().sceneToSignPage();
                 break;
             case Messages.SCENE_TO_BOARD_SIZE:
-                gui.changeSceneToNewBoardSizeChoosePage();
+                gui.getPagesManager().sceneToBoardSizePage();
                 break;
             case Messages.CLOSE_GUI:
                 endGame();
                 break;
             case Messages.DENY_INTERACTION_WITH_BOXES: {
-                gui.interactionWithAllBoxes(false);
+                gui.getPagesManager().interactionWithAllBoxes(false);
                 System.out.println("Ruch drugiego gracza teraz.."); //todo: print that actually others player move
             }
             break;
             case Messages.ALLOW_INTERACTION_WITH_BOXES: {
-                gui.interactionWithAllBoxes(true);
-                gui.showVisiblePlayerBoardPane(gui.getActualPlayerID());
+                gui.getPagesManager().interactionWithAllBoxes(true);
+                gui.getPagesManager().showVisibleOnlyActualPlayerPane(gui.getPlayerNumber());
             }
             break;
             case Messages.SCENE_TO_DRAW:
-                gui.changeSceneToDrawGamePage();
+                gui.getPagesManager().changeSceneToDrawGamePage();
                 break;
             default:
                 processCompoundMsg(response);
@@ -159,6 +161,8 @@ public class ClientController extends Thread implements IGuiObserver {
             processSceneToBoard(msg);
         else if (msg.contains(Messages.GIVEN_CLIENT_SIGN_NUMB))
             processGivenClientSignNumber(msg);
+        else if (msg.contains(Messages.OTHER_PLAYER_NICK))
+            processOtherPlayerNick(msg);
         else System.out.println("Unknown message: " + msg); //TODO:tmp
     }
 
@@ -174,30 +178,30 @@ public class ClientController extends Thread implements IGuiObserver {
 
     private void changeGridBoxesState(List<Point> coordsForStateChange, SpriteStates state) {
         for (Point point : coordsForStateChange)
-            gui.changeGridBoxState(state, (int) (point.getX()), (int) (point.getY()));
+            gui.getPagesManager().changeGridBoxState(state, (int) (point.getX()), (int) (point.getY()));
     }
 
     private void avatarChosenAction() {
 //        gui.clearActionNodes();
-        String avatarChosenMsg = Messages.AVATAR_BTN_CLICKED + Messages.DELIMITER + gui.getLastChosenAvatarId();
-        gui.updateActualPlayerAvatar();
+        String avatarChosenMsg = Messages.AVATAR_BTN_CLICKED + Messages.DELIMITER + gui.getPagesManager().getChosenAvatarNumber();
+        gui.updatePlayerAvatar();
         client.sendMessage(avatarChosenMsg);
     }
 
     private void signChosenAction() {
         gui.clearActionNodes();
-        String signChosenMsg = Messages.SIGN_BTN_CLICKED + Messages.DELIMITER + gui.getLastChosenSignId();
-        gui.updateActualPlayerSign();
+        String signChosenMsg = Messages.SIGN_BTN_CLICKED + Messages.DELIMITER + gui.getPagesManager().getChosenSignId();
+        gui.updatePlayerSign();
         client.sendMessage(signChosenMsg);
     }
 
     private void boxBtnClickedAction() {
-        gui.showVisiblePlayerBoardPane(gui.getNextPlayerNumb());
+        gui.getPagesManager().showVisibleOnlyActualPlayerPane(gui.getNextPlayerNumber());
 
-        Point2D coords = gui.getLastChosenBoxCoords();
+        Point2D coords = gui.getPagesManager().getLastChosenBoxCoords();
         String coordsX = String.valueOf((int) (coords.getX()));
         String coordsY = String.valueOf((int) (coords.getY()));
-        String actualPlayerId = String.valueOf(gui.getActualPlayerID());
+        String actualPlayerId = String.valueOf(gui.getPlayerNumber());
         String msgToSend = client.getCompoundMsg(Messages.BOX_BTN_CLICKED, new String[]{coordsX, coordsY, actualPlayerId});
         client.sendMessage(msgToSend);
     }
@@ -217,7 +221,7 @@ public class ClientController extends Thread implements IGuiObserver {
 
     private void processSceneToWinnerMsg(String msg) {
         int indexOfWinner = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
-        gui.showVisiblePlayerBoardPane(indexOfWinner);
+        gui.getPagesManager().showVisibleOnlyActualPlayerPane(indexOfWinner);
         gui.changeSceneToWinnerGamePage(indexOfWinner);
     }
 
@@ -237,12 +241,16 @@ public class ClientController extends Thread implements IGuiObserver {
         String[] split = msg.split(Messages.DELIMITER);
         int boardSize = Integer.parseInt(split[1]);
         int startedPlayerId = Integer.parseInt(split[2]);
-        gui.changeSceneToNewGameBoardPage(boardSize, startedPlayerId);
-        gui.showVisiblePlayerBoardPane(startedPlayerId);
+        gui.sceneToGameBoard(boardSize, startedPlayerId);
+        gui.getPagesManager().showVisibleOnlyActualPlayerPane(startedPlayerId);
     }
 
     private void processGivenClientSignNumber(String msg) {
         int playerNumber = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
         gui.setPlayerNumber(playerNumber);
+    }
+
+    private void processOtherPlayerNick(String msg) {
+        gui.updateNextPlayerNick(msg.split(Messages.DELIMITER)[1]);
     }
 }

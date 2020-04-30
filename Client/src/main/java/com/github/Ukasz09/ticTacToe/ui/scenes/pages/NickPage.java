@@ -8,22 +8,22 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
 public class NickPage extends ChoosePage {
-    private static final String HEADER_TEXT_PREFIX = "Choose name of player no. ";
-    private static final int FIRST_PLAYER_NUMBER = 1;
-    private static final String DEFAULT_PROMPT_TEXT = "Your nickname ";
+    private static final String LABEL_TEXT = "Choose nick";
+    private static final String PROMPT_TEXT = "Your nickname ";
 
-    private int actualInitializedPlayerNumber = FIRST_PLAYER_NUMBER;
-    private String lastChosenCorrectName = null;
+    private String chosenCorrectName = null;
+    private String nickChosenByOtherPlayer;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public NickPage() {
-        super(StartGamePage.GAME_BACKGROUND, HEADER_TEXT_PREFIX + FIRST_PLAYER_NUMBER, Orientation.HORIZONTAL, 0);
+    public NickPage(String nickChosenByOtherPlayer) {
+        super(StartGamePage.GAME_BACKGROUND, LABEL_TEXT, Orientation.HORIZONTAL, 0);
         initializeTextField();
+        this.nickChosenByOtherPlayer = nickChosenByOtherPlayer;
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
     private void initializeTextField() {
-        EditableTextField textField = new EditableTextField(DEFAULT_PROMPT_TEXT);
+        EditableTextField textField = new EditableTextField(PROMPT_TEXT);
         setOnEnterKeyPressedEvent(textField);
         addToContentPane(textField);
     }
@@ -32,30 +32,24 @@ public class NickPage extends ChoosePage {
         setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (usernameIsValid(textField.getText()))
-                    actionWhenCorrectDataInTextField(textField);
+                    correctDataInTextFieldAction(textField);
                 else textField.applyIncorrectDataEffect();
             }
         });
     }
 
     private boolean usernameIsValid(String username) {
-        return (UserNameValidator.validate(username) && !username.equals(lastChosenCorrectName));
+        return (UserNameValidator.validate(username) && !username.equals(nickChosenByOtherPlayer));
     }
 
-    private void actionWhenCorrectDataInTextField(EditableTextField textField) {
-        lastChosenCorrectName = textField.getText();
-        actualInitializedPlayerNumber++;
-        updateLabelText();
+    private void correctDataInTextFieldAction(EditableTextField textField) {
+        chosenCorrectName = textField.getText();
         clearTextField(textField);
         notifyObservers(GuiEvents.CHOSEN_VALID_NAME);
     }
 
-    private void updateLabelText() {
-        setHeaderText(HEADER_TEXT_PREFIX + actualInitializedPlayerNumber);
-    }
-
-    public String getLastChosenCorrectName() {
-        return lastChosenCorrectName;
+    public String getChosenCorrectName() {
+        return chosenCorrectName;
     }
 
     private void clearTextField(TextField textField) {

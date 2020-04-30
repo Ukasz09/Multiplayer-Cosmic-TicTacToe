@@ -8,17 +8,16 @@ import javafx.scene.image.ImageView;
 public class PlayerViewProperties {
     private static final ImageView DEFAULT_AVATAR = new ImageView(ImagesProperties.schemeSpriteForImageView());
     private static final ImageSheetProperty DEFAULT_SIGN_SHEET_PROPERTY = SpritesProperties.sign1SheetProperty();
-    private static final String DEFAULT_NAME = "Janek";
 
     private ImageView avatar;
     private ImageSheetProperty signSheetProperty;
-    private String name;
+    private String nick;
 
     //----------------------------------------------------------------------------------------------------------------//
     public PlayerViewProperties() {
         this.avatar = DEFAULT_AVATAR;
         this.signSheetProperty = DEFAULT_SIGN_SHEET_PROPERTY;
-        this.name = DEFAULT_NAME;
+        this.nick = "";
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -30,12 +29,12 @@ public class PlayerViewProperties {
         this.signSheetProperty = signSheetProperty;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
-    public String getName() {
-        return name;
+    public String getNick() {
+        return nick;
     }
 
     public ImageSheetProperty getSignSheetProperty() {

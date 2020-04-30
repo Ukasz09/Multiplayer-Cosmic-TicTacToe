@@ -53,7 +53,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         gameBoardPage.attachObserver(this);
         gameBoardPage.initializeGameGrid(boardSize, this);
         gameBoardPage.initializePlayerInfoPage(avatar1, nick1, sign1, startedPlayerId);
-        gameBoardPage.initializePlayerInfoPage(avatar2, nick2, sign2, Gui.getNextPlayerNumb(startedPlayerId));
+        gameBoardPage.initializePlayerInfoPage(avatar2, nick2, sign2, Gui.getNextPlayerNumber(startedPlayerId));
         gameBoardPage.setStartedPlayerId(startedPlayerId);
     }
 
@@ -91,23 +91,23 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         boardSizePage.attachObserver(this);
     }
 
-    public void sceneToNickPage() {
-        initNickPage();
+    public void sceneToNickPage(String otherPlayerNick) {
+        initNickPage(otherPlayerNick);
         changeScene(nickPage);
     }
 
-    private void initNickPage() {
-        nickPage = new NickPage();
+    private void initNickPage(String otherPlayerNick) {
+        nickPage = new NickPage(otherPlayerNick);
         nickPage.attachObserver(this);
     }
 
-    public void sceneToAvatarPage(String playerNick) {
-        initializeAvatarPage(playerNick);
+    public void sceneToAvatarPage() {
+        initializeAvatarPage();
         changeScene(avatarPage);
     }
 
-    private void initializeAvatarPage(String playerNick) {
-        avatarPage = new AvatarPage(playerNick);
+    private void initializeAvatarPage() {
+        avatarPage = new AvatarPage();
         avatarPage.attachObserver(this);
     }
 
@@ -169,23 +169,23 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public String getChosenCorrectName() {
-        return nickPage.getLastChosenCorrectName();
+        return nickPage.getChosenCorrectName();
     }
 
     public ImageView getAvatarImage(int avatarIndex) {
         return AvatarPage.getAvatarImage(avatarIndex);
     }
 
-    public int getChosenAvatarId() {
+    public int getChosenAvatarNumber() {
         return avatarPage.getChosenAvatarId();
     }
 
     public int getChosenSignId() {
-        return signPage.getChosenSignId();
+        return signPage.getChosenSignNumber();
     }
 
     public ImageSheetProperty getChosenSignSheet() {
-        return SignPage.getSign(signPage.getChosenSignId());
+        return SignPage.getSign(signPage.getChosenSignNumber());
     }
 
     public ImageSheetProperty getSignSheet(int signId) {

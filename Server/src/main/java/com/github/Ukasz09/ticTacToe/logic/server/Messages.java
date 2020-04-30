@@ -30,4 +30,5 @@ public class Messages {
     public static final String OCCUPY_AVATAR = "occupy_avatar";
     public static final String OCCUPY_GUI_SIGN = "occupy_gui_sign";
     public static final String GIVEN_CLIENT_SIGN = "given_client_sign";
+    public static final String OTHER_PLAYER_NICK = "other_player_nick";
 }

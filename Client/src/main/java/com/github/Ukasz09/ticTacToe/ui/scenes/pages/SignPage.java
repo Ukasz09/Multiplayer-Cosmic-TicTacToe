@@ -116,7 +116,7 @@ public class SignPage extends ChoosePage {
     }
 
 
-    public int getChosenSignId() {
+    public int getChosenSignNumber() {
         return lastChosenSignId;
     }
 

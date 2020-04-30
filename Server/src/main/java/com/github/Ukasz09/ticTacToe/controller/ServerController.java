@@ -34,7 +34,8 @@ public class ServerController implements IMsgObserver {
         System.out.println("Otrzymana wiadomosc:" + msg); //todo: tmp
 
         if (msg.equals(Messages.START_BTN_CLICKED)) startBtnMsg(clientSignId);
-        else if (msg.equals(Messages.CHOSEN_VALID_NAME)) chosenNameMsg(clientSignId);
+        else if (msg.contains(Messages.CHOSEN_VALID_NAME))
+            chosenNameMsg(clientSignId, msg.split(Messages.DELIMITER)[1]);
         else if (msg.equals(Messages.END_GAME_BTN_CLICKED)) server.sendMessage(Messages.CLOSE_GUI, clientSignId);
         else if (msg.contains(Messages.BOX_BTN_CLICKED)) boxClickedMsg(msg, clientSignId);
         else if (msg.contains(Messages.SIGN_BTN_CLICKED)) signBtnClickedMsg(msg, clientSignId);
@@ -48,7 +49,8 @@ public class ServerController implements IMsgObserver {
         server.sendMessage(Messages.SCENE_TO_NICK, clientSignId);
     }
 
-    private void chosenNameMsg(char clientSignId) {
+    private void chosenNameMsg(char clientSignId, String nick) {
+        server.sendMessage(Messages.OTHER_PLAYER_NICK + Messages.DELIMITER + nick, gameLogic.getNextPlayer(clientSignId));
         if (otherPlayerMadeChoice) {
             otherPlayerMadeChoice = false;
             server.sendMessage(Messages.SCENE_TO_AVATAR, clientSignId);

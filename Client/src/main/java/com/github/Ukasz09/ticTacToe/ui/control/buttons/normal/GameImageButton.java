@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToe.ui.control.buttons.normal;
 
+import com.github.Ukasz09.ticTacToe.ui.ViewManager;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -21,11 +22,13 @@ public class GameImageButton extends GameButton {
 
     //----------------------------------------------------------------------------------------------------------------//
     private void setIconImage(Image image) {
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(manager.getScaledWidth(SIZE_PROPORTION));
-        imageView.setFitHeight(manager.getScaledWidth(SIZE_PROPORTION));
-        setGraphic(imageView);
+        setGraphic(getProperSizeImageView(image));
     }
 
-
+    public static ImageView getProperSizeImageView(Image image) {
+        ImageView iv = new ImageView(image);
+        iv.setFitWidth(ViewManager.getInstance().getScaledWidth(SIZE_PROPORTION));
+        iv.setFitHeight(ViewManager.getInstance().getScaledWidth(SIZE_PROPORTION));
+        return iv;
+    }
 }
