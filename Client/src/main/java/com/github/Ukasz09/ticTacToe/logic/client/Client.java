@@ -42,4 +42,11 @@ public class Client {
         out.close();
         clientSocket.close();
     }
+
+    public String getCompoundMsg(String baseMsg, String[] extras) {
+        StringBuilder msg = new StringBuilder(baseMsg);
+        for (String m : extras)
+            msg.append(Messages.DELIMITER).append(m);
+        return msg.toString();
+    }
 }

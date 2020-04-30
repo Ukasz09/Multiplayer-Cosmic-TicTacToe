@@ -21,7 +21,6 @@ public class ClientController extends Thread implements IGuiObserver {
 
     private Gui gui;
     private Client client;
-    private boolean gameIsEnd = false;
     private Queue<String> messagesToProcess;
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -47,7 +46,6 @@ public class ClientController extends Thread implements IGuiObserver {
                 //because it is allowed to manipulate FX components only from FX thread
                 String msg = client.readResponse();
                 if (msg != null) {
-                    System.out.println("Added msg: " + msg);
                     messagesToProcess.add(msg);
                     gui.isMessageToProcess(true);
                 }
@@ -60,10 +58,9 @@ public class ClientController extends Thread implements IGuiObserver {
     }
 
     private void endGame() {
-        System.out.println("IN end"); //todo:
         try {
-            client.stopConnection();
             gui.close();
+            client.stopConnection();
             System.exit(0);
         } catch (IOException e) {
             Logger.logError(getClass(), "Can't stop connection with client: " + e.getMessage());
@@ -77,7 +74,7 @@ public class ClientController extends Thread implements IGuiObserver {
         switch (guiEvents) {
             case RESPONSE_CHECK: {
                 if (!messagesToProcess.isEmpty())
-                    processResponse(messagesToProcess.poll());
+                    processServerResponse(messagesToProcess.poll());
             }
             break;
             case START_BTN_CLICKED:
@@ -87,34 +84,28 @@ public class ClientController extends Thread implements IGuiObserver {
             }
             break;
             case AVATAR_BTN_CLICKED:
-                processAvatarChosen();
+                avatarChosenAction();
                 break;
             case SIGN_BTN_CLICKED:
-                processSignChosen();
+                signChosenAction();
                 break;
             case BOARD_SIZE_CHOSEN:
             case REPEAT_GAME_BTN: {
                 gui.clearActionNodes();
-                client.sendMessage(guiEvents.getMsg() + Messages.DELIMITER + gui.getGameBoardSize());
+                String msgToSend = guiEvents.getMsg() + Messages.DELIMITER + gui.getGameBoardSize();
+                client.sendMessage(msgToSend);
             }
             break;
-            case BOX_BTN_CLICKED: {
-                Point2D coords = gui.getLastChosenBoxCoords();
-                int coordsX = (int) (coords.getX());
-                int coordsY = (int) (coords.getY());
-                String msg = Messages.BOX_BTN_CLICKED + Messages.DELIMITER + coordsX + Messages.DELIMITER + coordsY + Messages.DELIMITER + gui.getActualPlayerID();
-                gui.showVisiblePlayerBoardPane(gui.getNextPlayerId());
-                client.sendMessage(msg);
-            }
-            break;
-            case END_GAME_BTN_CLICKED: {
+            case BOX_BTN_CLICKED:
+                boxBtnClickedAction();
+                break;
+            case END_GAME_BTN_CLICKED:
                 endGame();
-            }
-            break;
+                break;
         }
     }
 
-    private void processResponse(String response) {
+    private void processServerResponse(String response) {
         System.out.println("RESPONSE:" + response); //todo: tmp
 
         switch (response) {
@@ -130,16 +121,14 @@ public class ClientController extends Thread implements IGuiObserver {
             case Messages.SCENE_TO_AVATAR:
                 gui.changeSceneToNewAvatarChoosePage();
                 break;
-            case Messages.SCENE_TO_SIGN_CHOOSE: {
-                System.out.println("Powinienem zmienic na sign choose");//todo: tmp
+            case Messages.SCENE_TO_SIGN_CHOOSE:
                 gui.changeSceneToNewSignChoosePage();
-            }
-            break;
+                break;
             case Messages.SCENE_TO_BOARD_SIZE:
                 gui.changeSceneToNewBoardSizeChoosePage();
                 break;
             case Messages.CLOSE_GUI:
-                gameIsEnd = true;
+                endGame();
                 break;
             case Messages.DENY_INTERACTION_WITH_BOXES: {
                 gui.interactionWithAllBoxes(false);
@@ -160,31 +149,21 @@ public class ClientController extends Thread implements IGuiObserver {
     }
 
     private void processCompoundMsg(String msg) {
-        if (msg.contains(Messages.ADD_SIGN_TO_BOX)) {
-            String[] split = msg.split(Messages.DELIMITER);
-            gui.addPlayerSignToBox(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
-        } else if (msg.contains(Messages.CHANGE_BOXES_STATE)) {
-            String[] split = msg.split(Messages.DELIMITER);
-            changeGridBoxesState(decodePointsMsg(split, 1), SpriteStates.IS_WIN_BOX_ANIMATION);
-        } else if (msg.contains(Messages.SCENE_TO_WINNER)) {
-            int indexOfWinner = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
-            gui.showVisiblePlayerBoardPane(indexOfWinner);
-            gui.changeSceneToWinnerGamePage(indexOfWinner);
-        } else if (msg.contains(Messages.OCCUPY_AVATAR)) {
-            gui.updateNextPlayerAvatar(Integer.parseInt(msg.split(Messages.DELIMITER)[1])); //todo: dodac w gui disable na zajetego avatara
-        } else if (msg.contains(Messages.OCCUPY_GUI_SIGN)) {
-            gui.updateNextPlayerSign(Integer.parseInt(msg.split(Messages.DELIMITER)[1])); //todo: dodac w gui disable na zajetego signa
-        } else if (msg.contains(Messages.SCENE_TO_BOARD)) {
-            int boardSize = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
-            int startedPlayerId = Integer.parseInt(msg.split(Messages.DELIMITER)[2]);
-            gui.changeSceneToNewGameBoardPage(boardSize, startedPlayerId);
-            gui.showVisiblePlayerBoardPane(startedPlayerId);
-        } else if (msg.contains(Messages.GIVEN_CLIENT_SIGN)) {
-            String[] split = msg.split(Messages.DELIMITER);
-            gui.setActualPlayerID(Integer.parseInt(split[1]));
-        } else {
-            System.out.println("Unknown message: " + msg);
-        }
+        if (msg.contains(Messages.ADD_SIGN_TO_BOX))
+            processSignToBoxMsg(msg);
+        else if (msg.contains(Messages.CHANGE_BOXES_STATE))
+            processChangeBoxStateMsg(msg);
+        else if (msg.contains(Messages.SCENE_TO_WINNER))
+            processSceneToWinnerMsg(msg);
+        else if (msg.contains(Messages.OCCUPY_AVATAR))
+            processOccupyAvatar(msg);
+        else if (msg.contains(Messages.OCCUPY_GUI_SIGN))
+            processOccupySign(msg);
+        else if (msg.contains(Messages.SCENE_TO_BOARD))
+            processSceneToBoard(msg);
+        else if (msg.contains(Messages.GIVEN_CLIENT_SIGN_NUMB))
+            processGivenClientSignNumber(msg);
+        else System.out.println("Unknown message: " + msg); //TODO:tmp
     }
 
     private ArrayList<Point> decodePointsMsg(String[] split, int fstCordIndex) {
@@ -202,17 +181,72 @@ public class ClientController extends Thread implements IGuiObserver {
             gui.changeGridBoxState(state, (int) (point.getX()), (int) (point.getY()));
     }
 
-    private void processAvatarChosen() {
+    private void avatarChosenAction() {
 //        gui.clearActionNodes();
         String avatarChosenMsg = Messages.AVATAR_BTN_CLICKED + Messages.DELIMITER + gui.getLastChosenAvatarId();
         gui.updateActualPlayerAvatar();
         client.sendMessage(avatarChosenMsg);
     }
 
-    private void processSignChosen() {
+    private void signChosenAction() {
         gui.clearActionNodes();
         String signChosenMsg = Messages.SIGN_BTN_CLICKED + Messages.DELIMITER + gui.getLastChosenSignId();
         gui.updateActualPlayerSign();
         client.sendMessage(signChosenMsg);
+    }
+
+    private void boxBtnClickedAction() {
+        gui.showVisiblePlayerBoardPane(gui.getNextPlayerId());
+
+        Point2D coords = gui.getLastChosenBoxCoords();
+        String coordsX = String.valueOf((int) (coords.getX()));
+        String coordsY = String.valueOf((int) (coords.getY()));
+        String actualPlayerId = String.valueOf(gui.getActualPlayerID());
+        String msgToSend = client.getCompoundMsg(Messages.BOX_BTN_CLICKED, new String[]{coordsX, coordsY, actualPlayerId});
+        client.sendMessage(msgToSend);
+    }
+
+    private void processSignToBoxMsg(String msg) {
+        String[] split = msg.split(Messages.DELIMITER);
+        int rowIndex = Integer.parseInt(split[1]);
+        int columnIndex = Integer.parseInt(split[2]);
+        int playerId = Integer.parseInt(split[3]);
+        gui.addPlayerSignToBox(rowIndex, columnIndex, playerId);
+    }
+
+    private void processChangeBoxStateMsg(String msg) {
+        String[] split = msg.split(Messages.DELIMITER);
+        changeGridBoxesState(decodePointsMsg(split, 1), SpriteStates.IS_WIN_BOX_ANIMATION);
+    }
+
+    private void processSceneToWinnerMsg(String msg) {
+        int indexOfWinner = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
+        gui.showVisiblePlayerBoardPane(indexOfWinner);
+        gui.changeSceneToWinnerGamePage(indexOfWinner);
+    }
+
+    private void processOccupyAvatar(String msg) {
+        int avatarId = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
+        gui.updateNextPlayerAvatar(avatarId);
+        //todo: dodac w gui disable na zajetego avatara
+    }
+
+    private void processOccupySign(String msg) {
+        int signId = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
+        gui.updateNextPlayerSign(signId);
+        //todo: dodac w gui disable na zajetego sign'a
+    }
+
+    private void processSceneToBoard(String msg) {
+        String[] split = msg.split(Messages.DELIMITER);
+        int boardSize = Integer.parseInt(split[1]);
+        int startedPlayerId = Integer.parseInt(split[2]);
+        gui.changeSceneToNewGameBoardPage(boardSize, startedPlayerId);
+        gui.showVisiblePlayerBoardPane(startedPlayerId);
+    }
+
+    private void processGivenClientSignNumber(String msg) {
+        int playerNumber = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
+        gui.setPlayerNumber(playerNumber);
     }
 }

@@ -170,7 +170,7 @@ public class Gui implements IGuiObservable {
         return actualPlayerID;
     }
 
-    public void setActualPlayerID(int actualPlayerID) {
+    public void setPlayerNumber(int actualPlayerID) {
         this.actualPlayerID = actualPlayerID;
     }
 

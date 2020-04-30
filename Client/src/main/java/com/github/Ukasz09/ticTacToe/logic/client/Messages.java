@@ -28,5 +28,5 @@ public class Messages {
     public static final String WAITING_FOR_OTHER_PLAYER = "waiting_for_other_player";
     public static final String OCCUPY_AVATAR = "occupy_avatar";
     public static final String OCCUPY_GUI_SIGN = "occupy_gui_sign";
-    public static final String GIVEN_CLIENT_SIGN = "given_client_sign";
+    public static final String GIVEN_CLIENT_SIGN_NUMB = "given_client_sign";
 }
