@@ -12,7 +12,7 @@ public enum GuiEvents {
     BOX_BTN_CLICKED(Messages.BOX_BTN_CLICKED),
     END_GAME_BTN_CLICKED(Messages.END_GAME_BTN_CLICKED),
     REPEAT_GAME_BTN(Messages.REPEAT_GAME_BTN),
-    RESPONSE_READ("None");
+    RESPONSE_CHECK("None");
 
     //----------------------------------------------------------------------------------------------------------------//
     private String msg;

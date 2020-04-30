@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToe.logic.server;
 
 import com.github.Ukasz09.ticTacToe.controller.Logger;
+import com.github.Ukasz09.ticTacToe.logic.game.GameLogic;
 
 import java.io.*;
 import java.net.*;
@@ -47,6 +48,7 @@ public class Server {
         clientHandlers.put(clientSign, handler);
         connectedClients++;
         Logger.logCommunicate("Client connected. Sign: " + clientSign);
+        sendMessage(Messages.GIVEN_CLIENT_SIGN + Messages.DELIMITER + GameLogic.getPlayerId(clientSign), clientSign);
         return handler;
     }
 

@@ -11,10 +11,9 @@ import javafx.geometry.Point2D;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Deque;
+import java.util.*;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientController extends Thread implements IGuiObserver {
     private static final int PLAYERS_QTY = 2;
@@ -23,13 +22,13 @@ public class ClientController extends Thread implements IGuiObserver {
     private Gui gui;
     private Client client;
     private boolean gameIsEnd = false;
-    private Deque<String> messagesToProcess;
+    private Queue<String> messagesToProcess;
 
     //----------------------------------------------------------------------------------------------------------------//
     public ClientController(Gui gui) {
         this.client = new Client();
         this.gui = gui;
-        messagesToProcess = new ConcurrentLinkedDeque<>();
+        messagesToProcess = new LinkedBlockingQueue<>();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -43,23 +42,25 @@ public class ClientController extends Thread implements IGuiObserver {
 
     @Override
     public void run() {
-        while (!gameIsEnd) {
+        while (true) {
             try {
                 //because it is allowed to manipulate FX components only from FX thread
                 String msg = client.readResponse();
-                if (msg != null)
-                    messagesToProcess.push(msg);
-                gui.isMessageToProcess(true);
+                if (msg != null) {
+                    System.out.println("Added msg: " + msg);
+                    messagesToProcess.add(msg);
+                    gui.isMessageToProcess(true);
+                }
             } catch (IOException e) {
                 Logger.logError(getClass(), "Can't read server response: " + e.getMessage());
                 e.printStackTrace();
                 System.exit(-1);
             }
         }
-        endGame();
     }
 
     private void endGame() {
+        System.out.println("IN end"); //todo:
         try {
             client.stopConnection();
             gui.close();
@@ -74,8 +75,9 @@ public class ClientController extends Thread implements IGuiObserver {
     @Override
     public synchronized void updateGuiObserver(GuiEvents guiEvents) {
         switch (guiEvents) {
-            case RESPONSE_READ: {
-                processResponse(messagesToProcess.pop());
+            case RESPONSE_CHECK: {
+                if (!messagesToProcess.isEmpty())
+                    processResponse(messagesToProcess.poll());
             }
             break;
             case START_BTN_CLICKED:
@@ -100,14 +102,15 @@ public class ClientController extends Thread implements IGuiObserver {
                 Point2D coords = gui.getLastChosenBoxCoords();
                 int coordsX = (int) (coords.getX());
                 int coordsY = (int) (coords.getY());
-                String msg = Messages.BOX_BTN_CLICKED + Messages.DELIMITER + coordsX + Messages.DELIMITER + coordsY;
+                String msg = Messages.BOX_BTN_CLICKED + Messages.DELIMITER + coordsX + Messages.DELIMITER + coordsY + Messages.DELIMITER + gui.getActualPlayerID();
                 gui.showVisiblePlayerBoardPane(gui.getNextPlayerId());
                 client.sendMessage(msg);
             }
             break;
-            case END_GAME_BTN_CLICKED:
+            case END_GAME_BTN_CLICKED: {
                 endGame();
-                break;
+            }
+            break;
         }
     }
 
@@ -159,12 +162,13 @@ public class ClientController extends Thread implements IGuiObserver {
     private void processCompoundMsg(String msg) {
         if (msg.contains(Messages.ADD_SIGN_TO_BOX)) {
             String[] split = msg.split(Messages.DELIMITER);
-            gui.addPlayerSignToBox(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+            gui.addPlayerSignToBox(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
         } else if (msg.contains(Messages.CHANGE_BOXES_STATE)) {
             String[] split = msg.split(Messages.DELIMITER);
             changeGridBoxesState(decodePointsMsg(split, 1), SpriteStates.IS_WIN_BOX_ANIMATION);
         } else if (msg.contains(Messages.SCENE_TO_WINNER)) {
             int indexOfWinner = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
+            gui.showVisiblePlayerBoardPane(indexOfWinner);
             gui.changeSceneToWinnerGamePage(indexOfWinner);
         } else if (msg.contains(Messages.OCCUPY_AVATAR)) {
             gui.updateNextPlayerAvatar(Integer.parseInt(msg.split(Messages.DELIMITER)[1])); //todo: dodac w gui disable na zajetego avatara
@@ -172,8 +176,12 @@ public class ClientController extends Thread implements IGuiObserver {
             gui.updateNextPlayerSign(Integer.parseInt(msg.split(Messages.DELIMITER)[1])); //todo: dodac w gui disable na zajetego signa
         } else if (msg.contains(Messages.SCENE_TO_BOARD)) {
             int boardSize = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
-            gui.changeSceneToNewGameBoardPage(boardSize, Integer.parseInt(msg.split(Messages.DELIMITER)[2]));
-            gui.showVisiblePlayerBoardPane(gui.getActualPlayerID());
+            int startedPlayerId = Integer.parseInt(msg.split(Messages.DELIMITER)[2]);
+            gui.changeSceneToNewGameBoardPage(boardSize, startedPlayerId);
+            gui.showVisiblePlayerBoardPane(startedPlayerId);
+        } else if (msg.contains(Messages.GIVEN_CLIENT_SIGN)) {
+            String[] split = msg.split(Messages.DELIMITER);
+            gui.setActualPlayerID(Integer.parseInt(split[1]));
         } else {
             System.out.println("Unknown message: " + msg);
         }

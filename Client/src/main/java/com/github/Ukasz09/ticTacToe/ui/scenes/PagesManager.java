@@ -42,7 +42,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     public void showGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1,
                              ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
         initializeGamePage();
-        initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
+        initializeGameBoard(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize, startedPlayerIndex);
         removeActualSceneFromRoot();
         gameBoardPage.showGameBoard(true);
         gameBoardPage.showVisibleOnlyActualPlayer(startedPlayerIndex);
@@ -51,10 +51,15 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     private void initializeGameBoard(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1,
-                                     ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
+                                     ImageSheetProperty sign2, String nick1, String nick2, int boardSize, int startedPlayerId) {
         gameBoardPage.initializeGameGrid(boardSize, this);
-        gameBoardPage.initializePlayerInfoPage(avatar1, nick1, sign1, 0);
-        gameBoardPage.initializePlayerInfoPage(avatar2, nick2, sign2, 1);
+        gameBoardPage.initializePlayerInfoPage(avatar1, nick1, sign1, startedPlayerId);
+        gameBoardPage.initializePlayerInfoPage(avatar2, nick2, sign2, getNextPlayerId(startedPlayerId));
+        gameBoardPage.setStartedPlayerId(startedPlayerId);
+    }
+
+    public int getNextPlayerId(int startedPlayerId) {
+        return startedPlayerId == 0 ? 1 : 0;
     }
 
     private void initializeGamePage() {

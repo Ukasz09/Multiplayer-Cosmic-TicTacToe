@@ -22,6 +22,7 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
     private static final SoundsPlayer DRAW_SOUND_EFFECT = SoundsProperties.drawEffect(SOUND_VOLUME);
     private static final SoundsPlayer WIN_SOUND_EFFECT = SoundsProperties.winEffect(SOUND_VOLUME);
 
+    private int startedPlayerId = -1;
     private GameBoard gameBoard;
     private PlayerInfoPane[] playerInfoPanes;
     private GameResultPane gameResultPane = null;
@@ -126,8 +127,7 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
     }
 
     public void changeSceneToWinResultPage(int winningPlayerIndex, String playerNick) {
-        int nextPlayerInfoPaneIndex = getPlayerNextIndex(winningPlayerIndex);
-        changeSceneToGameResultPage(nextPlayerInfoPaneIndex);
+        changeSceneToGameResultPage(getPlayerNextIndex(winningPlayerIndex));
         gameResultPane.addOscarStatue();
         setWinnerHeaderText(playerNick);
         WIN_SOUND_EFFECT.playSound();
@@ -137,6 +137,14 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         int nextPlayerInfoPaneIndex = getPlayerNextIndex(playerIndex);
         changePlayerInfoPaneToGameResultPane(playerIndex);
         addGameOverButtonsToPlayerInfoPane(nextPlayerInfoPaneIndex);
+    }
+
+    public void setStartedPlayerId(int playerId) {
+        startedPlayerId = playerId;
+    }
+
+    private int getPlayerIndexInPane(int playerIndex) {
+        return playerIndex == startedPlayerId ? 0 : 1;
     }
 
     private int getPlayerNextIndex(int index) {

@@ -32,10 +32,7 @@ public class Gui implements IGuiObservable {
         public void handle(long currentNanoTime) {
             pagesManager.getActualScene().update();
             pagesManager.getActualScene().render();
-            if (isMessageToProcess) {
-                isMessageToProcess = false;
-                notifyObservers(GuiEvents.RESPONSE_READ);
-            }
+            notifyObservers(GuiEvents.RESPONSE_CHECK);
         }
     }
 
@@ -124,11 +121,11 @@ public class Gui implements IGuiObservable {
         String nick2 = getPlayerNick(getNextPlayerId(startedPlayer));
         ImageSheetProperty sign1 = getPlayerSignSheet(startedPlayer);
         ImageSheetProperty sign2 = getPlayerSignSheet(getNextPlayerId(startedPlayer));
-        pagesManager.showGamePage(actualPlayerID, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
+        pagesManager.showGamePage(startedPlayer, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 
-    public void addPlayerSignToBox(int rowIndex, int columnIndex) {
-        pagesManager.addPlayerSignToBox(rowIndex, columnIndex, getPlayerSignSheet(actualPlayerID));
+    public void addPlayerSignToBox(int rowIndex, int columnIndex, int playerId) {
+        pagesManager.addPlayerSignToBox(rowIndex, columnIndex, getPlayerSignSheet(playerId));
     }
 
     public void showVisiblePlayerBoardPane(int playerId) {
@@ -155,8 +152,14 @@ public class Gui implements IGuiObservable {
         return pagesManager.getGameBoardSize();
     }
 
+    //
+//    public int getNextPlayerId() {
+//        return 1;
+//    }
+//
+
     public int getNextPlayerId() {
-        return 1;
+        return getNextPlayerId(actualPlayerID);
     }
 
     public int getNextPlayerId(int startedPlayerId) {
@@ -165,6 +168,10 @@ public class Gui implements IGuiObservable {
 
     public int getActualPlayerID() {
         return actualPlayerID;
+    }
+
+    public void setActualPlayerID(int actualPlayerID) {
+        this.actualPlayerID = actualPlayerID;
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -223,7 +230,7 @@ public class Gui implements IGuiObservable {
     }
 
     //todo: tmp
-    public void setActualSceneVisible(boolean value){
+    public void setActualSceneVisible(boolean value) {
         pagesManager.setActualSceneVisible(value);
     }
 }

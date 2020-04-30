@@ -95,13 +95,17 @@ public class GameLogic {
         return actualPlayer == PLAYERS_ID[0] ? PLAYERS_ID[1] : PLAYERS_ID[0];
     }
 
-    public char getNextPlayer() {
-        return getNextPlayer(actualPlayer);
+    public static int getPlayerId(char playerSign) {
+        return playerSign == PLAYERS_ID[0] ? 0 : 1;
     }
 
-    public char getActualPlayer() {
-        return actualPlayer;
-    }
+//    public char getNextPlayer() {
+//        return getNextPlayer(actualPlayer);
+//    }
+//
+//    public char getActualPlayer() {
+//        return actualPlayer;
+//    }
 
     private void checkAxisIsCorrect(int offset) throws IncorrectFieldException {
         if (offset < 0 || offset > boardSize - 1)

@@ -63,7 +63,7 @@ public class ViewManager {
     private void addExitButtonHandler(KeyCode exitCode) {
         mainStage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
             if (exitCode == event.getCode()) {
-                mainStage.close();
+                closeMainStage();
             }
         });
     }

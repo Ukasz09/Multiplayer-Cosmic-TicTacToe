@@ -57,22 +57,23 @@ public class ServerController implements IMsgObserver {
     }
 
     private void newGameBoardMsg(String msg, char clientSignId) {
-        otherPlayerMadeChoice = false;
-        gameLogic.setActualPlayerID(gameLogic.getNextPlayer(clientSignId));
-        server.sendMessageToAll(Messages.SCENE_TO_BOARD + Messages.DELIMITER + gameLogic.getBoardSize() + Messages.DELIMITER + gameLogic.getActualPlayerIndex());
-        server.sendMessage(Messages.DENY_INTERACTION_WITH_BOXES, clientSignId);
         try {
             gameLogic.resetBoard(Integer.parseInt(msg.split(Messages.DELIMITER)[1]));
         } catch (IncorrectBoardSizeException e) {
             //Unchecked
         }
+        otherPlayerMadeChoice = false;
+        gameLogic.setActualPlayerID(gameLogic.getNextPlayer(clientSignId));
+        server.sendMessageToAll(Messages.SCENE_TO_BOARD + Messages.DELIMITER + gameLogic.getBoardSize() + Messages.DELIMITER + gameLogic.getActualPlayerIndex());
+        server.sendMessage(Messages.DENY_INTERACTION_WITH_BOXES, clientSignId);
     }
 
     private void boxClickedMsg(String msg, char clientSignId) {
         String[] split = msg.split(Messages.DELIMITER);
         int coordsX = Integer.parseInt(split[1]);
         int coordsY = Integer.parseInt(split[2]);
-        boolean gameIsOver = checkGameResult(markField(coordsX, coordsY));
+//        int playerId = Integer.parseInt(split[3]);
+        boolean gameIsOver = checkGameResult(markField(coordsX, coordsY, GameLogic.getPlayerId(clientSignId)), GameLogic.getPlayerId(clientSignId));//todo: usunac w klient dodwaanie id
         if (!gameIsOver) {
             server.sendMessage(Messages.DENY_INTERACTION_WITH_BOXES, clientSignId);
             server.sendMessage(Messages.ALLOW_INTERACTION_WITH_BOXES, gameLogic.getNextPlayer(clientSignId));
@@ -108,10 +109,10 @@ public class ServerController implements IMsgObserver {
         server.sendMessage(Messages.WAITING_FOR_OTHER_PLAYER, waitingPlayerSign);
     }
 
-    private GameResults markField(int coordsX, int coordsY) {
+    private GameResults markField(int coordsX, int coordsY, int playerId) {
         try {
             GameResults result = gameLogic.markField(coordsX, coordsY);
-            server.sendMessageToAll(Messages.ADD_SIGN_TO_BOX + Messages.DELIMITER + coordsX + Messages.DELIMITER + coordsY);
+            server.sendMessageToAll(Messages.ADD_SIGN_TO_BOX + Messages.DELIMITER + coordsX + Messages.DELIMITER + coordsY + Messages.DELIMITER + playerId);
             return result;
         } catch (IncorrectFieldException e) {
             return GameResults.GAME_NOT_FINISHED;
@@ -121,9 +122,9 @@ public class ServerController implements IMsgObserver {
     /**
      * @return game is over
      */
-    private boolean checkGameResult(GameResults result) {
+    private boolean checkGameResult(GameResults result, int playerId) {
         if (isWin(result)) {
-            processWinMsg();
+            processWinMsg(playerId);
             return true;
         }
 
@@ -135,11 +136,11 @@ public class ServerController implements IMsgObserver {
         return false;
     }
 
-    private void processWinMsg() {
+    private void processWinMsg(int winnerId) {
         server.sendMessageToAll(Messages.DENY_INTERACTION_WITH_BOXES);
         String boxStatesMsg = Messages.CHANGE_BOXES_STATE + Messages.DELIMITER + getWinningCordsMsg();
         server.sendMessageToAll(boxStatesMsg);
-        server.sendMessageToAll(Messages.SCENE_TO_WINNER + Messages.DELIMITER + gameLogic.getActualPlayerIndex());
+        server.sendMessageToAll(Messages.SCENE_TO_WINNER + Messages.DELIMITER + winnerId);
     }
 
     private boolean isWin(GameResults result) {
