@@ -4,7 +4,7 @@ import com.github.Ukasz09.ticTacToe.ui.ViewManager;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameControlButton;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.IGameButtonProperties;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameImageButton;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.SignButtonSprite;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.SignBtnSprite;
 import com.github.Ukasz09.ticTacToe.ui.control.textFields.GameTextField;
 import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
@@ -25,7 +25,7 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
     private static final String FONT_COLOR_CSS_FOR_DISABLE = "darkslategrey";
 
     private GameImageButton avatar;
-    private SignButtonSprite sign;
+    private SignBtnSprite sign;
     private GameTextField nickField;
     private double headerHeight;
     private double pagePositionX;
@@ -75,7 +75,7 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
 
     private void addPlayerSign(ImageSheetProperty signSheetProperty) {
         double signSize = getAvatarSize() / 2;
-        this.sign = new SignButtonSprite(signSheetProperty, signSize, false);
+        this.sign = new SignBtnSprite(signSheetProperty, signSize, false);
         sign.setPositionX(getSignCenterPositionX(signSize));
         sign.setPositionY(getSignPositionY());
     }

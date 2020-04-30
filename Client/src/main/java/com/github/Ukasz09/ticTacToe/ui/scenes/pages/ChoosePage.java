@@ -71,7 +71,7 @@ public abstract class ChoosePage extends Page implements IGuiObservable {
             observer.updateGuiObserver(event);
     }
 
-    protected double getFirstButtonXPositionToCenterWithOthers(int buttonsQty, double buttonsPadding, double buttonWidth) {
+    protected double getFstBtnPosXToCenterWithOthers(int buttonsQty, double buttonsPadding, double buttonWidth) {
         return (manager.getRightFrameBorder() - buttonsQty * buttonWidth - (buttonsQty - 1) * buttonsPadding) / 2;
     }
 }

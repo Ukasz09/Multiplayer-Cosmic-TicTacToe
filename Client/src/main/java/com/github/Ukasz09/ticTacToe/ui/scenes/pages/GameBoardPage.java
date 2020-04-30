@@ -113,17 +113,9 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         return gameBoard.getLastChosenBoxCoords();
     }
 
-    public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
-        gameBoard.addPlayerSignToBox(rowIndex, columnIndex, signSheetProperty);
-    }
-
     public void showVisibleOnlyActualPlayer(int playerIndex) {
         for (int i = 0; i < playerInfoPanes.length; i++)
             playerInfoPanes[i].disablePage(playerIndex != i);
-    }
-
-    public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
-        gameBoard.changeGridBoxState(state, coordsX, coordsY);
     }
 
     public void changeSceneToWinResultPage(int winningPlayerIndex, String playerNick) {
@@ -196,5 +188,9 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
     @Override
     public void updateGuiObserver(GuiEvents guiEvents) {
         notifyObservers(guiEvents);
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 }

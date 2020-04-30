@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientController extends Thread implements IGuiObserver {
-    private static final int PLAYERS_QTY = 2;
     private static final int SERVER_PORT = 6666;
 
     private Gui gui;
@@ -33,7 +32,7 @@ public class ClientController extends Thread implements IGuiObserver {
     //----------------------------------------------------------------------------------------------------------------//
     public void startGame() throws IOException {
         client.startConnection(SERVER_PORT);
-        gui.startGame(PLAYERS_QTY);
+        gui.startGame();
         gui.attachObserverToPagesManager(this);
         gui.attachObserver(this);
         start();
@@ -45,10 +44,8 @@ public class ClientController extends Thread implements IGuiObserver {
             try {
                 //because it is allowed to manipulate FX components only from FX thread
                 String msg = client.readResponse();
-                if (msg != null) {
+                if (msg != null)
                     messagesToProcess.add(msg);
-                    gui.isMessageToProcess(true);
-                }
             } catch (IOException e) {
                 Logger.logError(getClass(), "Can't read server response: " + e.getMessage());
                 e.printStackTrace();
@@ -72,11 +69,10 @@ public class ClientController extends Thread implements IGuiObserver {
     @Override
     public synchronized void updateGuiObserver(GuiEvents guiEvents) {
         switch (guiEvents) {
-            case RESPONSE_CHECK: {
+            case RESPONSE_CHECK:
                 if (!messagesToProcess.isEmpty())
                     processServerResponse(messagesToProcess.poll());
-            }
-            break;
+                break;
             case START_BTN_CLICKED:
             case CHOSEN_VALID_NAME: {
 //                gui.clearActionNodes();
@@ -196,7 +192,7 @@ public class ClientController extends Thread implements IGuiObserver {
     }
 
     private void boxBtnClickedAction() {
-        gui.showVisiblePlayerBoardPane(gui.getNextPlayerId());
+        gui.showVisiblePlayerBoardPane(gui.getNextPlayerNumb());
 
         Point2D coords = gui.getLastChosenBoxCoords();
         String coordsX = String.valueOf((int) (coords.getX()));

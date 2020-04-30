@@ -17,14 +17,13 @@ import java.util.Set;
 
 public class Gui implements IGuiObservable {
     private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
+    public static final int PLAYERS_QTY = 2;
 
     private ViewManager manager;
-    private int playersQty = 0;
-    private int actualPlayerID = 0;
     private PlayerViewProperties[] playerViewProperties;
     private PagesManager pagesManager;
-    private Set<IGuiObserver> observers;
-    private boolean isMessageToProcess = false;
+    private Set<IGuiObserver> guiObservers;
+    private int actualPlayerID;
 
     //----------------------------------------------------------------------------------------------------------------//
     class GameAnimationTimer extends AnimationTimer {
@@ -38,38 +37,53 @@ public class Gui implements IGuiObservable {
 
     //----------------------------------------------------------------------------------------------------------------//
     public Gui() {
-        observers = new HashSet<>();
+        guiObservers = new HashSet<>();
         manager = ViewManager.getInstance();
         manager.initialize(APPLICATION_TITLE, false);
         pagesManager = new PagesManager();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public void startGame(int playersQty) {
-        initializePlayers(playersQty);
+    public void startGame() {
+        initializePlayers();
         pagesManager.showHomePage();
         manager.getMainStage().show();
         new GameAnimationTimer().start();
     }
 
-    private void initializePlayers(int playersQty) {
-        this.playersQty = playersQty;
-        playerViewProperties = new PlayerViewProperties[playersQty];
-        for (int i = 0; i < playersQty; i++)
+    private void initializePlayers() {
+        playerViewProperties = new PlayerViewProperties[PLAYERS_QTY];
+        for (int i = 0; i < PLAYERS_QTY; i++)
             playerViewProperties[i] = new PlayerViewProperties();
     }
 
+    //TODO
     public void updateNextPlayerName(String name) {
-        playerViewProperties[getNextPlayerId()].setName(name);
+        playerViewProperties[getNextPlayerNumb()].setName(name);
     }
 
     public void updateActualPlayerName() {
-        playerViewProperties[actualPlayerID].setName(pagesManager.getLastChosenCorrectName());
+        playerViewProperties[actualPlayerID].setName(pagesManager.getChosenCorrectName());
     }
 
+    public int getNextPlayerNumb() {
+        return getNextPlayerNumb(actualPlayerID);
+    }
+
+    public static int getNextPlayerNumb(int playerNumber) {
+        return playerNumber == 0 ? 1 : 0;
+    }
+
+    public int getActualPlayerID() {
+        return actualPlayerID;
+    }
+
+    public void setPlayerNumber(int actualPlayerID) {
+        this.actualPlayerID = actualPlayerID;
+    }
 
     public void updateNextPlayerAvatar(int avatarId) {
-        playerViewProperties[getNextPlayerId()].setAvatar(pagesManager.getAvatarImage(avatarId));
+        playerViewProperties[getNextPlayerNumb()].setAvatar(pagesManager.getAvatarImage(avatarId));
     }
 
     public void updateActualPlayerAvatar() {
@@ -77,19 +91,20 @@ public class Gui implements IGuiObservable {
     }
 
     public int getLastChosenAvatarId() {
-        return pagesManager.getLastChosenAvatarId();
+        return pagesManager.getChosenAvatarId();
     }
 
     public void updateActualPlayerSign() {
-        playerViewProperties[actualPlayerID].setSignSheetProperty(pagesManager.getLastChosenSignSheet());
+        playerViewProperties[actualPlayerID].setSignSheetProperty(pagesManager.getChosenSignSheet());
     }
 
     public void updateNextPlayerSign(int signId) {
-        playerViewProperties[getNextPlayerId()].setSignSheetProperty(pagesManager.getSignSheet(signId));
+        playerViewProperties[getNextPlayerNumb()].setSignSheetProperty(pagesManager.getSignSheet(signId));
     }
 
+
     public int getLastChosenSignId() {
-        return pagesManager.getLastChosenSignId();
+        return pagesManager.getChosenSignId();
     }
 
     public void attachObserverToPagesManager(IGuiObserver observer) {
@@ -97,30 +112,29 @@ public class Gui implements IGuiObservable {
     }
 
     public void changeSceneToNewBoardSizeChoosePage() {
-        pagesManager.changeSceneToNewBoardSizeChoosePage();
+        pagesManager.sceneToBoardSizePage();
     }
 
     public void changeSceneToNewNickChoosePage() {
-        pagesManager.changeSceneToNewNickChoosePage();
+        pagesManager.sceneToNickPage();
     }
 
     public void changeSceneToNewAvatarChoosePage() {
         String firstPlayerNick = playerViewProperties[0].getName();
-        pagesManager.changeSceneToNewAvatarChoosePage(firstPlayerNick);
+        pagesManager.sceneToAvatarPage(firstPlayerNick);
     }
 
     public void changeSceneToNewSignChoosePage() {
-        String firstPlayerNick = playerViewProperties[0].getName();
-        pagesManager.changeSceneToNewSignChoosePage(firstPlayerNick);
+        pagesManager.sceneToSignPage();
     }
 
     public void changeSceneToNewGameBoardPage(int boardSize, int startedPlayer) {
         ImageView avatar1 = getPlayerAvatar(startedPlayer);
-        ImageView avatar2 = getPlayerAvatar(getNextPlayerId(startedPlayer));
+        ImageView avatar2 = getPlayerAvatar(getNextPlayerNumb(startedPlayer));
         String nick1 = getPlayerNick(startedPlayer);
-        String nick2 = getPlayerNick(getNextPlayerId(startedPlayer));
+        String nick2 = getPlayerNick(getNextPlayerNumb(startedPlayer));
         ImageSheetProperty sign1 = getPlayerSignSheet(startedPlayer);
-        ImageSheetProperty sign2 = getPlayerSignSheet(getNextPlayerId(startedPlayer));
+        ImageSheetProperty sign2 = getPlayerSignSheet(getNextPlayerNumb(startedPlayer));
         pagesManager.showGamePage(startedPlayer, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 
@@ -129,7 +143,7 @@ public class Gui implements IGuiObservable {
     }
 
     public void showVisiblePlayerBoardPane(int playerId) {
-        pagesManager.showVisibleOnlyActualPlayer(playerId);
+        pagesManager.showVisibleOnlyActualPlayerPane(playerId);
     }
 
     public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
@@ -152,27 +166,6 @@ public class Gui implements IGuiObservable {
         return pagesManager.getGameBoardSize();
     }
 
-    //
-//    public int getNextPlayerId() {
-//        return 1;
-//    }
-//
-
-    public int getNextPlayerId() {
-        return getNextPlayerId(actualPlayerID);
-    }
-
-    public int getNextPlayerId(int startedPlayerId) {
-        return startedPlayerId == 0 ? 1 : 0;
-    }
-
-    public int getActualPlayerID() {
-        return actualPlayerID;
-    }
-
-    public void setPlayerNumber(int actualPlayerID) {
-        this.actualPlayerID = actualPlayerID;
-    }
 
     //----------------------------------------------------------------------------------------------------------------//
     private ImageView getPlayerAvatar(int playerIndex) {
@@ -203,22 +196,18 @@ public class Gui implements IGuiObservable {
 
     @Override
     public void attachObserver(IGuiObserver observer) {
-        observers.add(observer);
+        guiObservers.add(observer);
     }
 
     @Override
     public void detachObserver(IGuiObserver observer) {
-        observers.remove(observer);
+        guiObservers.remove(observer);
     }
 
     @Override
     public void notifyObservers(GuiEvents event) {
-        for (IGuiObserver o : observers)
+        for (IGuiObserver o : guiObservers)
             o.updateGuiObserver(event);
-    }
-
-    public void isMessageToProcess(boolean value) {
-        isMessageToProcess = value;
     }
 
     public void clearActionNodes() {

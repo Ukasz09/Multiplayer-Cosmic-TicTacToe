@@ -2,7 +2,7 @@ package com.github.Ukasz09.ticTacToe.ui.scenes;
 
 import com.github.Ukasz09.ticTacToe.ui.ViewManager;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.GameBoxButtonSprite;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.SignButtonSprite;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.SignBtnSprite;
 import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
@@ -23,7 +23,7 @@ public class GameBoard implements IDrawingGraphic {
 
     private ViewManager manager;
     private GameBoxButtonSprite[][] boxButtonSprites;
-    private List<SignButtonSprite> signButtonSprites;
+    private List<SignBtnSprite> signBtnSprites;
     private Point2D lastChosenBoxCoords;
     private int boardSize = DEFAULT_BOARD_SIZE;
     private double headerPaneHeight;
@@ -36,7 +36,7 @@ public class GameBoard implements IDrawingGraphic {
     //-----------------------------------------------------------------------------------------------------------------//
     private void initializeGameBoard(double headerPaneHeight) {
         manager = ViewManager.getInstance();
-        signButtonSprites = new ArrayList<>();
+        signBtnSprites = new ArrayList<>();
         this.headerPaneHeight = headerPaneHeight;
     }
 
@@ -103,12 +103,12 @@ public class GameBoard implements IDrawingGraphic {
 
     public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
         double signInBoxSize = getBoxSpriteSize() * SIGN_TO_BOARD_PROPORTION;
-        SignButtonSprite sign = new SignButtonSprite(signSheetProperty, signInBoxSize, false);
+        SignBtnSprite sign = new SignBtnSprite(signSheetProperty, signInBoxSize, false);
         setSignPosition(sign, rowIndex, columnIndex);
-        signButtonSprites.add(sign);
+        signBtnSprites.add(sign);
     }
 
-    private void setSignPosition(SignButtonSprite sign, int rowIndex, int columnIndex) {
+    private void setSignPosition(SignBtnSprite sign, int rowIndex, int columnIndex) {
         double buttonSize = boxButtonSprites[0][0].getWidth();
         double buttonStartedPositionX = getFirstButtonXPositionToCenterWithOthers(boardSize, 0, buttonSize);
         sign.setPositionX(getBoxPositionX(rowIndex, buttonSize, buttonStartedPositionX) + buttonSize / 2 - sign.getWidth() / 2);
@@ -149,7 +149,7 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private void renderSigns() {
-        for (SignButtonSprite sign : signButtonSprites)
+        for (SignBtnSprite sign : signBtnSprites)
             sign.render();
     }
 
@@ -166,7 +166,7 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private void updateSignButtons() {
-        for (SignButtonSprite sign : signButtonSprites)
+        for (SignBtnSprite sign : signBtnSprites)
             sign.update();
     }
 
