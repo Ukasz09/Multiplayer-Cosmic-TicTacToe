@@ -15,6 +15,11 @@ public class ImagesProperties {
         return new Image(imagePath);
     }
 
+    public static Image waitingAnimation() {
+        String imagePath = "images/decorations/waiting.gif";
+        return new Image(imagePath);
+    }
+
     public static Image[] avatars() {
         String imagePathPrefix = "images/avatars/";
         Image[] images = new Image[AVATARS_QTY];

@@ -18,8 +18,7 @@ public class LabelPane extends CenteredPane {
     //-----------------------------------------------------------------------------------------------------------------//
     private void initializePane(String text) {
         setDefaultPaneSize();
-        HeaderTextField labelField = new HeaderTextField(text, (int) (manager.getScaledHeight(FONT_SIZE_PROPORTION)), false);
-        textField = labelField;
+        textField = new HeaderTextField(text, (int) (manager.getScaledHeight(FONT_SIZE_PROPORTION)), false);
     }
 
     private void setDefaultPaneSize() {

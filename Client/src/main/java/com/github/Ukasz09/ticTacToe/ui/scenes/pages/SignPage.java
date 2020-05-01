@@ -17,16 +17,16 @@ public class SignPage extends ChoosePage {
     private static final String LABEL_TEXT = "Choose game sign";
 
     private Map<SignBtnSprite, Integer> signBtnSprites; //<btn,btn_number>
-    private int lastChosenSignId = -1;
+    private int chosenSignNumber = -1;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public SignPage() {
+    public SignPage(ImageSheetProperty disableSign) {
         super(StartGamePage.GAME_BACKGROUND, LABEL_TEXT, Orientation.HORIZONTAL, 0);
-        addSignButtons();
+        addSignButtons(disableSign);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
-    private void addSignButtons() {
+    private void addSignButtons(ImageSheetProperty disableSign) {
         signBtnSprites = new HashMap<>();
         double btnWidth = 0, btnHeight = 0;
         for (int i = 0; i < SING_SHEETS.length; i++) {
@@ -34,6 +34,8 @@ public class SignPage extends ChoosePage {
             btnWidth = btn.getWidth();
             btnHeight = btn.getHeight();
             addSignButtonEventHandler(btn);
+            if (disableSign != null && disableSign.equals(SING_SHEETS[i]))
+                btn.disable();
             signBtnSprites.put(btn, i);
         }
         setSignButtonsCorrectPositions(manager.getScaledWidth(BTNS_PADDING_TO_SCREEN_PROPORTION), btnWidth, btnHeight);
@@ -42,7 +44,7 @@ public class SignPage extends ChoosePage {
     private void addSignButtonEventHandler(SignBtnSprite btnSprite) {
         btnSprite.addNewEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (btnSprite.isActive()) {
-                lastChosenSignId = signBtnSprites.get(btnSprite);
+                chosenSignNumber = signBtnSprites.get(btnSprite);
                 btnSprite.disable();
                 btnSprite.notifyObservers(GuiEvents.SIGN_BTN_CLICKED);
             }
@@ -117,7 +119,7 @@ public class SignPage extends ChoosePage {
 
 
     public int getChosenSignNumber() {
-        return lastChosenSignId;
+        return chosenSignNumber;
     }
 
     public static ImageSheetProperty getSign(int signId) {

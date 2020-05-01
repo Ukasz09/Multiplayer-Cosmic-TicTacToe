@@ -1,9 +1,10 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes.pages;
 
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameImageButton;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.IGameBtnProperties;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameImageBtn;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImagesProperties;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.HoveredActiveImageButton;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.HoveredActiveImageBtn;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -21,23 +22,27 @@ public class AvatarPage extends ChoosePage {
     private int chosenAvatarId = -1;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public AvatarPage() {
+    public AvatarPage(Image disabledAvatar) {
         super(StartGamePage.GAME_BACKGROUND, LABEL_TEXT, Orientation.HORIZONTAL, 0);
         avatars = new HashMap<>(AVATARS_IMAGES.length);
-        addAvatarButtons();
+        addAvatarButtons(disabledAvatar);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
     private static ImageView[] initializeImageViews() {
         ImageView[] avatarViews = new ImageView[AVATARS_IMAGES.length];
         for (int i = 0; i < AVATARS_IMAGES.length; i++)
-            avatarViews[i] = GameImageButton.getProperSizeImageView(AVATARS_IMAGES[i]);
+            avatarViews[i] = GameImageBtn.getProperSizeImageView(AVATARS_IMAGES[i]);
         return avatarViews;
     }
 
-    private void addAvatarButtons() {
+    private void addAvatarButtons(Image disabledAvatar) {
         for (int i = 0; i < AVATARS_IMAGES.length; i++) {
-            Button btn = new HoveredActiveImageButton(AVATARS_IMAGES[i]);
+            Button btn = new HoveredActiveImageBtn(AVATARS_IMAGES[i]);
+            if (AVATARS_IMAGES[i].equals(disabledAvatar)) {
+                btn.setDisable(true);
+                btn.setEffect(IGameBtnProperties.BUTTON_DISABLED_EFFECT);
+            }
             addMouseClickedActionToButton(btn);
             addToContentPane(btn);
             avatars.put(btn, i);

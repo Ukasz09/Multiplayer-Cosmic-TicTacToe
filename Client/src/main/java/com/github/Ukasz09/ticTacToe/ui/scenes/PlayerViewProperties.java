@@ -2,21 +2,19 @@ package com.github.Ukasz09.ticTacToe.ui.scenes;
 
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImagesProperties;
-import com.github.Ukasz09.ticTacToe.ui.sprites.properties.SpritesProperties;
 import javafx.scene.image.ImageView;
 
 public class PlayerViewProperties {
     private static final ImageView DEFAULT_AVATAR = new ImageView(ImagesProperties.schemeSpriteForImageView());
-    private static final ImageSheetProperty DEFAULT_SIGN_SHEET_PROPERTY = SpritesProperties.sign1SheetProperty();
 
     private ImageView avatar;
-    private ImageSheetProperty signSheetProperty;
+    private ImageSheetProperty signSheet;
     private String nick;
 
     //----------------------------------------------------------------------------------------------------------------//
     public PlayerViewProperties() {
         this.avatar = DEFAULT_AVATAR;
-        this.signSheetProperty = DEFAULT_SIGN_SHEET_PROPERTY;
+        this.signSheet = null;
         this.nick = "";
     }
 
@@ -25,8 +23,8 @@ public class PlayerViewProperties {
         this.avatar = avatar;
     }
 
-    public void setSignSheetProperty(ImageSheetProperty signSheetProperty) {
-        this.signSheetProperty = signSheetProperty;
+    public void setSignSheet(ImageSheetProperty signSheet) {
+        this.signSheet = signSheet;
     }
 
     public void setNick(String nick) {
@@ -37,8 +35,8 @@ public class PlayerViewProperties {
         return nick;
     }
 
-    public ImageSheetProperty getSignSheetProperty() {
-        return signSheetProperty;
+    public ImageSheetProperty getSignSheet() {
+        return signSheet;
     }
 
     public ImageView getAvatar() {

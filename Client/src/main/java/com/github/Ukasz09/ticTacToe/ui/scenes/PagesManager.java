@@ -11,6 +11,7 @@ import com.github.Ukasz09.ticTacToe.logic.guiObserver.IGuiObserver;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToe.ui.scenes.pages.GameBoardPage;
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.HashSet;
@@ -26,6 +27,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     private AvatarPage avatarPage;
     private SignPage signPage;
     private BoardSizePage boardSizePage;
+    private WaitingPage waitingPage;
 
     //----------------------------------------------------------------------------------------------------------------//
     public PagesManager() {
@@ -42,7 +44,6 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     public void showGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
         initializeGamePage(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize, startedPlayerIndex);
         removeActualSceneFromRoot();
-        gameBoardPage.showGameBoard(true);
         gameBoardPage.showVisibleOnlyActualPlayer(startedPlayerIndex);
         actualScene = gameBoardPage;
         setActualSceneVisible(true);
@@ -52,9 +53,8 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         gameBoardPage = new GameBoardPage();
         gameBoardPage.attachObserver(this);
         gameBoardPage.initializeGameGrid(boardSize, this);
-        gameBoardPage.initializePlayerInfoPage(avatar1, nick1, sign1, startedPlayerId);
-        gameBoardPage.initializePlayerInfoPage(avatar2, nick2, sign2, Gui.getNextPlayerNumber(startedPlayerId));
-        gameBoardPage.setStartedPlayerId(startedPlayerId);
+        gameBoardPage.initLeftPlayerPane(avatar1, nick1, sign1, startedPlayerId);
+        gameBoardPage.initRightPlayerPane(avatar2, nick2, sign2, Gui.getNextPlayerNumber(startedPlayerId));
     }
 
     public void showHomePage() {
@@ -101,24 +101,29 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         nickPage.attachObserver(this);
     }
 
-    public void sceneToAvatarPage() {
-        initializeAvatarPage();
+    public void sceneToAvatarPage(Image disabledAvatar) {
+        initializeAvatarPage(disabledAvatar);
         changeScene(avatarPage);
     }
 
-    private void initializeAvatarPage() {
-        avatarPage = new AvatarPage();
+    private void initializeAvatarPage(Image disabledAvatar) {
+        avatarPage = new AvatarPage(disabledAvatar);
         avatarPage.attachObserver(this);
     }
 
-    public void sceneToSignPage() {
-        initSignPage();
+    public void sceneToSignPage(ImageSheetProperty disabledSign) {
+        initSignPage(disabledSign);
         changeScene(signPage);
     }
 
-    private void initSignPage() {
-        signPage = new SignPage();
+    private void initSignPage(ImageSheetProperty disabledSign) {
+        signPage = new SignPage(disabledSign);
         signPage.attachObserver(this);
+    }
+
+    public void sceneToWaitingPage() {
+        waitingPage = new WaitingPage();
+        changeScene(waitingPage);
     }
 
     private void changeScene(IScenePage page) {
@@ -132,8 +137,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
             actualScene.removeFromActionNodes();
     }
 
-    //todo: tmp - pozniej zmienic na wait_scene i private
-    public void setActualSceneVisible(boolean value) {
+    private void setActualSceneVisible(boolean value) {
         if (actualScene != null)
             actualScene.setSceneVisible(value);
     }
@@ -152,16 +156,19 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public void changeSceneToWinGamePage(int winningPlayerNumber, String playerNick) {
-        gameBoardPage.changeSceneToWinResultPage(winningPlayerNumber, playerNick);
+        gameBoardPage.sceneToWinResultPage(winningPlayerNumber, playerNick);
     }
 
     public void changeSceneToDrawGamePage() {
         gameBoardPage.changeSceneToDrawResultPage();
     }
 
-    //todo: zmienic na narzucenie jakiegos page ze aktualnie ruch przeciwnika
     public void interactionWithAllBoxes(boolean allowed) {
-        gameBoardPage.interactionWithAllBoxes(allowed);
+        gameBoardPage.getGameBoard().interactionWithAllBoxes(allowed);
+    }
+
+    public void changeGameBoardPageHeader(String headerText) {
+        gameBoardPage.setHeaderText(headerText);
     }
 
     public IDrawingGraphic getActualScene() {
@@ -214,10 +221,15 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public Point2D getLastChosenBoxCoords() {
-        return gameBoardPage.getLastChosenBoxCoords();
+        return gameBoardPage.getGameBoard().getLastChosenBoxCoords();
     }
 
     public int getGameBoardSize() {
-        return boardSizePage.getActualChosenBoardSize();
+        return boardSizePage.getChosenBoardSize();
     }
+
+    public void disableInteractionWithBox(int rowIndex, int columnIndex, boolean value, boolean withRemovingFromRoot) {
+        gameBoardPage.getGameBoard().disableInteractionWithBox(rowIndex, columnIndex, value, withRemovingFromRoot);
+    }
+
 }

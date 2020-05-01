@@ -101,6 +101,10 @@ public class GameBoard implements IDrawingGraphic {
         return startedPosition + columnIndex * buttonHeight;
     }
 
+    public void disableInteractionWithBox(int rowIndex, int columnIndex, boolean value, boolean withRemovingFromRoot) {
+        boxButtonSprites[rowIndex][columnIndex].interactionWithBox(value, withRemovingFromRoot);
+    }
+
     public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
         double signInBoxSize = getBoxSpriteSize() * SIGN_TO_BOARD_PROPORTION;
         SignBtnSprite sign = new SignBtnSprite(signSheetProperty, signInBoxSize, false);

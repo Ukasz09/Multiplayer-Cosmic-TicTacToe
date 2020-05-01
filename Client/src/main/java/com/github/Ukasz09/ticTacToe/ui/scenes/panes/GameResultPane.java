@@ -30,8 +30,7 @@ public class GameResultPane extends CenteredPane implements IDrawingGraphic {
 
     public void addOscarStatue() {
         double statueWidth = getPrefWidth() * SPRITE_WIDTH_PROPORTION;
-        OscarStatue oscarStatueSprite = new OscarStatue(statueWidth, getSpriteHeight(), getSpriteCenterPositionX(statueWidth), getLayoutY());
-        spriteToRender = oscarStatueSprite;
+        spriteToRender = new OscarStatue(statueWidth, getSpriteHeight(), getSpriteCenterPositionX(statueWidth), getLayoutY());
     }
 
     private double getSpriteHeight() {
@@ -42,6 +41,7 @@ public class GameResultPane extends CenteredPane implements IDrawingGraphic {
         return (getLayoutX() + getWidth() / 2 - statueWidth / 2);
     }
 
+    //todo: zmienic by nie bylo ifow
     @Override
     public void render() {
         if (spriteToRender != null)

@@ -8,6 +8,7 @@ import com.github.Ukasz09.ticTacToe.logic.guiObserver.IGuiObserver;
 import com.github.Ukasz09.ticTacToe.ui.scenes.PagesManager;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.HashSet;
@@ -91,16 +92,24 @@ public class Gui implements IGuiObservable {
         playerViewProperties[getNextPlayerNumber()].setAvatar(pagesManager.getAvatarImage(avatarNumber));
     }
 
+    private Image getNextPlayerAvatar() {
+        return playerViewProperties[getNextPlayerNumber()].getAvatar().getImage();
+    }
+
     public void updatePlayerAvatar() {
         playerViewProperties[actualPlayerNumber].setAvatar(pagesManager.getAvatarImage(pagesManager.getChosenAvatarNumber()));
     }
 
     public void updatePlayerSign() {
-        playerViewProperties[actualPlayerNumber].setSignSheetProperty(pagesManager.getChosenSignSheet());
+        playerViewProperties[actualPlayerNumber].setSignSheet(pagesManager.getChosenSignSheet());
     }
 
     public void updateNextPlayerSign(int signNumber) {
-        playerViewProperties[getNextPlayerNumber()].setSignSheetProperty(pagesManager.getSignSheet(signNumber));
+        playerViewProperties[getNextPlayerNumber()].setSignSheet(pagesManager.getSignSheet(signNumber));
+    }
+
+    private ImageSheetProperty getNextPlayerSign() {
+        return playerViewProperties[getNextPlayerNumber()].getSignSheet();
     }
 
     public void sceneToGameBoard(int boardSize, int startedPlayer) {
@@ -111,6 +120,14 @@ public class Gui implements IGuiObservable {
         ImageSheetProperty sign1 = getPlayerSignSheet(startedPlayer);
         ImageSheetProperty sign2 = getPlayerSignSheet(getNextPlayerNumber(startedPlayer));
         pagesManager.showGamePage(startedPlayer, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
+    }
+
+    public void sceneToAvatarPage() {
+        pagesManager.sceneToAvatarPage(getNextPlayerAvatar());
+    }
+
+    public void sceneToSignPage() {
+        pagesManager.sceneToSignPage(getNextPlayerSign());
     }
 
     public void addPlayerSignToBox(int rowIndex, int columnIndex, int playerNumber) {
@@ -130,7 +147,7 @@ public class Gui implements IGuiObservable {
     }
 
     private ImageSheetProperty getPlayerSignSheet(int playerNumber) {
-        return (playerIndexIsValid(playerNumber)) ? playerViewProperties[playerNumber].getSignSheetProperty() : null;
+        return (playerIndexIsValid(playerNumber)) ? playerViewProperties[playerNumber].getSignSheet() : null;
     }
 
     private String getPlayerNick(int playerNumber) {

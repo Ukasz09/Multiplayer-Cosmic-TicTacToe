@@ -2,7 +2,7 @@ package com.github.Ukasz09.ticTacToe.ui.control.textFields;
 
 import com.github.Ukasz09.ticTacToe.ui.ViewManager;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.FontProperties;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.IGameButtonProperties;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.IGameBtnProperties;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
@@ -10,7 +10,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.text.Font;
 
-public class GameTextField extends TextField implements IGameButtonProperties {
+public class GameTextField extends TextField implements IGameBtnProperties {
     private static final double WIDTH_PROPORTION = 35 / 192d;
     private static final double HEIGHT_PROPORTION = 10 / 108d;
     private static final double FONT_SIZE_PROPORTION = 3 / 192d;

@@ -2,7 +2,7 @@ package com.github.Ukasz09.ticTacToe.ui.sprites;
 
 import javafx.scene.image.Image;
 
-public abstract class ImageSprite extends SpriteWithEventHandler {
+public class ImageSprite extends SpriteWithEventHandler {
     private Image spriteImage;
 
     //-----------------------------------------------------------------------------------------------------------------//

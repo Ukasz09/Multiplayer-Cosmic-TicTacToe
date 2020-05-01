@@ -1,9 +1,9 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes.panes;
 
 import com.github.Ukasz09.ticTacToe.ui.ViewManager;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameControlButton;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.IGameButtonProperties;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameImageButton;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameControlBtn;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.IGameBtnProperties;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameImageBtn;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.SignBtnSprite;
 import com.github.Ukasz09.ticTacToe.ui.control.textFields.GameTextField;
 import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
@@ -24,7 +24,7 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
     private static final double SIGN_PADDING_PROPORTION = 75 / 1080d;
     private static final String FONT_COLOR_CSS_FOR_DISABLE = "darkslategrey";
 
-    private GameImageButton avatar;
+    private GameImageBtn avatar;
     private SignBtnSprite sign;
     private GameTextField nickField;
     private double headerHeight;
@@ -53,10 +53,10 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
         setPrefWidth(width);
     }
 
-    public void initialize(ImageView avatarImageView, String nick, ImageSheetProperty signSheetProperty) {
+    public void initialize(ImageView avatar, String nick, ImageSheetProperty signSheet) {
         addNicField(nick);
-        addAvatar(avatarImageView);
-        addPlayerSign(signSheetProperty);
+        addAvatar(avatar);
+        addPlayerSign(signSheet);
     }
 
     private void addNicField(String nick) {
@@ -64,18 +64,18 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
         getChildren().add(nickField);
     }
 
-    private void addAvatar(ImageView avatarImageView) {
-        this.avatar = new GameImageButton(avatarImageView, getAvatarSize(), getAvatarSize());
-        getChildren().add(avatar);
+    private void addAvatar(ImageView avatar) {
+        this.avatar = new GameImageBtn(avatar, getAvatarSize(), getAvatarSize());
+        getChildren().add(this.avatar);
     }
 
     private double getAvatarSize() {
         return getWidth() / 2;
     }
 
-    private void addPlayerSign(ImageSheetProperty signSheetProperty) {
+    private void addPlayerSign(ImageSheetProperty signSheet) {
         double signSize = getAvatarSize() / 2;
-        this.sign = new SignBtnSprite(signSheetProperty, signSize, false);
+        this.sign = new SignBtnSprite(signSheet, signSize, false);
         sign.setPositionX(getSignCenterPositionX(signSize));
         sign.setPositionY(getSignPositionY());
     }
@@ -98,15 +98,15 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
         sign.update();
     }
 
-    public void disablePage(boolean value) {
+    public void disablePane(boolean value) {
         if (value)
-            disablePage();
+            disablePane();
         else enablePage();
     }
 
-    private void disablePage() {
+    private void disablePane() {
         avatar.setDisable(true);
-        avatar.setEffect(IGameButtonProperties.BUTTON_EXITED_EFFECT);
+        avatar.setEffect(IGameBtnProperties.BUTTON_EXITED_EFFECT);
         sign.disable();
         nickField.setFontColor(FONT_COLOR_CSS_FOR_DISABLE);
     }
@@ -125,19 +125,19 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
     }
 
     private void addRepeatGameButton() {
-        Button button = new GameControlButton("REPEAT GAME");
+        Button button = new GameControlBtn("REPEAT GAME");
         button.setOnMouseClicked(event -> notifyObservers(GuiEvents.REPEAT_GAME_BTN));
         getChildren().add(button);
     }
 
     private void addStartGameButton() {
-        Button button = new GameControlButton("NEW GAME");
+        Button button = new GameControlBtn("NEW GAME");
         button.setOnMouseClicked(event -> notifyObservers(GuiEvents.START_BTN_CLICKED));
         getChildren().add(button);
     }
 
     private void addEndGameButton() {
-        Button button = new GameControlButton("END GAME");
+        Button button = new GameControlBtn("END GAME");
         button.setOnMouseClicked(event -> notifyObservers(GuiEvents.END_GAME_BTN_CLICKED));
         getChildren().add(button);
     }
@@ -164,7 +164,6 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
         setAlignment(Pos.CENTER);
     }
 
-    //----------------------------------------------------------------------------------------------------------------//
     @Override
     public void attachObserver(IGuiObserver observer) {
         observers.add(observer);
