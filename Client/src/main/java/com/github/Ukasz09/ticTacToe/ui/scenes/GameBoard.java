@@ -103,24 +103,26 @@ public class GameBoard implements IDrawingGraphic {
 
     public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheet) {
         double signSize = getBoxSpriteSize() * SIGN_TO_BOARD_PROPORTION;
-        AnimatedSprite signSprite = getSignSprite(signSheet, signSize);
-        setSignPosition(signSprite, signSize, rowIndex, columnIndex);
+        FrameStatePositions state = signSheet.getAction(SpriteStates.STANDBY);
+        AnimatedSprite signSprite = new AnimatedSprite(signSize, signSize, 0, 0, signSheet, state, false);
+        setSignPosition(signSprite, getBoxSpriteSize(), rowIndex, columnIndex);
         signSprites.add(signSprite);
     }
 
-    private AnimatedSprite getSignSprite(ImageSheetProperty sheetProperty, double signSize) {
-        FrameStatePositions state = sheetProperty.getAction(SpriteStates.STANDBY);
-        return new AnimatedSprite(signSize, signSize, 0, 0, sheetProperty, state, false);
-    }
-
-    private void setSignPosition(AnimatedSprite sign, double size, int rowIndex, int columnIndex) {
-        double startPosX = getFstBtnPosXToCenterWithOthers(boardSize, 0, size);
-        sign.setPositionX(getBoxPositionX(rowIndex, size, startPosX) + size / 2 - sign.getWidth() / 2);
-        sign.setPositionY(getBoxPositionY(columnIndex, size, getFstBtnPosY() + size / 2 - sign.getHeight() / 2));
+    private void setSignPosition(AnimatedSprite sign, double boxSize, int rowIndex, int columnIndex) {
+        double startPosX = getFstBtnPosXToCenterWithOthers(boardSize, 0, boxSize);
+        sign.setPositionX(getBoxPositionX(rowIndex, boxSize, startPosX) + boxSize / 2 - sign.getWidth() / 2);
+        sign.setPositionY(getBoxPositionY(columnIndex, boxSize, getFstBtnPosY() + boxSize / 2 - sign.getHeight() / 2));
     }
 
     public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
         boxButtonSprites[coordsX][coordsY].changeState(state);
+    }
+
+    public void changeAllGridBoxState(SpriteStates state) {
+        for (int row = 0; row < boxButtonSprites.length; row++)
+            for (int column = 0; column < boxButtonSprites[0].length; column++)
+                boxButtonSprites[row][column].changeState(state);
     }
 
     public void interactionWithAllBoxes(boolean allowed) {

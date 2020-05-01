@@ -1,8 +1,8 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes.panes;
 
 import com.github.Ukasz09.ticTacToe.ui.ViewManager;
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.ButtonsProperties;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameControlBtn;
-import com.github.Ukasz09.ticTacToe.ui.control.buttons.IGameBtnProperties;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameImageBtn;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.SignBtnSprite;
 import com.github.Ukasz09.ticTacToe.ui.control.textFields.GameTextField;
@@ -106,7 +106,7 @@ public class PlayerInfoPane extends FlowPane implements IDrawingGraphic, IGuiObs
 
     private void disablePane() {
         avatar.setDisable(true);
-        avatar.setEffect(IGameBtnProperties.BUTTON_EXITED_EFFECT);
+        avatar.setEffect(ButtonsProperties.buttonExitedEffect());
         sign.disable();
         nickField.setFontColor(FONT_COLOR_CSS_FOR_DISABLE);
     }

@@ -92,8 +92,4 @@ public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphi
     public void changeState(IKindOfState state) {
         actualAnimationState = spriteSheetProperty.getAction(state);
     }
-
-    public ImageSheetProperty getSpriteSheetProperty() {
-        return spriteSheetProperty;
-    }
 }

@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignPage extends ChoosePage {
-    private static final ImageSheetProperty[] SING_SHEETS = SpritesProperties.signSheetsProperties();
     private static final double BTNS_PADDING_TO_SCREEN_PROPORTION = 10 / 192d;
     private static final String LABEL_TEXT = "Choose game sign";
 
@@ -29,13 +28,17 @@ public class SignPage extends ChoosePage {
     private void addSignButtons(ImageSheetProperty disableSign) {
         signBtnSprites = new HashMap<>();
         double btnWidth = 0, btnHeight = 0;
-        for (int i = 0; i < SING_SHEETS.length; i++) {
-            SignBtnSprite btn = new SignBtnSprite(SING_SHEETS[i], true);
+        ImageSheetProperty[] singSheets = SpritesProperties.signSheetsProperties();
+        for (int i = 0; i < singSheets.length; i++) {
+            SignBtnSprite btn = new SignBtnSprite(singSheets[i], true);
             btnWidth = btn.getWidth();
             btnHeight = btn.getHeight();
             addSignButtonEventHandler(btn);
-            if (disableSign != null && disableSign.equals(SING_SHEETS[i]))
+            if (disableSign != null && disableSign.equals(singSheets[i])) {
+                System.out.println("JESTEM W WYLACZENIU");
                 btn.disable();
+            }
+            System.out.println("DISABLE JEST NULL: " + disableSign == null);
             signBtnSprites.put(btn, i);
         }
         setSignButtonsCorrectPositions(manager.getScaledWidth(BTNS_PADDING_TO_SCREEN_PROPORTION), btnWidth, btnHeight);
@@ -123,6 +126,6 @@ public class SignPage extends ChoosePage {
     }
 
     public static ImageSheetProperty getSign(int signId) {
-        return SING_SHEETS[signId];
+        return SpritesProperties.signSheetsProperties()[signId];
     }
 }

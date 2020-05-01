@@ -4,6 +4,7 @@ import com.github.Ukasz09.ticTacToe.ui.Gui;
 import com.github.Ukasz09.ticTacToe.ui.scenes.panes.GameResultPane;
 import com.github.Ukasz09.ticTacToe.ui.scenes.GameBoard;
 import com.github.Ukasz09.ticTacToe.ui.scenes.panes.PlayerInfoPane;
+import com.github.Ukasz09.ticTacToe.ui.scenes.panes.WinGameResultPane;
 import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsPlayer;
 import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
@@ -11,7 +12,6 @@ import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.IGuiObserver;
 import com.github.Ukasz09.ticTacToe.logic.gameExceptions.IncorrectBoardSizeException;
 import javafx.geometry.Orientation;
-import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
 public class GameBoardPage extends ChoosePage implements IGuiObserver {
@@ -20,12 +20,12 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
     private static final String WINNER_HEADER_TEXT_PREFIX = "Winner: ";
     private static final String DRAW_HEADER_TEXT = "Unlucky. It's a draw! ";
     private static final double SOUND_VOLUME = 1;
-    private static final SoundsPlayer DRAW_SOUND_EFFECT = SoundsProperties.drawEffect(SOUND_VOLUME);
-    private static final SoundsPlayer WIN_SOUND_EFFECT = SoundsProperties.winEffect(SOUND_VOLUME);
 
     private GameBoard gameBoard;
     private PlayerInfoPane[] playerInfoPanes;
     private GameResultPane gameResultPane = null;
+    private SoundsPlayer soundsPlayer;
+
 
     //-----------------------------------------------------------------------------------------------------------------//
     public GameBoardPage() {
@@ -110,22 +110,22 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         int nextPlayerPaneIndex = Gui.getNextPlayerNumber(winningPlayerNumber);
         changePaneToGameResult(nextPlayerPaneIndex);
         addGameOverButtonsToPane(winningPlayerNumber);
-        gameResultPane.addOscarStatue();
         setWinnerHeaderText(playerNick);
-        WIN_SOUND_EFFECT.playSound();
+        soundsPlayer = SoundsProperties.winEffect(SOUND_VOLUME); //to prevent from garbage collector destroy before sound end
+        soundsPlayer.playSound();
     }
 
     private void changePaneToGameResult(int paneIndex) {
         playerInfoPanes[paneIndex].setPaneVisible(false);
-        initializeGameResultPane(paneIndex);
+        initWinGameResultPane(paneIndex);
         addGameResultPane(paneIndex);
     }
 
-    private void initializeGameResultPane(int paneIndex) {
+    private void initWinGameResultPane(int paneIndex) {
         double paneWidth = playerInfoPanes[paneIndex].getWidth();
         double positionX = playerInfoPanes[paneIndex].getLayoutX();
         double positionY = playerInfoPanes[paneIndex].getLayoutY();
-        gameResultPane = new GameResultPane(paneWidth, positionX, positionY);
+        gameResultPane = new WinGameResultPane(paneWidth, positionX, positionY);
     }
 
     private void addGameResultPane(int paneIndex) {
@@ -152,7 +152,8 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         addGameOverButtonsToPane(0);
         changePaneToGameResult(1);
         setHeaderText(DRAW_HEADER_TEXT);
-        DRAW_SOUND_EFFECT.playSound();
+        soundsPlayer = SoundsProperties.drawEffect(SOUND_VOLUME); //to prevent from garbage collector destroy before sound end
+        soundsPlayer.playSound();
     }
 
     @Override

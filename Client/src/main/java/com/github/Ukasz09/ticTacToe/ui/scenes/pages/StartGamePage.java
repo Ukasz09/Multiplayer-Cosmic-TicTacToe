@@ -12,9 +12,8 @@ import javafx.scene.control.Button;
 public class StartGamePage extends ChoosePage {
     private static final String HEADER_TEXT = "Cosmic Tic-Tac-Toe Game";
     private static final double MUSIC_VOLUME = 0.8;
-    private static final SoundsPlayer BACKGROUND_MUSIC = SoundsProperties.gameBackground(MUSIC_VOLUME);
 
-    public static final GameBackground GAME_BACKGROUND = new ImageGameBackground(DEFAULT_BACKGROUND, BACKGROUND_MUSIC);
+    public static final GameBackground GAME_BACKGROUND = new ImageGameBackground(DEFAULT_BACKGROUND, SoundsProperties.gameBackground(MUSIC_VOLUME));
 
     //----------------------------------------------------------------------------------------------------------------//
     public StartGamePage() {

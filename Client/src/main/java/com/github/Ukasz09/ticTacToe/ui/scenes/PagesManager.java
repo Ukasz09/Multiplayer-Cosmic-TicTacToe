@@ -4,7 +4,6 @@ import com.github.Ukasz09.ticTacToe.ui.Gui;
 import com.github.Ukasz09.ticTacToe.ui.scenes.pages.*;
 import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToe.ui.scenes.pages.IScenePage;
-import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.IGuiObservable;
@@ -115,7 +114,6 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         ((GameBoardPage) actualScene).showVisibleOnlyActualPlayer(actualPlayerNumber);
     }
 
-    //todo: zmienic na optmalna wersje
     public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
         ((GameBoardPage) actualScene).getGameBoard().addPlayerSignToBox(rowIndex, columnIndex, signSheetProperty);
     }
@@ -134,6 +132,10 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
 
     public void interactionWithAllBoxes(boolean allowed) {
         ((GameBoardPage) actualScene).getGameBoard().interactionWithAllBoxes(allowed);
+    }
+
+    public void changeAllGridBoxStates(SpriteStates state){
+        ((GameBoardPage) actualScene).getGameBoard().changeAllGridBoxState(state);
     }
 
     public void changeGameBoardPageHeader(String headerText) {

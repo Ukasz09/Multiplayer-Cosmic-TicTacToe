@@ -126,12 +126,15 @@ public class ClientController extends Thread implements IGuiObserver {
             case Messages.CLOSE_GUI:
                 endGame();
                 break;
-            case Messages.DENY_INTERACTION_WITH_BOXES:
+            case Messages.DENY_INTERACTION_WITH_BOXES: {
                 gui.getPagesManager().interactionWithAllBoxes(false);
-                break;
+                gui.getPagesManager().changeAllGridBoxStates(SpriteStates.NO_ANIMATION);
+            }
+            break;
             case Messages.ALLOW_INTERACTION_WITH_BOXES: {
                 gui.getPagesManager().changeGameBoardPageHeader(GameBoardPage.ACTUAL_PLAYER_MOVE_HEADER_TXT);
                 gui.getPagesManager().interactionWithAllBoxes(true);
+                gui.getPagesManager().changeAllGridBoxStates(SpriteStates.STANDBY);
                 gui.getPagesManager().showVisibleOnlyActualPlayerPane(gui.getPlayerNumber());
             }
             break;

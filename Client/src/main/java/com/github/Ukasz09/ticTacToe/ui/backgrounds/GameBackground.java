@@ -5,14 +5,14 @@ import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsPlayer;
 
 public abstract class GameBackground implements IBackground {
     private SoundsPlayer backgroundSound;
-    private boolean backgroundSoundIsPlaying;
+    private boolean soundIsPlaying;
     protected ViewManager manager;
 
     //----------------------------------------------------------------------------------------------------------------//
     public GameBackground(SoundsPlayer backgroundSound) {
         manager = ViewManager.getInstance();
         this.backgroundSound = backgroundSound;
-        backgroundSoundIsPlaying = false;
+        soundIsPlaying = false;
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -20,18 +20,18 @@ public abstract class GameBackground implements IBackground {
     public boolean playBackgroundSound() {
         if (backgroundSound == null)
             return false;
-        if (backgroundSoundIsPlaying)
+        if (soundIsPlaying)
             backgroundSound.stopSound();
         backgroundSound.playSound();
-        backgroundSoundIsPlaying = true;
+        soundIsPlaying = true;
         return true;
     }
 
     @Override
     public boolean stopBackgroundSound() {
-        if (backgroundSoundIsPlaying && backgroundSound != null) {
+        if (soundIsPlaying && backgroundSound != null) {
             backgroundSound.stopSound();
-            backgroundSoundIsPlaying = false;
+            soundIsPlaying = false;
             return true;
         }
         return false;

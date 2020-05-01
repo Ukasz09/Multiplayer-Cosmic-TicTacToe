@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToe.ui.control.buttons.normal;
 
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.ButtonsProperties;
 import javafx.scene.image.Image;
 
 public class HoveredActiveImageBtn extends GameImageBtn {
@@ -11,8 +12,8 @@ public class HoveredActiveImageBtn extends GameImageBtn {
 
     //----------------------------------------------------------------------------------------------------------------//
     private void setDefaultEvents() {
-        setEffect(BUTTON_EXITED_EFFECT);
+        setEffect(ButtonsProperties.buttonExitedEffect());
         setOnMouseEntered(event -> setEffect(null));
-        setOnMouseExited(event -> setEffect(BUTTON_EXITED_EFFECT));
+        setOnMouseExited(event -> setEffect(ButtonsProperties.buttonExitedEffect()));
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ImageSheetProperty {
     public static final class Builder {
@@ -17,6 +18,7 @@ public class ImageSheetProperty {
         private double heightOfOneFrame;
         private int maxAmountOfFramesInRow;
         private double timeOnFrameInAnimation;
+        private String imagePath;
 
         private Builder(int amountOfFramesInRow) {
             maxAmountOfFramesInRow = amountOfFramesInRow;
@@ -26,6 +28,7 @@ public class ImageSheetProperty {
 
         Builder withImagePath(String imagePath) {
             this.imageSheet = new Image(imagePath);
+            this.imagePath = imagePath;
             return this;
         }
 
@@ -65,6 +68,7 @@ public class ImageSheetProperty {
             imageSheetProperty.timeOnFrameInAnimation = this.timeOnFrameInAnimation;
             imageSheetProperty.actionStates = this.actionStates;
             imageSheetProperty.maxAmountOfFramesInRow = this.maxAmountOfFramesInRow;
+            imageSheetProperty.imagePath = this.imagePath;
             return imageSheetProperty;
         }
     }
@@ -78,6 +82,7 @@ public class ImageSheetProperty {
     private double heightOfOneFrame;
     private double timeOnFrameInAnimation;
     private int maxAmountOfFramesInRow;
+    private String imagePath;
 
     private ImageSheetProperty() {
         //Nothing to do...
@@ -145,7 +150,17 @@ public class ImageSheetProperty {
         return imageSheet.getWidth();
     }
 
-    public void setImageSheet(Image imageSheet) {
-        this.imageSheet = imageSheet;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ImageSheetProperty that = (ImageSheetProperty) o;
+        return Objects.equals(imagePath, that.imagePath);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imageSheet);
     }
 }

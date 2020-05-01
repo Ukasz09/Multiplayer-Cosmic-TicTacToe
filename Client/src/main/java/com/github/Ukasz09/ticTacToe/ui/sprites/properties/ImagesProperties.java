@@ -5,9 +5,25 @@ import javafx.scene.image.Image;
 public class ImagesProperties {
     private static final int AVATARS_QTY = 14;
 
+    //singletons
+    private static Image schemeImage;
+    private static Image empty;
+
+    //----------------------------------------------------------------------------------------------------------------//
     public static Image schemeSpriteForImageView() {
-        String imagePath = "images/decorations/testedForImageView.png";
-        return new Image(imagePath);
+        if (schemeImage == null) {
+            String imagePath = "images/decorations/testedForImageView.png";
+            schemeImage = new Image(imagePath);
+        }
+        return schemeImage;
+    }
+
+    public static Image empty() {
+        if (empty == null) {
+            String imagePath = "images/decorations/empty.png";
+            empty = new Image(imagePath);
+        }
+        return empty;
     }
 
     public static Image startGameBackground() {
@@ -27,5 +43,6 @@ public class ImagesProperties {
         String imagePath = "images/decorations/waiting.gif";
         return new Image(imagePath);
     }
+
 
 }

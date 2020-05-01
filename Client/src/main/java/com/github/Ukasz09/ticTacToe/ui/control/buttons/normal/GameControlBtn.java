@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToe.ui.control.buttons.normal;
 
+import com.github.Ukasz09.ticTacToe.ui.control.buttons.ButtonsProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.FontProperties;
 
 public class GameControlBtn extends GameBtn {
@@ -29,14 +30,14 @@ public class GameControlBtn extends GameBtn {
     }
 
     private void setDefaultEvents() {
-        setOnMouseEntered(event -> setEffect(DEFAULT_MOUSE_ENTERED_EFFECT));
+        setOnMouseEntered(event -> setEffect(ButtonsProperties.mouseEnteredEffect()));
         setOnMouseExited(event -> setEffect(null));
     }
 
     private void setDefaultFont() {
         int fontSize = (int) (manager.getScaledWidth(FONT_SIZE_PROPORTION));
         setFont(FontProperties.chargenRegularFont(fontSize));
-        setTextFill(DEFAULT_FONT_COLOR);
+        setTextFill(ButtonsProperties.DEFAULT_FONT_COLOR);
     }
 }
 

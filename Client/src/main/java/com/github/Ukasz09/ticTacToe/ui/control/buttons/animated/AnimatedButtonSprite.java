@@ -20,9 +20,9 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IGu
     private Set<IGuiObserver> observers;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public AnimatedButtonSprite(double width, double height, ImageSheetProperty sheetProperty, boolean withImageViewInRoot) {
-        super(width, height, 0, 0, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY), withImageViewInRoot);
-        observers = new HashSet<>();
+    public AnimatedButtonSprite(double width, double height, ImageSheetProperty sheet, boolean withImageViewInRoot) {
+        super(width, height, 0, 0, sheet, sheet.getAction(SpriteStates.STANDBY), withImageViewInRoot);
+        observers = new HashSet<>(2);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
@@ -34,7 +34,6 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IGu
         isActive = true;
     }
 
-    //-----------------------------------------------------------------------------------------------------------------//
     @Override
     public void attachObserver(IGuiObserver observer) {
         observers.add(observer);
@@ -47,14 +46,16 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IGu
 
     @Override
     public void notifyObservers(GuiEvents event) {
-        for (IGuiObserver observer : observers)
-            observer.updateGuiObserver(event);
+        observers.forEach(observer -> observer.updateGuiObserver(event));
     }
 
     public boolean isActive() {
         return isActive;
     }
 
+    /**
+     * Bloat operation. User responsibly
+     */
     protected Image getSheetWithEffect(Image sheet, Effect effectToApply, double opacity) {
         ImageView view = new ImageView();
         SnapshotParameters snapshot = new SnapshotParameters();

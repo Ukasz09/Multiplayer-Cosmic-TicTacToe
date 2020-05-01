@@ -5,14 +5,14 @@ import com.github.Ukasz09.ticTacToe.ui.sprites.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
 
 public class GameBoxButtonSprite extends AnimatedButtonSprite {
-    private static final ImageSheetProperty SHEET_PROPERTY = SpritesProperties.gridBoxProperty();
+    private static final ImageSheetProperty SHEET = SpritesProperties.gridBoxProperty();
 
     private int coordsX;
     private int coordsY;
 
     //----------------------------------------------------------------------------------------------------------------//
     public GameBoxButtonSprite(int coordsX, int coordsY, double buttonSize, boolean withImageViewInRoot) {
-        super(buttonSize, buttonSize, SHEET_PROPERTY, withImageViewInRoot);
+        super(buttonSize, buttonSize, SHEET, withImageViewInRoot);
         this.coordsX = coordsX;
         this.coordsY = coordsY;
     }
@@ -27,14 +27,10 @@ public class GameBoxButtonSprite extends AnimatedButtonSprite {
     }
 
     public void interactionWithBox(boolean allowed, boolean removeFromRoot) {
-        if (allowed) {
-            changeState(SpriteStates.STANDBY);
-            enable();
-        } else {
-            changeState(SpriteStates.NO_ANIMATION);
-            disable();
-        }
-        if (removeFromRoot)
+        if (removeFromRoot) {
             removeNodeFromRoot();
+        } else if (allowed)
+            enable();
+        else disable();
     }
 }
