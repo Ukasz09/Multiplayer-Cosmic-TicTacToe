@@ -119,7 +119,7 @@ public class Gui implements IGuiObservable {
         String nick2 = getPlayerNick(getNextPlayerNumber(startedPlayer));
         ImageSheetProperty sign1 = getPlayerSignSheet(startedPlayer);
         ImageSheetProperty sign2 = getPlayerSignSheet(getNextPlayerNumber(startedPlayer));
-        pagesManager.showGamePage(startedPlayer, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
+        pagesManager.sceneToGamePage(startedPlayer, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
     }
 
     public void sceneToAvatarPage() {

@@ -4,6 +4,7 @@ import com.github.Ukasz09.ticTacToe.ui.Gui;
 import com.github.Ukasz09.ticTacToe.ui.scenes.pages.*;
 import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToe.ui.scenes.pages.IScenePage;
+import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImagesProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.IGuiObservable;
@@ -21,47 +22,38 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     private IScenePage actualScene;
     private Set<IGuiObserver> observers;
 
-    private GameBoardPage gameBoardPage;
-    private StartGamePage startGamePage;
-    private NickPage nickPage;
-    private AvatarPage avatarPage;
-    private SignPage signPage;
-    private BoardSizePage boardSizePage;
-    private WaitingPage waitingPage;
-
     //----------------------------------------------------------------------------------------------------------------//
     public PagesManager() {
         observers = new HashSet<>();
-        initializeStartGamePage();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    private void initializeStartGamePage() {
-        startGamePage = new StartGamePage();
-        startGamePage.attachObserver(this);
-    }
-
-    public void showGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
-        initializeGamePage(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize, startedPlayerIndex);
-        removeActualSceneFromRoot();
-        gameBoardPage.showVisibleOnlyActualPlayer(startedPlayerIndex);
-        actualScene = gameBoardPage;
-        setActualSceneVisible(true);
-    }
-
-    private void initializeGamePage(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize, int startedPlayerId) {
-        gameBoardPage = new GameBoardPage();
-        gameBoardPage.attachObserver(this);
-        gameBoardPage.initializeGameGrid(boardSize, this);
-        gameBoardPage.initLeftPlayerPane(avatar1, nick1, sign1, startedPlayerId);
-        gameBoardPage.initRightPlayerPane(avatar2, nick2, sign2, Gui.getNextPlayerNumber(startedPlayerId));
-    }
-
     public void showHomePage() {
         stopBackgroundSound();
         setSceneToHomePage();
         setActualSceneVisible(true);
         playBackgroundSound();
+    }
+
+    private void setSceneToHomePage() {
+        StartGamePage gamePage = new StartGamePage();
+        gamePage.attachObserver(this);
+        changeScene(gamePage);
+    }
+
+    public void sceneToGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
+        GameBoardPage gamePage = getGamePage(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize, startedPlayerIndex);
+        gamePage.showVisibleOnlyActualPlayer(startedPlayerIndex);
+        changeScene(gamePage);
+    }
+
+    private GameBoardPage getGamePage(ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize, int startedPlayerId) {
+        GameBoardPage gameBoardPage = new GameBoardPage();
+        gameBoardPage.attachObserver(this);
+        gameBoardPage.initializeGameGrid(boardSize, this);
+        gameBoardPage.initLeftPlayerPane(avatar1, nick1, sign1, startedPlayerId);
+        gameBoardPage.initRightPlayerPane(avatar2, nick2, sign2, Gui.getNextPlayerNumber(startedPlayerId));
+        return gameBoardPage;
     }
 
     private void playBackgroundSound() {
@@ -74,62 +66,40 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
             actualScene.stopBackgroundSound();
     }
 
-    private void setSceneToHomePage() {
-        if (actualScene != startGamePage) {
-            removeActualSceneFromRoot();
-            actualScene = startGamePage;
-        }
-    }
-
     public void sceneToBoardSizePage() {
-        initBoardSizePage();
+        BoardSizePage boardSizePage = new BoardSizePage();
+        boardSizePage.attachObserver(this);
         changeScene(boardSizePage);
     }
 
-    private void initBoardSizePage() {
-        boardSizePage = new BoardSizePage();
-        boardSizePage.attachObserver(this);
-    }
-
     public void sceneToNickPage(String otherPlayerNick) {
-        initNickPage(otherPlayerNick);
+        NickPage nickPage = new NickPage(otherPlayerNick);
+        nickPage.attachObserver(this);
         changeScene(nickPage);
     }
 
-    private void initNickPage(String otherPlayerNick) {
-        nickPage = new NickPage(otherPlayerNick);
-        nickPage.attachObserver(this);
-    }
-
     public void sceneToAvatarPage(Image disabledAvatar) {
-        initializeAvatarPage(disabledAvatar);
+        AvatarPage avatarPage = new AvatarPage(disabledAvatar);
+        avatarPage.attachObserver(this);
         changeScene(avatarPage);
     }
 
-    private void initializeAvatarPage(Image disabledAvatar) {
-        avatarPage = new AvatarPage(disabledAvatar);
-        avatarPage.attachObserver(this);
-    }
-
     public void sceneToSignPage(ImageSheetProperty disabledSign) {
-        initSignPage(disabledSign);
+        SignPage signPage = new SignPage(disabledSign);
+        signPage.attachObserver(this);
         changeScene(signPage);
     }
 
-    private void initSignPage(ImageSheetProperty disabledSign) {
-        signPage = new SignPage(disabledSign);
-        signPage.attachObserver(this);
-    }
-
     public void sceneToWaitingPage() {
-        waitingPage = new WaitingPage();
-        changeScene(waitingPage);
+        changeScene(new WaitingPage());
     }
 
     private void changeScene(IScenePage page) {
         removeActualSceneFromRoot();
         actualScene = page;
         setActualSceneVisible(true);
+        ImagesProperties.clearImageInstances();
+        System.gc();
     }
 
     private void removeActualSceneFromRoot() {
@@ -143,32 +113,32 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public void showVisibleOnlyActualPlayerPane(int actualPlayerNumber) {
-        gameBoardPage.showVisibleOnlyActualPlayer(actualPlayerNumber);
+        ((GameBoardPage) actualScene).showVisibleOnlyActualPlayer(actualPlayerNumber);
     }
 
     //todo: zmienic na optmalna wersje
     public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
-        gameBoardPage.getGameBoard().addPlayerSignToBox(rowIndex, columnIndex, signSheetProperty);
+        ((GameBoardPage) actualScene).getGameBoard().addPlayerSignToBox(rowIndex, columnIndex, signSheetProperty);
     }
 
     public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
-        gameBoardPage.getGameBoard().changeGridBoxState(state, coordsX, coordsY);
+        ((GameBoardPage) actualScene).getGameBoard().changeGridBoxState(state, coordsX, coordsY);
     }
 
     public void changeSceneToWinGamePage(int winningPlayerNumber, String playerNick) {
-        gameBoardPage.sceneToWinResultPage(winningPlayerNumber, playerNick);
+        ((GameBoardPage) actualScene).sceneToWinResultPage(winningPlayerNumber, playerNick);
     }
 
     public void changeSceneToDrawGamePage() {
-        gameBoardPage.changeSceneToDrawResultPage();
+        ((GameBoardPage) actualScene).changeSceneToDrawResultPage();
     }
 
     public void interactionWithAllBoxes(boolean allowed) {
-        gameBoardPage.getGameBoard().interactionWithAllBoxes(allowed);
+        ((GameBoardPage) actualScene).getGameBoard().interactionWithAllBoxes(allowed);
     }
 
     public void changeGameBoardPageHeader(String headerText) {
-        gameBoardPage.setHeaderText(headerText);
+        ((GameBoardPage) actualScene).setHeaderText(headerText);
     }
 
     public IDrawingGraphic getActualScene() {
@@ -176,7 +146,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public String getChosenCorrectName() {
-        return nickPage.getChosenCorrectName();
+        return ((NickPage) actualScene).getChosenCorrectName();
     }
 
     public ImageView getAvatarImage(int avatarIndex) {
@@ -184,15 +154,15 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public int getChosenAvatarNumber() {
-        return avatarPage.getChosenAvatarId();
+        return ((AvatarPage) actualScene).getChosenAvatarId();
     }
 
     public int getChosenSignId() {
-        return signPage.getChosenSignNumber();
+        return ((SignPage) actualScene).getChosenSignNumber();
     }
 
     public ImageSheetProperty getChosenSignSheet() {
-        return SignPage.getSign(signPage.getChosenSignNumber());
+        return SignPage.getSign(((SignPage) actualScene).getChosenSignNumber());
     }
 
     public ImageSheetProperty getSignSheet(int signId) {
@@ -221,15 +191,15 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public Point2D getLastChosenBoxCoords() {
-        return gameBoardPage.getGameBoard().getLastChosenBoxCoords();
+        return ((GameBoardPage) actualScene).getGameBoard().getLastChosenBoxCoords();
     }
 
     public int getGameBoardSize() {
-        return boardSizePage.getChosenBoardSize();
+        return ((BoardSizePage) actualScene).getChosenBoardSize();
     }
 
     public void disableInteractionWithBox(int rowIndex, int columnIndex, boolean value, boolean withRemovingFromRoot) {
-        gameBoardPage.getGameBoard().disableInteractionWithBox(rowIndex, columnIndex, value, withRemovingFromRoot);
+        ((GameBoardPage) actualScene).getGameBoard().disableInteractionWithBox(rowIndex, columnIndex, value, withRemovingFromRoot);
     }
 
 }

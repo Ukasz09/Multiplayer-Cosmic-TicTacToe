@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 public class AvatarPage extends ChoosePage {
     private static final String LABEL_TEXT = "Choose avatar";
-    private static final Image[] AVATARS_IMAGES = ImagesProperties.avatars();
     private static final ImageView[] AVATARS_IMAGE_VIEW = initializeImageViews();
 
     private HashMap<Button, Integer> avatars;
@@ -24,22 +23,24 @@ public class AvatarPage extends ChoosePage {
     //----------------------------------------------------------------------------------------------------------------//
     public AvatarPage(Image disabledAvatar) {
         super(StartGamePage.GAME_BACKGROUND, LABEL_TEXT, Orientation.HORIZONTAL, 0);
-        avatars = new HashMap<>(AVATARS_IMAGES.length);
         addAvatarButtons(disabledAvatar);
     }
 
     //----------------------------------------------------------------------------------------------------------------//
     private static ImageView[] initializeImageViews() {
-        ImageView[] avatarViews = new ImageView[AVATARS_IMAGES.length];
-        for (int i = 0; i < AVATARS_IMAGES.length; i++)
-            avatarViews[i] = GameImageBtn.getProperSizeImageView(AVATARS_IMAGES[i]);
+        Image[] avatarImages = ImagesProperties.avatars();
+        ImageView[] avatarViews = new ImageView[avatarImages.length];
+        for (int i = 0; i < avatarImages.length; i++)
+            avatarViews[i] = GameImageBtn.getProperSizeImageView(avatarImages[i]);
         return avatarViews;
     }
 
     private void addAvatarButtons(Image disabledAvatar) {
-        for (int i = 0; i < AVATARS_IMAGES.length; i++) {
-            Button btn = new HoveredActiveImageBtn(AVATARS_IMAGES[i]);
-            if (AVATARS_IMAGES[i].equals(disabledAvatar)) {
+        Image[] avatarImages = ImagesProperties.avatars();
+        avatars = new HashMap<>(avatarImages.length);
+        for (int i = 0; i < avatarImages.length; i++) {
+            Button btn = new HoveredActiveImageBtn(avatarImages[i]);
+            if (avatarImages[i].equals(disabledAvatar)) {
                 btn.setDisable(true);
                 btn.setEffect(IGameBtnProperties.BUTTON_DISABLED_EFFECT);
             }
