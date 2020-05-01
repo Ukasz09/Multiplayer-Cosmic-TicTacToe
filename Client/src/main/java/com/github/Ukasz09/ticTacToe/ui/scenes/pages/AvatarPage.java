@@ -36,11 +36,10 @@ public class AvatarPage extends ChoosePage {
     }
 
     private void addAvatarButtons(Image disabledAvatar) {
-        Image[] avatarImages = ImagesProperties.avatars();
-        avatars = new HashMap<>(avatarImages.length);
-        for (int i = 0; i < avatarImages.length; i++) {
-            Button btn = new HoveredActiveImageBtn(avatarImages[i]);
-            if (avatarImages[i].equals(disabledAvatar)) {
+        avatars = new HashMap<>(AVATARS_IMAGE_VIEW.length);
+        for (int i = 0; i < AVATARS_IMAGE_VIEW.length; i++) {
+            Button btn = new HoveredActiveImageBtn(AVATARS_IMAGE_VIEW[i].getImage());
+            if (AVATARS_IMAGE_VIEW[i].getImage().equals(disabledAvatar)) {
                 btn.setDisable(true);
                 btn.setEffect(IGameBtnProperties.BUTTON_DISABLED_EFFECT);
             }

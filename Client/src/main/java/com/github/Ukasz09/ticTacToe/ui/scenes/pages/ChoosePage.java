@@ -1,6 +1,5 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes.pages;
 
-import com.github.Ukasz09.ticTacToe.ui.ViewManager;
 import com.github.Ukasz09.ticTacToe.ui.backgrounds.IBackground;
 import com.github.Ukasz09.ticTacToe.ui.scenes.panes.CenteredPane;
 import com.github.Ukasz09.ticTacToe.ui.scenes.panes.LabelPane;

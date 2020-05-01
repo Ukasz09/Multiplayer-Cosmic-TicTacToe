@@ -7,7 +7,7 @@ import com.github.Ukasz09.ticTacToe.ui.sprites.states.IKindOfState;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
 import javafx.scene.image.Image;
 
-public abstract class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphic {
+public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphic {
     private ImageSheetProperty spriteSheetProperty;
     private FrameStatePositions actualAnimationState;
     private double actualCooldownOnFrame;

@@ -31,15 +31,10 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
     public GameBoardPage() {
         super(StartGamePage.GAME_BACKGROUND, ACTUAL_PLAYER_MOVE_HEADER_TXT, Orientation.HORIZONTAL, 0);
         playerInfoPanes = new PlayerInfoPane[2];
-        initializeGameBoard();
+        gameBoard = new GameBoard(getHeaderPaneHeight());
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
-    private void initializeGameBoard() {
-        gameBoard = new GameBoard(getHeaderPaneHeight());
-        gameBoard.setVisible(false);
-    }
-
     public void initializeGameGrid(int boardSize, IGuiObserver observer) {
         try {
             gameBoard.initializeGameGrid(boardSize, observer);

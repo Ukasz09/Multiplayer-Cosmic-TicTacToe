@@ -98,7 +98,6 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         removeActualSceneFromRoot();
         actualScene = page;
         setActualSceneVisible(true);
-        ImagesProperties.clearImageInstances();
         System.gc();
     }
 

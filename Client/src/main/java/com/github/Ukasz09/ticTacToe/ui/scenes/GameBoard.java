@@ -3,7 +3,9 @@ package com.github.Ukasz09.ticTacToe.ui.scenes;
 import com.github.Ukasz09.ticTacToe.ui.ViewManager;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.GameBoxButtonSprite;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.animated.SignBtnSprite;
+import com.github.Ukasz09.ticTacToe.ui.sprites.AnimatedSprite;
 import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
+import com.github.Ukasz09.ticTacToe.ui.sprites.properties.FrameStatePositions;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
@@ -23,50 +25,44 @@ public class GameBoard implements IDrawingGraphic {
 
     private ViewManager manager;
     private GameBoxButtonSprite[][] boxButtonSprites;
-    private List<SignBtnSprite> signBtnSprites;
+    private List<AnimatedSprite> signSprites;
     private Point2D lastChosenBoxCoords;
     private int boardSize = DEFAULT_BOARD_SIZE;
     private double headerPaneHeight;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public GameBoard(double headerPaneHeight) {
-        initializeGameBoard(headerPaneHeight);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------//
-    private void initializeGameBoard(double headerPaneHeight) {
         manager = ViewManager.getInstance();
-        signBtnSprites = new ArrayList<>();
         this.headerPaneHeight = headerPaneHeight;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------//
     public void initializeGameGrid(int boardSize, IGuiObserver observer) throws IncorrectBoardSizeException {
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
         this.boardSize = boardSize;
+        signSprites = new ArrayList<>(boardSize * boardSize);
         boxButtonSprites = new GameBoxButtonSprite[boardSize][boardSize];
         addGameGridBoxes(boardSize, observer);
     }
 
     private void addGameGridBoxes(int boardSize, IGuiObserver observer) {
         double buttonSize = getBoxSpriteSize();
-        double startedPositionX = getFirstButtonXPositionToCenterWithOthers(boardSize, 0, buttonSize);
-        for (int row = 0; row < boardSize; row++) {
-            for (int column = 0; column < boardSize; column++) {
-                boxButtonSprites[row][column] = getNewBoxSprite(row, column, startedPositionX, getFirstButtonYPosition(), buttonSize, observer);
-            }
-        }
+        double startedPositionX = getFstBtnPosXToCenterWithOthers(boardSize, 0, buttonSize);
+        for (int row = 0; row < boardSize; row++)
+            for (int column = 0; column < boardSize; column++)
+                boxButtonSprites[row][column] = getNewBoxSprite(row, column, startedPositionX, getFstBtnPosY(), buttonSize, observer);
     }
 
     private double getBoxSpriteSize() {
         return (manager.getBottomFrameBorder() - headerPaneHeight) * BOARD_SIZE_PROPORTION / boardSize;
     }
 
-    public double getFirstButtonXPositionToCenterWithOthers(int buttonsInRowQty, double buttonsPadding, double buttonWidth) {
+    public double getFstBtnPosXToCenterWithOthers(int buttonsInRowQty, double buttonsPadding, double buttonWidth) {
         return ((manager.getRightFrameBorder() - buttonsInRowQty * buttonWidth - (buttonsInRowQty - 1) * buttonsPadding) / 2);
     }
 
-    private double getFirstButtonYPosition() {
+    private double getFstBtnPosY() {
         return headerPaneHeight;
     }
 
@@ -105,18 +101,22 @@ public class GameBoard implements IDrawingGraphic {
         boxButtonSprites[rowIndex][columnIndex].interactionWithBox(value, withRemovingFromRoot);
     }
 
-    public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheetProperty) {
-        double signInBoxSize = getBoxSpriteSize() * SIGN_TO_BOARD_PROPORTION;
-        SignBtnSprite sign = new SignBtnSprite(signSheetProperty, signInBoxSize, false);
-        setSignPosition(sign, rowIndex, columnIndex);
-        signBtnSprites.add(sign);
+    public void addPlayerSignToBox(int rowIndex, int columnIndex, ImageSheetProperty signSheet) {
+        double signSize = getBoxSpriteSize() * SIGN_TO_BOARD_PROPORTION;
+        AnimatedSprite signSprite = getSignSprite(signSheet, signSize);
+        setSignPosition(signSprite, signSize, rowIndex, columnIndex);
+        signSprites.add(signSprite);
     }
 
-    private void setSignPosition(SignBtnSprite sign, int rowIndex, int columnIndex) {
-        double buttonSize = boxButtonSprites[0][0].getWidth();
-        double buttonStartedPositionX = getFirstButtonXPositionToCenterWithOthers(boardSize, 0, buttonSize);
-        sign.setPositionX(getBoxPositionX(rowIndex, buttonSize, buttonStartedPositionX) + buttonSize / 2 - sign.getWidth() / 2);
-        sign.setPositionY(getBoxPositionY(columnIndex, buttonSize, getFirstButtonYPosition() + buttonSize / 2 - sign.getHeight() / 2));
+    private AnimatedSprite getSignSprite(ImageSheetProperty sheetProperty, double signSize) {
+        FrameStatePositions state = sheetProperty.getAction(SpriteStates.STANDBY);
+        return new AnimatedSprite(signSize, signSize, 0, 0, sheetProperty, state, false);
+    }
+
+    private void setSignPosition(AnimatedSprite sign, double size, int rowIndex, int columnIndex) {
+        double startPosX = getFstBtnPosXToCenterWithOthers(boardSize, 0, size);
+        sign.setPositionX(getBoxPositionX(rowIndex, size, startPosX) + size / 2 - sign.getWidth() / 2);
+        sign.setPositionY(getBoxPositionY(columnIndex, size, getFstBtnPosY() + size / 2 - sign.getHeight() / 2));
     }
 
     public void changeGridBoxState(SpriteStates state, int coordsX, int coordsY) {
@@ -153,8 +153,7 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private void renderSigns() {
-        for (SignBtnSprite sign : signBtnSprites)
-            sign.render();
+        signSprites.forEach(AnimatedSprite::render);
     }
 
     @Override
@@ -170,11 +169,9 @@ public class GameBoard implements IDrawingGraphic {
     }
 
     private void updateSignButtons() {
-        for (SignBtnSprite sign : signBtnSprites)
-            sign.update();
+        signSprites.forEach(AnimatedSprite::update);
     }
 
-    //----------------------------------------------------------------------------------------------------------------//
     public Point2D getLastChosenBoxCoords() {
         return lastChosenBoxCoords;
     }
