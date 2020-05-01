@@ -1,10 +1,8 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes.pages;
 
 import com.github.Ukasz09.ticTacToe.ui.Gui;
-import com.github.Ukasz09.ticTacToe.ui.scenes.panes.GameResultPane;
+import com.github.Ukasz09.ticTacToe.ui.scenes.panes.*;
 import com.github.Ukasz09.ticTacToe.ui.scenes.GameBoard;
-import com.github.Ukasz09.ticTacToe.ui.scenes.panes.PlayerInfoPane;
-import com.github.Ukasz09.ticTacToe.ui.scenes.panes.WinGameResultPane;
 import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsPlayer;
 import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
@@ -17,7 +15,8 @@ import javafx.scene.image.ImageView;
 public class GameBoardPage extends ChoosePage implements IGuiObserver {
     public static final String ACTUAL_PLAYER_MOVE_HEADER_TXT = "Your move";
     public static final String OPPONENT_MOVE_HEADER_TXT = "Opponent move";
-    private static final String WINNER_HEADER_TEXT_PREFIX = "Winner: ";
+    private static final String WIN_HEADER = "You win !";
+    private static final String LOSE_HEADER = "You lose !";
     private static final String DRAW_HEADER_TEXT = "Unlucky. It's a draw! ";
     private static final double SOUND_VOLUME = 1;
 
@@ -106,18 +105,28 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
             playerInfoPanes[i].disablePane(playerIndex != i);
     }
 
-    public void sceneToWinResultPage(int winningPlayerNumber, String playerNick) {
+    public void sceneToWinResultPage(int winningPlayerNumber) {
         int nextPlayerPaneIndex = Gui.getNextPlayerNumber(winningPlayerNumber);
+        initWinGameResultPane(nextPlayerPaneIndex);
         changePaneToGameResult(nextPlayerPaneIndex);
         addGameOverButtonsToPane(winningPlayerNumber);
-        setWinnerHeaderText(playerNick);
+        setHeaderText(WIN_HEADER);
         soundsPlayer = SoundsProperties.winEffect(SOUND_VOLUME); //to prevent from garbage collector destroy before sound end
+        soundsPlayer.playSound();
+    }
+
+    public void sceneToLoseResultPage(int losePlayerNumber) {
+        int nextPlayerPaneIndex = Gui.getNextPlayerNumber(losePlayerNumber);
+        initLoseGameResultPane(nextPlayerPaneIndex);
+        changePaneToGameResult(nextPlayerPaneIndex);
+        addGameOverButtonsToPane(losePlayerNumber);
+        setHeaderText(LOSE_HEADER);
+        soundsPlayer = SoundsProperties.drawEffect(SOUND_VOLUME); //to prevent from garbage collector destroy before sound end
         soundsPlayer.playSound();
     }
 
     private void changePaneToGameResult(int paneIndex) {
         playerInfoPanes[paneIndex].setPaneVisible(false);
-        initWinGameResultPane(paneIndex);
         addGameResultPane(paneIndex);
     }
 
@@ -125,7 +134,25 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         double paneWidth = playerInfoPanes[paneIndex].getWidth();
         double positionX = playerInfoPanes[paneIndex].getLayoutX();
         double positionY = playerInfoPanes[paneIndex].getLayoutY();
-        gameResultPane = new WinGameResultPane(paneWidth, positionX, positionY);
+        if (playerInfoPanes[paneIndex].getLayoutX() <= 0)
+            gameResultPane = new WinGameResultPane(paneWidth, positionX, positionY, false);
+        else gameResultPane = new WinGameResultPane(paneWidth, positionX, positionY, true);
+    }
+
+    private void initLoseGameResultPane(int paneIndex) {
+        double paneWidth = playerInfoPanes[paneIndex].getWidth();
+        double positionX = playerInfoPanes[paneIndex].getLayoutX();
+        double positionY = playerInfoPanes[paneIndex].getLayoutY();
+        if (playerInfoPanes[paneIndex].getLayoutX() <= 0)
+            gameResultPane = new LoseGameResultPane(paneWidth, positionX, positionY, true);
+        else gameResultPane = new LoseGameResultPane(paneWidth, positionX, positionY, false);
+    }
+
+    private void initDrawResultPane(int paneIndex) {
+        double paneWidth = playerInfoPanes[paneIndex].getWidth();
+        double positionX = playerInfoPanes[paneIndex].getLayoutX();
+        double positionY = playerInfoPanes[paneIndex].getLayoutY();
+        gameResultPane = new DrawResultPane(paneWidth, positionX, positionY);
     }
 
     private void addGameResultPane(int paneIndex) {
@@ -139,17 +166,13 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         playerInfoPanes[paneIndex].addGameOverButtons();
     }
 
-    private void setWinnerHeaderText(String player) {
-        String headerText = WINNER_HEADER_TEXT_PREFIX + player;
-        setHeaderText(headerText);
-    }
-
     public void changeSceneToDrawResultPage() {
         playerInfoPanes[0].setSignVisible(false);
         playerInfoPanes[0].removeAvatarNode();
         playerInfoPanes[0].removeNickFieldNode();
         playerInfoPanes[0].centerButtonInPane();
         addGameOverButtonsToPane(0);
+        initDrawResultPane(1);
         changePaneToGameResult(1);
         setHeaderText(DRAW_HEADER_TEXT);
         soundsPlayer = SoundsProperties.drawEffect(SOUND_VOLUME); //to prevent from garbage collector destroy before sound end

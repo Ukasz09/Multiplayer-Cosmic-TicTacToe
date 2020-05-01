@@ -44,5 +44,18 @@ public class ImagesProperties {
         return new Image(imagePath);
     }
 
+    public static Image loseAnimation() {
+        String imagePath = "images/decorations/lose.gif";
+        return new Image(imagePath);
+    }
 
+    public static Image winAnimation() {
+        String imagePath = "images/decorations/win.gif";
+        return new Image(imagePath);
+    }
+
+    public static Image drawAnimation() {
+        String imagePath = "images/decorations/draw.gif";
+        return new Image(imagePath);
+    }
 }

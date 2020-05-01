@@ -34,11 +34,8 @@ public class SignPage extends ChoosePage {
             btnWidth = btn.getWidth();
             btnHeight = btn.getHeight();
             addSignButtonEventHandler(btn);
-            if (disableSign != null && disableSign.equals(singSheets[i])) {
-                System.out.println("JESTEM W WYLACZENIU");
+            if (disableSign != null && disableSign.equals(singSheets[i]))
                 btn.disable();
-            }
-            System.out.println("DISABLE JEST NULL: " + disableSign == null);
             signBtnSprites.put(btn, i);
         }
         setSignButtonsCorrectPositions(manager.getScaledWidth(BTNS_PADDING_TO_SCREEN_PROPORTION), btnWidth, btnHeight);

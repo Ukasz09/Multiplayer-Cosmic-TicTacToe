@@ -134,10 +134,6 @@ public class Gui implements IGuiObservable {
         pagesManager.addPlayerSignToBox(rowIndex, columnIndex, getPlayerSignSheet(playerNumber));
     }
 
-    public void changeSceneToWinnerGamePage(int winningPlayerNumber) {
-        pagesManager.changeSceneToWinGamePage(winningPlayerNumber, getPlayerNick(winningPlayerNumber));
-    }
-
     private ImageView getPlayerAvatar(int playerNumber) {
         return (playerIndexIsValid(playerNumber)) ? playerViewProperties[playerNumber].getAvatar() : null;
     }

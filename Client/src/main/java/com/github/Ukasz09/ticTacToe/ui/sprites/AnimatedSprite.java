@@ -16,6 +16,10 @@ public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphi
 
 
     //-----------------------------------------------------------------------------------------------------------------//
+    public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheetProperty, boolean withImageViewInRoot) {
+        this(width, height, positionX, positionY, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY), withImageViewInRoot);
+    }
+
     public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheetProperty, FrameStatePositions startedAnimationState,
                           boolean withImageViewInRoot) {
         super(width, height, ImagesProperties.schemeSpriteForImageView(), positionX, positionY, withImageViewInRoot);

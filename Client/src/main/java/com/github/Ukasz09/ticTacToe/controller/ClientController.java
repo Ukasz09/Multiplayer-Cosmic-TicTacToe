@@ -138,9 +138,11 @@ public class ClientController extends Thread implements IGuiObserver {
                 gui.getPagesManager().showVisibleOnlyActualPlayerPane(gui.getPlayerNumber());
             }
             break;
-            case Messages.SCENE_TO_DRAW:
+            case Messages.SCENE_TO_DRAW: {
                 gui.getPagesManager().changeSceneToDrawGamePage();
-                break;
+                gui.getPagesManager().changeAllGridBoxStates(SpriteStates.NO_ANIMATION);
+            }
+            break;
             default:
                 processCompoundMsg(response);
         }
@@ -222,8 +224,11 @@ public class ClientController extends Thread implements IGuiObserver {
 
     private void processSceneToWinnerMsg(String msg) {
         int indexOfWinner = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
-        gui.getPagesManager().showVisibleOnlyActualPlayerPane(indexOfWinner);
-        gui.changeSceneToWinnerGamePage(indexOfWinner);
+        gui.getPagesManager().showVisibleOnlyActualPlayerPane(gui.getPlayerNumber());
+        if (gui.getPlayerNumber() == indexOfWinner)
+            gui.getPagesManager().changeSceneToWinGamePage(indexOfWinner);
+        else
+            gui.getPagesManager().changeSceneToLoseGamePage(gui.getPlayerNumber());
     }
 
     private void processOccupyAvatar(String msg) {

@@ -122,8 +122,12 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         ((GameBoardPage) actualScene).getGameBoard().changeGridBoxState(state, coordsX, coordsY);
     }
 
-    public void changeSceneToWinGamePage(int winningPlayerNumber, String playerNick) {
-        ((GameBoardPage) actualScene).sceneToWinResultPage(winningPlayerNumber, playerNick);
+    public void changeSceneToWinGamePage(int winningPlayerNumber) {
+        ((GameBoardPage) actualScene).sceneToWinResultPage(winningPlayerNumber);
+    }
+
+    public void changeSceneToLoseGamePage(int losePlayerNumber) {
+        ((GameBoardPage) actualScene).sceneToLoseResultPage(losePlayerNumber);
     }
 
     public void changeSceneToDrawGamePage() {
@@ -134,7 +138,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         ((GameBoardPage) actualScene).getGameBoard().interactionWithAllBoxes(allowed);
     }
 
-    public void changeAllGridBoxStates(SpriteStates state){
+    public void changeAllGridBoxStates(SpriteStates state) {
         ((GameBoardPage) actualScene).getGameBoard().changeAllGridBoxState(state);
     }
 

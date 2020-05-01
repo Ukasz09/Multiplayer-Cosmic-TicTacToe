@@ -17,6 +17,10 @@ public class ImageSprite extends SpriteWithEventHandler {
         renderSprite();
     }
 
+    public void renderRotatedSprite() {
+        manager.getGraphicContext().drawImage(spriteImage, positionX + width, positionY, -width, height);
+    }
+
     private void renderSprite() {
         manager.getGraphicContext().drawImage(spriteImage, positionX, positionY, width, height);
     }
