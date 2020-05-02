@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes;
 
 import com.github.Ukasz09.ticTacToe.ui.Gui;
+import com.github.Ukasz09.ticTacToe.ui.ViewManager;
 import com.github.Ukasz09.ticTacToe.ui.scenes.pages.*;
 import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
 import com.github.Ukasz09.ticTacToe.ui.scenes.pages.IScenePage;
@@ -21,6 +22,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     private IScenePage actualScene;
     private Set<IGuiObserver> observers;
     private int boardSize = 0;
+    private ViewManager manager = ViewManager.getInstance();
 
     //----------------------------------------------------------------------------------------------------------------//
     public PagesManager() {
@@ -40,17 +42,20 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public void sceneToEndGamePage(String optionalMsg) {
+        manager.clearActionNodes();
         EndGamePage endPage = new EndGamePage(optionalMsg);
         changeScene(endPage);
     }
 
     private void setSceneToHomePage() {
+        manager.clearActionNodes();
         StartGamePage gamePage = new StartGamePage();
         gamePage.attachObserver(this);
         changeScene(gamePage);
     }
 
     public void sceneToGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2) {
+        manager.clearActionNodes();
         GameBoardPage gamePage = getGamePage(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize, startedPlayerIndex);
         gamePage.showVisibleOnlyActualPlayer(startedPlayerIndex);
         changeScene(gamePage);
@@ -76,30 +81,35 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public void sceneToBoardSizePage() {
+        manager.clearActionNodes();
         BoardSizePage boardSizePage = new BoardSizePage();
         boardSizePage.attachObserver(this);
         changeScene(boardSizePage);
     }
 
     public void sceneToNickPage(String otherPlayerNick) {
+        manager.clearActionNodes();
         NickPage nickPage = new NickPage(otherPlayerNick);
         nickPage.attachObserver(this);
         changeScene(nickPage);
     }
 
     public void sceneToAvatarPage(Image disabledAvatar) {
+        manager.clearActionNodes();
         AvatarPage avatarPage = new AvatarPage(disabledAvatar);
         avatarPage.attachObserver(this);
         changeScene(avatarPage);
     }
 
     public void sceneToSignPage(ImageSheetProperty disabledSign) {
+        manager.clearActionNodes();
         SignPage signPage = new SignPage(disabledSign);
         signPage.attachObserver(this);
         changeScene(signPage);
     }
 
     public void sceneToWaitingPage() {
+        manager.clearActionNodes();
         changeScene(new WaitingPage());
     }
 
@@ -132,15 +142,15 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         ((GameBoardPage) actualScene).getGameBoard().changeGridBoxState(state, coordsX, coordsY);
     }
 
-    public void changeSceneToWinGamePage(int winningPlayerNumber) {
+    public void showWinResultPane(int winningPlayerNumber) {
         ((GameBoardPage) actualScene).sceneToWinResultPage(winningPlayerNumber);
     }
 
-    public void changeSceneToLoseGamePage(int losePlayerNumber) {
+    public void showLoseResultPane(int losePlayerNumber) {
         ((GameBoardPage) actualScene).sceneToLoseResultPage(losePlayerNumber);
     }
 
-    public void changeSceneToDrawGamePage() {
+    public void showDrawResultPane() {
         ((GameBoardPage) actualScene).changeSceneToDrawResultPage();
     }
 

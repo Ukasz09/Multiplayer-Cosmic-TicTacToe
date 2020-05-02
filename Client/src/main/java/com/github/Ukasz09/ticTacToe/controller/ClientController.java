@@ -154,7 +154,7 @@ public class ClientController extends Thread implements IGuiObserver {
             }
             break;
             case Messages.SCENE_TO_DRAW: {
-                gui.getPagesManager().changeSceneToDrawGamePage();
+                gui.getPagesManager().showDrawResultPane();
                 gui.getPagesManager().changeAllGridBoxStates(SpriteStates.NO_ANIMATION);
             }
             break;
@@ -209,7 +209,6 @@ public class ClientController extends Thread implements IGuiObserver {
     }
 
     private void signChosenAction() {
-        gui.clearActionNodes();
         String signChosenMsg = Messages.SIGN_BTN_CLICKED + Messages.DELIMITER + gui.getPagesManager().getChosenSignId();
         gui.updatePlayerSign();
         client.sendMessage(signChosenMsg);
@@ -245,9 +244,9 @@ public class ClientController extends Thread implements IGuiObserver {
         int indexOfWinner = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
         gui.getPagesManager().showVisibleOnlyActualPlayerPane(gui.getPlayerNumber());
         if (gui.getPlayerNumber() == indexOfWinner)
-            gui.getPagesManager().changeSceneToWinGamePage(indexOfWinner);
+            gui.getPagesManager().showWinResultPane(indexOfWinner);
         else
-            gui.getPagesManager().changeSceneToLoseGamePage(gui.getPlayerNumber());
+            gui.getPagesManager().showLoseResultPane(gui.getPlayerNumber());
     }
 
     private void processOccupyAvatar(String msg) {

@@ -4,7 +4,7 @@ import com.github.Ukasz09.ticTacToe.ui.control.buttons.ButtonsProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.FontProperties;
 
 public class GameControlBtn extends GameBtn {
-    private static final double BUTTON_WIDTH_PROPORTION = 35 / 192d;
+    public static final double BTN_WIDTH_PROP = 35 / 192d;
     private static final double BUTTON_HEIGHT_PROPORTION = 10 / 108d;
     private static final double FONT_SIZE_PROPORTION = 4 / 192d;
 
@@ -23,7 +23,7 @@ public class GameControlBtn extends GameBtn {
     }
 
     private void setDefaultSize() {
-        double btnWidth = manager.getScaledWidth(BUTTON_WIDTH_PROPORTION);
+        double btnWidth = manager.getScaledWidth(BTN_WIDTH_PROP);
         double btnHeight = manager.getScaledHeight(BUTTON_HEIGHT_PROPORTION);
         setMinSize(btnWidth, btnHeight);
         setPrefSize(btnWidth, btnHeight);

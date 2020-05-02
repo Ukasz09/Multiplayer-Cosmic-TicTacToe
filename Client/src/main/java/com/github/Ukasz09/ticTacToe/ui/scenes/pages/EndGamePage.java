@@ -12,10 +12,9 @@ import javafx.scene.image.ImageView;
 public class EndGamePage extends ChoosePage {
     private static final String LABEL_TEXT = "Thanks for playing...";
     private static final double AUTHORS_NAME_FONT_SIZE_PROP = 3 / 108d;
-    private static final double AUTHORS_CONTENT_FONT_SIZE_PROP = 2 / 108d;
 
-    private final Image animImage = ImagesProperties.endAnimation();
     private ImageSprite endAnimation;
+    private Image endImage = ImagesProperties.endAnimation();
 
     //----------------------------------------------------------------------------------------------------------------//
     public EndGamePage(String optionalMsg) {
@@ -29,7 +28,8 @@ public class EndGamePage extends ChoosePage {
         double spriteWidth = manager.getRightFrameBorder() / 3;
         double spriteHeight = (manager.getBottomFrameBorder() - getHeaderPaneHeight()) / 2;
         double posX = getSpriteCenterPositionX(spriteWidth);
-        endAnimation = new ImageSprite(spriteWidth, spriteHeight, animImage, posX, manager.getBottomFrameBorder() - spriteHeight, false);
+        double posY = manager.getBottomFrameBorder() - spriteHeight;
+        endAnimation = new ImageSprite(spriteWidth, spriteHeight, endImage, posX, posY, false);
     }
 
     private void addLabels(String optionalMsg) {
@@ -42,9 +42,9 @@ public class EndGamePage extends ChoosePage {
     }
 
     private Node getImageViewForAnim() {
-        ImageView iv = new ImageView(animImage);
-        iv.fitHeightProperty();
-        iv.fitWidthProperty();
+        ImageView iv = new ImageView(ImagesProperties.schemeSpriteForImageView());
+        iv.setFitWidth(endImage.getWidth());
+        iv.setFitHeight(endImage.getHeight());
         iv.setVisible(false);
         return iv;
     }

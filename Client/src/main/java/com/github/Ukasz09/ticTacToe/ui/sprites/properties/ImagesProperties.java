@@ -63,4 +63,9 @@ public class ImagesProperties {
         String imagePath = "images/decorations/end.gif";
         return new Image(imagePath);
     }
+
+    public static Image startAnimation() {
+        String imagePath = "images/decorations/start.gif";
+        return new Image(imagePath);
+    }
 }
