@@ -11,10 +11,6 @@ public class Player {
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public char getIdentifier() {
-        return identifier;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

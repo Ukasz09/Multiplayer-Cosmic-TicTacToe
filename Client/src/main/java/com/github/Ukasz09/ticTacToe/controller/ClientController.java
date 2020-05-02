@@ -8,7 +8,10 @@ import com.github.Ukasz09.ticTacToe.ui.scenes.pages.GameBoardPage;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.IGuiObserver;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,15 +21,17 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientController extends Thread implements IGuiObserver {
     private static final int SERVER_PORT = 6666;
+    private static final KeyCode EXIT_GAME_CODE = KeyCode.ESCAPE;
 
     private Gui gui;
     private Client client;
     private Queue<String> messagesToProcess;
+    private boolean gameIsEnd = false;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ClientController(Gui gui) {
+    public ClientController() {
         this.client = new Client();
-        this.gui = gui;
+        this.gui = new Gui(getExitBtnEvent(EXIT_GAME_CODE));
         messagesToProcess = new LinkedBlockingQueue<>();
     }
 
@@ -41,7 +46,7 @@ public class ClientController extends Thread implements IGuiObserver {
 
     @Override
     public void run() {
-        while (true) {
+        while (!gameIsEnd) {
             try {
                 //because it is allowed to manipulate FX components only from FX thread
                 String msg = client.readResponse();
@@ -56,15 +61,24 @@ public class ClientController extends Thread implements IGuiObserver {
     }
 
     private void endGame() {
+        client.sendMessage(Messages.STOP_CONNECTION);
         try {
             gui.close();
-            client.stopConnection();
+            client.closeConnection();
             System.exit(0);
-        } catch (IOException e) {
-            Logger.logError(getClass(), "Can't stop connection with client: " + e.getMessage());
-            e.printStackTrace();
+        } catch (IOException ex) {
             System.exit(-1);
         }
+    }
+
+    private EventHandler<KeyEvent> getExitBtnEvent(KeyCode exitCode) {
+        return keyEvent -> {
+            if (exitCode == keyEvent.getCode())
+                if (!gameIsEnd) {
+                    gameIsEnd = true;
+                    gui.getPagesManager().sceneToEndGamePage();
+                } else endGame();
+        };
     }
 
     @Override
@@ -90,7 +104,6 @@ public class ClientController extends Thread implements IGuiObserver {
                 break;
             case BOARD_SIZE_CHOSEN:
             case REPEAT_GAME_BTN: {
-                gui.clearActionNodes();
                 String msgToSend = guiEvents.getMsg() + Messages.DELIMITER + gui.getPagesManager().getGameBoardSize();
                 client.sendMessage(msgToSend);
             }
@@ -98,9 +111,11 @@ public class ClientController extends Thread implements IGuiObserver {
             case BOX_BTN_CLICKED:
                 boxBtnClickedAction();
                 break;
-            case END_GAME_BTN_CLICKED:
-                endGame();
-                break;
+            case END_GAME_BTN_CLICKED: {
+                gameIsEnd = true;
+                gui.getPagesManager().sceneToEndGamePage();
+            }
+            break;
         }
     }
 
@@ -143,6 +158,10 @@ public class ClientController extends Thread implements IGuiObserver {
                 gui.getPagesManager().changeAllGridBoxStates(SpriteStates.NO_ANIMATION);
             }
             break;
+            case Messages.OTHER_PLAYER_QUIT: {
+                gameIsEnd = true;
+                gui.getPagesManager().sceneToEndGamePage("Need to finish game: Other player quit");
+            }
             default:
                 processCompoundMsg(response);
         }
@@ -244,10 +263,11 @@ public class ClientController extends Thread implements IGuiObserver {
     private void processSceneToBoard(String msg) {
         String[] split = msg.split(Messages.DELIMITER);
         int boardSize = Integer.parseInt(split[1]);
-        int startedPlayerId = Integer.parseInt(split[2]);
-        gui.sceneToGameBoard(boardSize, startedPlayerId);
-        gui.getPagesManager().showVisibleOnlyActualPlayerPane(startedPlayerId);
-        if (gui.getPlayerNumber() != startedPlayerId)
+        gui.getPagesManager().setBoardSize(boardSize);
+        int startedPlayerNumber = Integer.parseInt(split[2]);
+        gui.sceneToGameBoard(startedPlayerNumber);
+        gui.getPagesManager().showVisibleOnlyActualPlayerPane(startedPlayerNumber);
+        if (gui.getPlayerNumber() != startedPlayerNumber)
             gui.getPagesManager().changeGameBoardPageHeader(GameBoardPage.OPPONENT_MOVE_HEADER_TXT);
     }
 

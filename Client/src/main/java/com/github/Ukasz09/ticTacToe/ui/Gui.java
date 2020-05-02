@@ -8,8 +8,12 @@ import com.github.Ukasz09.ticTacToe.logic.guiObserver.IGuiObserver;
 import com.github.Ukasz09.ticTacToe.ui.scenes.PagesManager;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,10 +39,10 @@ public class Gui implements IGuiObservable {
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public Gui() {
+    public Gui(EventHandler<KeyEvent> exitKeyEvent) {
         guiObservers = new HashSet<>();
         manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, false);
+        manager.initialize(APPLICATION_TITLE, false, exitKeyEvent);
         pagesManager = new PagesManager();
     }
 
@@ -112,14 +116,14 @@ public class Gui implements IGuiObservable {
         return playerViewProperties[getNextPlayerNumber()].getSignSheet();
     }
 
-    public void sceneToGameBoard(int boardSize, int startedPlayer) {
+    public void sceneToGameBoard(int startedPlayer) {
         ImageView avatar1 = getPlayerAvatar(startedPlayer);
         ImageView avatar2 = getPlayerAvatar(getNextPlayerNumber(startedPlayer));
         String nick1 = getPlayerNick(startedPlayer);
         String nick2 = getPlayerNick(getNextPlayerNumber(startedPlayer));
         ImageSheetProperty sign1 = getPlayerSignSheet(startedPlayer);
         ImageSheetProperty sign2 = getPlayerSignSheet(getNextPlayerNumber(startedPlayer));
-        pagesManager.sceneToGamePage(startedPlayer, avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize);
+        pagesManager.sceneToGamePage(startedPlayer, avatar1, avatar2, sign1, sign2, nick1, nick2);
     }
 
     public void sceneToAvatarPage() {

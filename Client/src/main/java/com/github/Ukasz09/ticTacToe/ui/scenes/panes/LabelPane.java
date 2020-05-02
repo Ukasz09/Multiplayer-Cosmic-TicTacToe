@@ -11,14 +11,24 @@ public class LabelPane extends CenteredPane {
 
     //-----------------------------------------------------------------------------------------------------------------//
     public LabelPane(String text) {
-        initializePane(text);
+        this(text, FONT_SIZE_PROPORTION);
+    }
+
+    public LabelPane(String text, double fontSizeProportion) {
+        initializePane(text, fontSizeProportion, false);
+        getChildren().add(textField);
+    }
+
+    public LabelPane(String text, double fontSizeProportion, boolean sizeFitToFont) {
+        initializePane(text, fontSizeProportion, sizeFitToFont);
         getChildren().add(textField);
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
-    private void initializePane(String text) {
-        setDefaultPaneSize();
-        textField = new HeaderTextField(text, (int) (manager.getScaledHeight(FONT_SIZE_PROPORTION)), false);
+    private void initializePane(String text, double fontSizeProportion, boolean sizeFitToFont) {
+        if (!sizeFitToFont)
+            setDefaultPaneSize();
+        textField = new HeaderTextField(text, (int) (manager.getScaledHeight(fontSizeProportion)), false);
     }
 
     private void setDefaultPaneSize() {

@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToe.ui;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -46,7 +47,7 @@ public class ViewManager {
         return instance;
     }
 
-    public void initialize(String title, boolean fullScreen) {
+    public void initialize(String title, boolean fullScreen, EventHandler<KeyEvent> exitBtnHandler) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         resolutionX = screenSize.getWidth();
         resolutionY = screenSize.getHeight();
@@ -57,15 +58,11 @@ public class ViewManager {
         gc = canvas.getGraphicsContext2D();
         setStartedGraphicsContextProperties();
         initializeWindowBoundary(canvas);
-        addExitButtonHandler(KeyCode.ESCAPE);
+        addExitButtonHandler(exitBtnHandler);
     }
 
-    private void addExitButtonHandler(KeyCode exitCode) {
-        mainStage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
-            if (exitCode == event.getCode()) {
-                closeMainStage();
-            }
-        });
+    private void addExitButtonHandler(EventHandler<KeyEvent> eventHandler) {
+        mainStage.addEventHandler(KeyEvent.KEY_RELEASED, eventHandler);
     }
 
     public void closeMainStage() {

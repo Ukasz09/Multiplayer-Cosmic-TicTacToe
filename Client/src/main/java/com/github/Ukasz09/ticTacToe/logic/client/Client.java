@@ -37,10 +37,15 @@ public class Client {
         return in.readLine();
     }
 
-    public void stopConnection() throws IOException {
-        in.close();
-        out.close();
-        clientSocket.close();
+    public void closeConnection() throws IOException {
+        try {
+            in.close();
+            out.close();
+        } catch (Exception e) {
+            //unchecked
+        } finally {
+            clientSocket.close();
+        }
     }
 
     public String getCompoundMsg(String baseMsg, String[] extras) {

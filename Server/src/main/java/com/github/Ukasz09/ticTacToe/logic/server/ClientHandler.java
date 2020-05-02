@@ -11,16 +11,15 @@ public class ClientHandler extends Thread {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-    private String exitMsg;
     private IMsgObserver msgObserver;
     private char sign;
+    private boolean gameIsEnd = false;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ClientHandler(Socket socket, String exitMsg, char clientSign, IMsgObserver msgObserver) throws IOException {
+    public ClientHandler(Socket socket, char clientSign, IMsgObserver msgObserver) throws IOException {
         this.clientSocket = socket;
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        this.exitMsg = exitMsg;
         this.msgObserver = msgObserver;
         sign = clientSign;
     }
@@ -30,7 +29,6 @@ public class ClientHandler extends Thread {
     public void run() {
         try {
             readMessages();
-            close();
         } catch (IOException e) {
             Logger.logError(getClass(), e.getMessage());
             e.printStackTrace();
@@ -38,8 +36,7 @@ public class ClientHandler extends Thread {
     }
 
     private void readMessages() throws IOException {
-        String inputLine = "";
-        while (!inputLine.equals(exitMsg))
+        while (!gameIsEnd)
             msgObserver.updateMsgObserver(in.readLine(), sign);
     }
 
@@ -47,7 +44,8 @@ public class ClientHandler extends Thread {
         out.println(msg);
     }
 
-    private void close() throws IOException {
+    public void close() throws IOException {
+        gameIsEnd = true;
         in.close();
         out.close();
         clientSocket.close();

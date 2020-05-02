@@ -10,6 +10,7 @@ public class Messages {
     public static final String BOX_BTN_CLICKED = "game_box_clicked";
     public static final String END_GAME_BTN_CLICKED = "end_btn";
     public static final String REPEAT_GAME_BTN = "repeat_btn";
+    public static final String STOP_CONNECTION = "client_stop_connection";
 
     //Received from server
     public static final String DELIMITER = ":";
@@ -30,4 +31,5 @@ public class Messages {
     public static final String OCCUPY_GUI_SIGN = "occupy_gui_sign";
     public static final String GIVEN_CLIENT_SIGN_NUMB = "given_client_sign";
     public static final String OTHER_PLAYER_NICK = "other_player_nick";
+    public static final String OTHER_PLAYER_QUIT = "other_player_quite";
 }

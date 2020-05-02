@@ -9,8 +9,6 @@ import java.util.*;
 import java.util.List;
 
 public class Server {
-    private static final String EXIT_MSG = "DISCONNECT_CLIENT";
-
     private ServerSocket serverSocket;
     private HashMap<Character, ClientHandler> clientHandlers;
     private List<Character> availablePlayerSigns;
@@ -39,12 +37,16 @@ public class Server {
 
     private void connectNewClients(IMsgObserver msgObserver) throws IOException {
         while (connectedClients < 2)
-            addNewClientHandler(msgObserver).start();
+            try {
+                addNewClientHandler(msgObserver).start();
+            } catch (SocketException e) {
+                stop();
+            }
     }
 
     private ClientHandler addNewClientHandler(IMsgObserver msgObserver) throws IOException {
         char clientSign = availablePlayerSigns.remove(0);
-        ClientHandler handler = new ClientHandler(serverSocket.accept(), EXIT_MSG, clientSign, msgObserver);
+        ClientHandler handler = new ClientHandler(serverSocket.accept(), clientSign, msgObserver);
         clientHandlers.put(clientSign, handler);
         connectedClients++;
         Logger.logCommunicate("Client connected. Sign: " + clientSign);
@@ -61,6 +63,18 @@ public class Server {
         clientHandlers.forEach((k, v) -> {
             if (k == signIdentifier)
                 v.sendMessage(msg);
+        });
+    }
+
+    public void closeClient(char clientSign) {
+        clientHandlers.forEach((k, v) -> {
+            if (k == clientSign) {
+                try {
+                    v.close();
+                } catch (IOException e) {
+                    //unchecked
+                }
+            }
         });
     }
 

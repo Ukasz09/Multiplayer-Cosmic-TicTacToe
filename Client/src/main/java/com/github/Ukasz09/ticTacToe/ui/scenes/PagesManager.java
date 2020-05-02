@@ -20,6 +20,7 @@ import java.util.Set;
 public class PagesManager implements IGuiObservable, IGuiObserver {
     private IScenePage actualScene;
     private Set<IGuiObserver> observers;
+    private int boardSize = 0;
 
     //----------------------------------------------------------------------------------------------------------------//
     public PagesManager() {
@@ -34,13 +35,22 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         playBackgroundSound();
     }
 
+    public void sceneToEndGamePage() {
+        sceneToEndGamePage("");
+    }
+
+    public void sceneToEndGamePage(String optionalMsg) {
+        EndGamePage endPage = new EndGamePage(optionalMsg);
+        changeScene(endPage);
+    }
+
     private void setSceneToHomePage() {
         StartGamePage gamePage = new StartGamePage();
         gamePage.attachObserver(this);
         changeScene(gamePage);
     }
 
-    public void sceneToGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2, int boardSize) {
+    public void sceneToGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2) {
         GameBoardPage gamePage = getGamePage(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize, startedPlayerIndex);
         gamePage.showVisibleOnlyActualPlayer(startedPlayerIndex);
         changeScene(gamePage);
@@ -176,6 +186,8 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
 
     @Override
     public void updateGuiObserver(GuiEvents guiEvents) {
+        if (guiEvents == GuiEvents.BOARD_SIZE_CHOSEN)
+            boardSize = ((BoardSizePage) actualScene).getChosenBoardSize();
         notifyObservers(guiEvents);
     }
 
@@ -200,7 +212,11 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     public int getGameBoardSize() {
-        return ((BoardSizePage) actualScene).getChosenBoardSize();
+        return boardSize;
+    }
+
+    public void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
     }
 
     public void disableInteractionWithBox(int rowIndex, int columnIndex, boolean value, boolean withRemovingFromRoot) {

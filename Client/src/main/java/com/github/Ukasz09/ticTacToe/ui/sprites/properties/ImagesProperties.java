@@ -27,7 +27,7 @@ public class ImagesProperties {
     }
 
     public static Image startGameBackground() {
-        String imagePath = "images/backgrounds/galaxyBackground.gif";
+        String imagePath = "images/backgrounds/background.png";
         return new Image(imagePath);
     }
 
@@ -56,6 +56,11 @@ public class ImagesProperties {
 
     public static Image drawAnimation() {
         String imagePath = "images/decorations/draw.gif";
+        return new Image(imagePath);
+    }
+
+    public static Image endAnimation() {
+        String imagePath = "images/decorations/end.gif";
         return new Image(imagePath);
     }
 }
