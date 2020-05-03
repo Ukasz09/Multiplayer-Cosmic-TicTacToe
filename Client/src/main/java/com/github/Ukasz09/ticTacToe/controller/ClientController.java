@@ -120,8 +120,6 @@ public class ClientController extends Thread implements IGuiObserver {
     }
 
     private void processServerResponse(String response) {
-        System.out.println("RESPONSE:" + response); //todo: tmp
-
         switch (response) {
             case Messages.SCENE_TO_NICK:
                 gui.getPagesManager().sceneToNickPage(gui.getNextPlayerNick());
@@ -190,7 +188,6 @@ public class ClientController extends Thread implements IGuiObserver {
             processOtherPlayerNick(msg);
         else if (msg.contains(Messages.DECISION_AFTER_GAME_FINISH))
             gui.sceneToFinishGameDecisionPage(msg.split(Messages.DELIMITER)[1]);
-        else System.out.println("Unknown message: " + msg); //TODO:tmp
     }
 
     private ArrayList<Point> decodePointsMsg(String[] split, int fstCordIndex) {

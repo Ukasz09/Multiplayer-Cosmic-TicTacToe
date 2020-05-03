@@ -33,8 +33,6 @@ public class ServerController implements IMsgObserver {
 
     @Override
     public synchronized void updateMsgObserver(String msg, char clientSign) {
-        System.out.println("Otrzymana wiadomosc:" + msg); //todo: tmp
-
         if (msg.equals(Messages.START_BTN_CLICKED)) startBtnMsg(clientSign);
         else if (msg.contains(Messages.CHOSEN_VALID_NAME))
             chosenNameMsg(clientSign, msg.split(Messages.DELIMITER)[1]);
@@ -116,7 +114,7 @@ public class ServerController implements IMsgObserver {
         String[] split = msg.split(Messages.DELIMITER);
         int coordsX = Integer.parseInt(split[1]);
         int coordsY = Integer.parseInt(split[2]);
-        boolean gameIsOver = checkGameResult(markField(coordsX, coordsY, GameLogic.getPlayerId(clientSignId)), GameLogic.getPlayerId(clientSignId));//todo: usunac w klient dodwaanie id
+        boolean gameIsOver = checkGameResult(markField(coordsX, coordsY, GameLogic.getPlayerId(clientSignId)), GameLogic.getPlayerId(clientSignId));
         if (!gameIsOver) {
             server.sendMessage(Messages.DENY_INTERACTION_WITH_BOXES, clientSignId);
             server.sendMessage(Messages.ALLOW_INTERACTION_WITH_BOXES, gameLogic.getNextPlayer(clientSignId));

@@ -29,7 +29,6 @@ public class Client {
     }
 
     public void sendMessage(String msg) {
-        System.out.println("WYSLANE: " + msg); //todo: tmp
         out.println(msg);
     }
 
