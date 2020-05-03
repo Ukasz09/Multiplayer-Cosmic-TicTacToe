@@ -130,7 +130,7 @@ public class ImageSheetProperty {
         return imageSheet;
     }
 
-    public double getTimeOnFrameInAnimation() {
+    public double getMillisOnFrame() {
         return timeOnFrameInAnimation;
     }
 

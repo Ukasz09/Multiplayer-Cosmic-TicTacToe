@@ -8,32 +8,33 @@ import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
 import javafx.scene.image.Image;
 
 public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphic {
-    private ImageSheetProperty spriteSheetProperty;
+    private ImageSheetProperty sheet;
     private FrameStatePositions actualAnimationState;
-    private double actualCooldownOnFrame;
     private double actualFramePositionX;
     private double actualFramePositionY;
-
+    private double millisOnFrame;
+    private double timerStartTime;
 
     //-----------------------------------------------------------------------------------------------------------------//
     public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheetProperty, boolean withImageViewInRoot) {
         this(width, height, positionX, positionY, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY), withImageViewInRoot);
     }
 
-    public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheetProperty, FrameStatePositions startedAnimationState,
+    public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheet, FrameStatePositions startedAnimationState,
                           boolean withImageViewInRoot) {
         super(width, height, ImagesProperties.schemeSpriteForImageView(), positionX, positionY, withImageViewInRoot);
-        this.spriteSheetProperty = sheetProperty;
+        this.sheet = sheet;
         this.actualAnimationState = startedAnimationState;
-        setRandomStartedFramePosition(sheetProperty);
-        actualCooldownOnFrame = 0;
+        this.millisOnFrame = sheet.getMillisOnFrame();
+        this.timerStartTime = System.currentTimeMillis();
+        setRandomStartedFramePosition();
     }
 
     //-----------------------------------------------------------------------------------------------------------------//
-    private void setRandomStartedFramePosition(ImageSheetProperty sheetProperty) {
-        int randomFrameIndex = sheetProperty.getAction(SpriteStates.STANDBY).getRandomIndex();
-        actualFramePositionX = sheetProperty.getPositionOfIndex(randomFrameIndex).getX();
-        actualFramePositionY = sheetProperty.getPositionOfIndex(randomFrameIndex).getY();
+    protected void setRandomStartedFramePosition() {
+        int randomFrameIndex = sheet.getAction(SpriteStates.STANDBY).getRandomIndex();
+        actualFramePositionX = sheet.getPositionOfIndex(randomFrameIndex).getX();
+        actualFramePositionY = sheet.getPositionOfIndex(randomFrameIndex).getY();
     }
 
     @Override
@@ -43,28 +44,24 @@ public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphi
     }
 
     private void updateSpriteSheetFrame() {
-        updateActualCooldownOnFrame();
         if (needToChangeFrame()) {
             double minPositionX = actualAnimationState.getMinX();
             double maxPositionX = actualAnimationState.getMaxX();
             double minPositionY = actualAnimationState.getMinY();
             double maxPositionY = actualAnimationState.getMaxY();
-            setPositionOfNextFrame(minPositionX, maxPositionX, minPositionY, maxPositionY, spriteSheetProperty.getSheetWidth());
-            restoreActualCooldown();
+            setPositionOfNextFrame(minPositionX, maxPositionX, minPositionY, maxPositionY, sheet.getSheetWidth());
+            timerStartTime = System.currentTimeMillis();
         }
     }
 
-    private void updateActualCooldownOnFrame() {
-        actualCooldownOnFrame -= 1;
-    }
-
     private boolean needToChangeFrame() {
-        return (actualCooldownOnFrame <= 0);
+        double elapsedTime = Math.abs(System.currentTimeMillis() - timerStartTime);
+        return elapsedTime >= millisOnFrame;
     }
 
     private void setPositionOfNextFrame(double minXPosition, double maxXPosition, double minYPosition, double maxYPosition, double sheetWidth) {
         //Finished one cycle
-        actualFramePositionX += spriteSheetProperty.getWidthOfOneFrame();
+        actualFramePositionX += sheet.getWidthOfOneFrame();
         if (actualFramePositionX >= maxXPosition && actualFramePositionY >= maxYPosition) {
             actualFramePositionX = minXPosition;
             actualFramePositionY = minYPosition;
@@ -72,28 +69,24 @@ public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphi
         //Stepped out of sheet
         else if (actualFramePositionX >= sheetWidth) {
             actualFramePositionX = 0;
-            actualFramePositionY += spriteSheetProperty.getHeightOfOneFrame();
+            actualFramePositionY += sheet.getHeightOfOneFrame();
         }
-    }
-
-    private void restoreActualCooldown() {
-        actualCooldownOnFrame = spriteSheetProperty.getTimeOnFrameInAnimation();
     }
 
     @Override
     public void render() {
-        renderSprite(spriteSheetProperty.getSheet());
+        renderSprite(sheet.getSheet());
     }
 
     protected void renderSprite(Image spriteSheet) {
-        double widthOfOneFrame = spriteSheetProperty.getWidthOfOneFrame();
-        double heightOfOneFrame = spriteSheetProperty.getHeightOfOneFrame();
+        double widthOfOneFrame = sheet.getWidthOfOneFrame();
+        double heightOfOneFrame = sheet.getHeightOfOneFrame();
         manager.getGraphicContext().drawImage(spriteSheet, actualFramePositionX, actualFramePositionY,
                 widthOfOneFrame, heightOfOneFrame, positionX, positionY, width, height);
     }
 
     @Override
     public void changeState(IKindOfState state) {
-        actualAnimationState = spriteSheetProperty.getAction(state);
+        actualAnimationState = sheet.getAction(state);
     }
 }

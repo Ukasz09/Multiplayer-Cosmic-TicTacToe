@@ -32,6 +32,7 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IGu
 
     public void enable() {
         isActive = true;
+        setRandomStartedFramePosition();
     }
 
     @Override

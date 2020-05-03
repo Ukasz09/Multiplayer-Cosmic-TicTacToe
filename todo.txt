@@ -1,0 +1,4 @@
+- zmiana timerow animacji na rzeczywisty czas
+- usunac logi do konsoli
+- refactor i odblokawnie soundow
+- readme

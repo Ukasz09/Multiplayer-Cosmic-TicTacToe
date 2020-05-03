@@ -1,7 +1,6 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes.panes;
 
 import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
-import com.github.Ukasz09.ticTacToe.ui.sprites.gameSprites.OscarStatue;
 
 public abstract class GameResultPane extends CenteredPane implements IDrawingGraphic {
     protected static final double SPRITE_WIDTH_PROPORTION = 7 / 8d;
