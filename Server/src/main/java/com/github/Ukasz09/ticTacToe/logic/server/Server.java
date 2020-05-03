@@ -32,6 +32,7 @@ public class Server {
     public void start(int port, IMsgObserver msgObserver) throws IOException {
         serverSocket = new ServerSocket(port);
         Logger.logCommunicate("Server is running...");
+        Logger.logCommunicate("IP Address: " + InetAddress.getLocalHost().getHostAddress());
         connectNewClients(msgObserver);
     }
 
