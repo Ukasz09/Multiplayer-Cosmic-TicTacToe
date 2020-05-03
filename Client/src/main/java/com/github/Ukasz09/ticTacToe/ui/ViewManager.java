@@ -18,6 +18,7 @@ import java.awt.*;
 
 
 public class ViewManager {
+    private static final String END_GAME_HINT = "You can press ESC to exit game";
     private static final String DEFAULT_FONT_FAMILY = "Helvetica";
     private static final FontWeight DEFAULT_FONT_WEIGHT = FontWeight.BOLD;
     private static final int DEFAULT_FONT_SIZE = 34;
@@ -75,6 +76,7 @@ public class ViewManager {
         mainStage.setWidth(resolutionX);
         mainStage.setHeight(resolutionY);
         mainStage.setFullScreen(fullScreen);
+        mainStage.setFullScreenExitHint(END_GAME_HINT);
     }
 
     private void setMainStageScene() {

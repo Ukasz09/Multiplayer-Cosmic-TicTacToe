@@ -3,6 +3,7 @@ package com.github.Ukasz09.ticTacToe.ui.control.buttons.animated;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.SpritesProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
+import javafx.scene.input.MouseEvent;
 
 public class GameBoxButtonSprite extends AnimatedButtonSprite {
     private static final ImageSheetProperty SHEET = SpritesProperties.gridBoxProperty();
@@ -15,6 +16,8 @@ public class GameBoxButtonSprite extends AnimatedButtonSprite {
         super(buttonSize, buttonSize, SHEET, withImageViewInRoot);
         this.coordsX = coordsX;
         this.coordsY = coordsY;
+        addNewEventHandler(MouseEvent.MOUSE_ENTERED, event -> changeState(SpriteStates.STANDBY));
+        addNewEventHandler(MouseEvent.MOUSE_EXITED, event -> changeState(SpriteStates.NO_ANIMATION));
     }
 
     //----------------------------------------------------------------------------------------------------------------//

@@ -100,7 +100,11 @@ public class ServerController implements IMsgObserver {
         otherPlayerWantNewGame = false;
         try {
             int boardSize = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
-            gameLogic.resetBoard(boardSize);
+            int markQtyForWin;
+            if (boardSize == 3)
+                markQtyForWin = 3;
+            else markQtyForWin = 4;
+            gameLogic.resetBoard(boardSize, markQtyForWin);
             otherPlayerMadeChoice = false;
             gameLogic.setActualPlayerID(gameLogic.getNextPlayer(clientSignId));
             server.sendMessageToAll(Messages.SCENE_TO_BOARD + Messages.DELIMITER + gameLogic.getBoardSize() + Messages.DELIMITER + gameLogic.getActualPlayerIndex());
