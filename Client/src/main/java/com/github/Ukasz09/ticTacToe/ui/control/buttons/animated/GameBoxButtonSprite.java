@@ -10,17 +10,28 @@ public class GameBoxButtonSprite extends AnimatedButtonSprite {
 
     private int coordsX;
     private int coordsY;
+    private boolean animationIsEnable = true;
 
     //----------------------------------------------------------------------------------------------------------------//
     public GameBoxButtonSprite(int coordsX, int coordsY, double buttonSize, boolean withImageViewInRoot) {
-        super(buttonSize, buttonSize, SHEET, withImageViewInRoot);
+        super(buttonSize, buttonSize, SHEET, withImageViewInRoot, SHEET.getAction(SpriteStates.NO_ANIMATION));
         this.coordsX = coordsX;
         this.coordsY = coordsY;
-        addNewEventHandler(MouseEvent.MOUSE_ENTERED, event -> changeState(SpriteStates.STANDBY));
-        addNewEventHandler(MouseEvent.MOUSE_EXITED, event -> changeState(SpriteStates.NO_ANIMATION));
+        addAnimationEvents();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
+    private void addAnimationEvents() {
+        addNewEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+            if (animationIsEnable)
+                changeState(SpriteStates.STANDBY);
+        });
+        addNewEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+            if (animationIsEnable)
+                changeState(SpriteStates.NO_ANIMATION);
+        });
+    }
+
     public int getCoordsX() {
         return coordsX;
     }
@@ -35,5 +46,9 @@ public class GameBoxButtonSprite extends AnimatedButtonSprite {
         } else if (allowed)
             enable();
         else disable();
+    }
+
+    public void setAnimationIsEnable(boolean animationIsEnable) {
+        this.animationIsEnable = animationIsEnable;
     }
 }

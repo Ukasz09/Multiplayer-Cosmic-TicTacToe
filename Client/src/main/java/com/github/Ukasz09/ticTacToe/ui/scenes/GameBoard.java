@@ -170,6 +170,12 @@ public class GameBoard implements IDrawingGraphic {
                 boxButtonSprites[row][column].update();
     }
 
+    public void animationIsEnable(boolean value){
+        for (int row = 0; row < boxButtonSprites.length; row++)
+            for (int column = 0; column < boxButtonSprites[0].length; column++)
+                boxButtonSprites[row][column].setAnimationIsEnable(value);
+    }
+
     private void updateSignButtons() {
         signSprites.forEach(AnimatedSprite::update);
     }

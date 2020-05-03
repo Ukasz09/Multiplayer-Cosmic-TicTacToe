@@ -35,6 +35,7 @@ public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphi
         int randomFrameIndex = sheet.getAction(SpriteStates.STANDBY).getRandomIndex();
         actualFramePositionX = sheet.getPositionOfIndex(randomFrameIndex).getX();
         actualFramePositionY = sheet.getPositionOfIndex(randomFrameIndex).getY();
+        System.out.println(actualFramePositionX + "," + actualFramePositionY); //todo: tmp
     }
 
     @Override
@@ -88,5 +89,6 @@ public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphi
     @Override
     public void changeState(IKindOfState state) {
         actualAnimationState = sheet.getAction(state);
+        setRandomStartedFramePosition();
     }
 }

@@ -1,6 +1,7 @@
 package com.github.Ukasz09.ticTacToe.ui.control.buttons.animated;
 
 import com.github.Ukasz09.ticTacToe.ui.sprites.AnimatedSprite;
+import com.github.Ukasz09.ticTacToe.ui.sprites.properties.FrameStatePositions;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToe.ui.sprites.states.SpriteStates;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
@@ -21,7 +22,11 @@ public abstract class AnimatedButtonSprite extends AnimatedSprite implements IGu
 
     //-----------------------------------------------------------------------------------------------------------------//
     public AnimatedButtonSprite(double width, double height, ImageSheetProperty sheet, boolean withImageViewInRoot) {
-        super(width, height, 0, 0, sheet, sheet.getAction(SpriteStates.STANDBY), withImageViewInRoot);
+        this(width, height, sheet, withImageViewInRoot, sheet.getAction(SpriteStates.STANDBY));
+    }
+
+    public AnimatedButtonSprite(double width, double height, ImageSheetProperty sheet, boolean withImageViewInRoot, FrameStatePositions startedFrameState) {
+        super(width, height, 0, 0, sheet, startedFrameState, withImageViewInRoot);
         observers = new HashSet<>(2);
     }
 

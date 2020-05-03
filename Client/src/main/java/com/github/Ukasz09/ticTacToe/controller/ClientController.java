@@ -164,13 +164,13 @@ public class ClientController extends Thread implements IGuiObserver {
                 break;
             case Messages.DENY_INTERACTION_WITH_BOXES: {
                 gui.getPagesManager().interactionWithAllBoxes(false);
-                gui.getPagesManager().changeAllGridBoxStates(SpriteStates.NO_ANIMATION);
+                gui.getPagesManager().animationIsEnable(false);
             }
             break;
             case Messages.ALLOW_INTERACTION_WITH_BOXES: {
                 gui.getPagesManager().changeGameBoardPageHeader(GameBoardPage.ACTUAL_PLAYER_MOVE_HEADER_TXT);
                 gui.getPagesManager().interactionWithAllBoxes(true);
-                gui.getPagesManager().changeAllGridBoxStates(SpriteStates.STANDBY);
+                gui.getPagesManager().animationIsEnable(true);
                 gui.getPagesManager().showVisibleOnlyActualPlayerPane(gui.getPlayerNumber());
             }
             break;
@@ -263,6 +263,7 @@ public class ClientController extends Thread implements IGuiObserver {
 
     private void processChangeBoxStateMsg(String msg) {
         String[] split = msg.split(Messages.DELIMITER);
+        gui.getPagesManager().animationIsEnable(false);
         changeGridBoxesState(decodePointsMsg(split, 1), SpriteStates.IS_WIN_BOX_ANIMATION);
     }
 

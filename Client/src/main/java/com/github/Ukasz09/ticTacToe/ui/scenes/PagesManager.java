@@ -155,6 +155,10 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         ((GameBoardPage) actualScene).getGameBoard().changeGridBoxState(state, coordsX, coordsY);
     }
 
+    public void animationIsEnable(boolean value) {
+        ((GameBoardPage) actualScene).getGameBoard().animationIsEnable(value);
+    }
+
     public void showWinResultPane(int winningPlayerNumber) {
         ((GameBoardPage) actualScene).sceneToWinResultPage(winningPlayerNumber);
     }

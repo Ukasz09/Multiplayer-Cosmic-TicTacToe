@@ -29,21 +29,15 @@ public class GameLogic {
 
     public GameLogic(int boardSize, int marksQtyForWin) throws IncorrectBoardSizeException {
         resetBoard(boardSize, marksQtyForWin);
-        initWinningCoords();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    private void initWinningCoords() {
-        winningCoords = new Point[marksQtyForWin];
-        for (int i = 0; i < marksQtyForWin; i++)
-            winningCoords[i] = new Point(-1, -1);
-    }
-
     public void resetBoard(int boardSize) throws IncorrectBoardSizeException {
         resetBoard(boardSize, DEFAULT_MARKS_QTY_FOR_WIN);
     }
 
     public void resetBoard(int boardSize, int marksQtyForWin) throws IncorrectBoardSizeException {
+        initWinningCoords();
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
         this.marksQtyForWin = Math.max(marksQtyForWin, DEFAULT_MARKS_QTY_FOR_WIN);
@@ -52,6 +46,12 @@ public class GameLogic {
         board = new char[boardSize][boardSize];
         for (char[] chars : board)
             Arrays.fill(chars, EMPTY_BOARD_MARK);
+    }
+
+    private void initWinningCoords() {
+        winningCoords = new Point[marksQtyForWin];
+        for (int i = 0; i < marksQtyForWin; i++)
+            winningCoords[i] = new Point(-1, -1);
     }
 
     public GameResults markField(int x, int y) throws IncorrectFieldException {

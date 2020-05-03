@@ -179,6 +179,10 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         soundsPlayer.playSound();
     }
 
+    public void animationIsEnable(boolean value) {
+        gameBoard.animationIsEnable(value);
+    }
+
     @Override
     public void updateGuiObserver(GuiEvents guiEvents) {
         notifyObservers(guiEvents);
