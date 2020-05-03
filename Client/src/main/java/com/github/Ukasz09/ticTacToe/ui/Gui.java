@@ -49,10 +49,13 @@ public class Gui implements IGuiObservable {
 
     //----------------------------------------------------------------------------------------------------------------//
     public void startGame() {
-        initializePlayers();
-        pagesManager.showHomePage();
         manager.getMainStage().show();
         new GameAnimationTimer().start();
+    }
+
+    public void sceneToHomePage(){
+        initializePlayers();
+        pagesManager.showHomePage();
     }
 
     private void initializePlayers() {

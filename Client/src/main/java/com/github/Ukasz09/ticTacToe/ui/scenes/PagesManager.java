@@ -37,6 +37,12 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         playBackgroundSound();
     }
 
+    public void sceneToServerAddrPage() {
+        ServerAddrPage addrPage = new ServerAddrPage();
+        addrPage.attachObserver(this);
+        changeScene(addrPage);
+    }
+
     public void sceneToEndGamePage() {
         sceneToEndGamePage("");
     }
@@ -199,6 +205,14 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
 
     public ImageSheetProperty getSignSheet(int signId) {
         return SignPage.getSign(signId);
+    }
+
+    public String getServerAddr() {
+        return ((ServerAddrPage) actualScene).getIpAddress();
+    }
+
+    public void incorrectServerAddress() {
+        ((ServerAddrPage) actualScene).incorrectAddressAction();
     }
 
     @Override

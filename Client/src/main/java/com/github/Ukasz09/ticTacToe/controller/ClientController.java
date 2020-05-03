@@ -15,9 +15,12 @@ import javafx.scene.input.KeyEvent;
 
 import java.awt.*;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeoutException;
 
 public class ClientController extends Thread implements IGuiObserver {
     private static final int SERVER_PORT = 6666;
@@ -36,11 +39,15 @@ public class ClientController extends Thread implements IGuiObserver {
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public void startGame() throws IOException {
-        client.startConnection(SERVER_PORT);
+    public void startServerPage() {
         gui.startGame();
+        gui.getPagesManager().sceneToServerAddrPage();
         gui.getPagesManager().attachObserver(this);
         gui.attachObserver(this);
+    }
+
+    private void startGame() {
+        gui.sceneToHomePage();
         start();
     }
 
@@ -61,14 +68,16 @@ public class ClientController extends Thread implements IGuiObserver {
     }
 
     private void endGame() {
-        client.sendMessage(Messages.STOP_CONNECTION);
-        try {
-            gui.close();
-            client.closeConnection();
-            System.exit(0);
-        } catch (IOException ex) {
-            System.exit(-1);
+        if (client.isConnected()) {
+            client.sendMessage(Messages.STOP_CONNECTION);
+            try {
+                client.closeConnection();
+            } catch (IOException ex) {
+                //unchecked
+            }
         }
+        gui.close();
+        System.exit(0);
     }
 
     private EventHandler<KeyEvent> getExitBtnEvent(KeyCode exitCode) {
@@ -116,6 +125,20 @@ public class ClientController extends Thread implements IGuiObserver {
                 gui.getPagesManager().sceneToEndGamePage();
             }
             break;
+            case CHOSEN_IP_ADDR: {
+                String serverAddr = gui.getPagesManager().getServerAddr();
+                connectToServer(serverAddr);
+            }
+            break;
+        }
+    }
+
+    private void connectToServer(String serverAddress) {
+        try {
+            client.startConnection(serverAddress, SERVER_PORT);
+            startGame();
+        } catch (IOException ioExcept) {
+            gui.getPagesManager().incorrectServerAddress();
         }
     }
 

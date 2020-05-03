@@ -16,12 +16,7 @@ public class ClientMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        try {
-            clientController.startGame();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
+        clientController.startServerPage();
     }
 
     public static void main(String[] args) {
