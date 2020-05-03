@@ -10,11 +10,17 @@ public class DrawResultPane extends GameResultPane {
     //----------------------------------------------------------------------------------------------------------------//
     public DrawResultPane(double width, double positionX, double positionY) {
         super(width, positionX, positionY);
-        double spriteWidth = getPrefWidth() * SPRITE_WIDTH_PROPORTION;
-        drawAnimSprite = new ImageSprite(spriteWidth, getSpriteHeight(), ImagesProperties.drawAnimation(), getSpriteCenterPositionX(spriteWidth), getLayoutY(), false);
+        initAnimSprite();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
+    private void initAnimSprite() {
+        double spriteWidth = getPrefWidth() * SPRITE_WIDTH_PROPORTION;
+        double spriteHeight = getSpriteHeight();
+        double posY = manager.getBottomFrameBorder() - spriteHeight;
+        drawAnimSprite = new ImageSprite(spriteWidth, spriteHeight, ImagesProperties.drawAnimation(), getSpriteCenterPositionX(spriteWidth), posY, false);
+
+    }
 
     @Override
     public void render() {

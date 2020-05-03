@@ -32,7 +32,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     //----------------------------------------------------------------------------------------------------------------//
     public void showHomePage() {
         stopBackgroundSound();
-        setSceneToHomePage();
+        sceneToHomePage();
         setActualSceneVisible(true);
         playBackgroundSound();
     }
@@ -47,11 +47,18 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         changeScene(endPage);
     }
 
-    private void setSceneToHomePage() {
+    private void sceneToHomePage() {
         manager.clearActionNodes();
         StartGamePage gamePage = new StartGamePage();
         gamePage.attachObserver(this);
         changeScene(gamePage);
+    }
+
+    public void sceneToFinishGameDecisionPage(ImageView avatar, String labelText) {
+        manager.clearActionNodes();
+        FinishGameDecisionPage decisionPage = new FinishGameDecisionPage(avatar, labelText);
+        decisionPage.attachObserver(this);
+        changeScene(decisionPage);
     }
 
     public void sceneToGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2) {

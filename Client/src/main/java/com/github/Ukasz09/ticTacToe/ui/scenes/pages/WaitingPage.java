@@ -19,10 +19,11 @@ public class WaitingPage extends ChoosePage {
     //----------------------------------------------------------------------------------------------------------------//
     private void initWaitingAnimation() {
         double spriteWidth = manager.getRightFrameBorder() / 2;
-        double spriteHeight = manager.getBottomFrameBorder() - getHeaderPaneHeight();
+        double spriteHeight = (manager.getBottomFrameBorder() - getHeaderPaneHeight()) * 0.8;
         Image animImage = ImagesProperties.waitingAnimation();
         double posX = getSpriteCenterPositionX(spriteWidth);
-        waitingAnimation = new ImageSprite(spriteWidth, spriteHeight, animImage, posX, getHeaderPaneHeight(), false);
+        double posY = manager.getBottomFrameBorder() - spriteHeight;
+        waitingAnimation = new ImageSprite(spriteWidth, spriteHeight, animImage, posX, posY, false);
     }
 
     @Override

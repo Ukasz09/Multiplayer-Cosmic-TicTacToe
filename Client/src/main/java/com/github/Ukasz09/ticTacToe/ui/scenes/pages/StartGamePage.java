@@ -31,10 +31,10 @@ public class StartGamePage extends ChoosePage {
 
     //----------------------------------------------------------------------------------------------------------------//
     private void initWaitingAnimation() {
-        double spriteWidth = manager.getRightFrameBorder() / 2;
+        double spriteWidth = manager.getRightFrameBorder() * 0.4;
         double spriteHeight = (manager.getBottomFrameBorder() - getHeaderPaneHeight()) / 2;
         double posX = getSpriteCenterPositionX(spriteWidth);
-        double posY = manager.getBottomFrameBorder() - spriteHeight * 1.15;
+        double posY = manager.getBottomFrameBorder() - spriteHeight ;
         startAnimation = new ImageSprite(spriteWidth, spriteHeight, animImage, posX, posY, false);
     }
 

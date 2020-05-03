@@ -13,9 +13,7 @@ public class PlayerViewProperties {
 
     //----------------------------------------------------------------------------------------------------------------//
     public PlayerViewProperties() {
-        this.avatar = DEFAULT_AVATAR;
-        this.signSheet = null;
-        this.nick = "";
+        clearPlayerData();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -41,5 +39,11 @@ public class PlayerViewProperties {
 
     public ImageView getAvatar() {
         return avatar;
+    }
+
+    public void clearPlayerData() {
+        this.avatar = DEFAULT_AVATAR;
+        this.signSheet = null;
+        this.nick = "";
     }
 }

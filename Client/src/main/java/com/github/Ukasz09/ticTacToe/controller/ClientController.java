@@ -102,8 +102,8 @@ public class ClientController extends Thread implements IGuiObserver {
             case SIGN_BTN_CLICKED:
                 signChosenAction();
                 break;
-            case BOARD_SIZE_CHOSEN:
-            case REPEAT_GAME_BTN: {
+            case REPEAT_GAME_BTN:
+            case BOARD_SIZE_CHOSEN: {
                 String msgToSend = guiEvents.getMsg() + Messages.DELIMITER + gui.getPagesManager().getGameBoardSize();
                 client.sendMessage(msgToSend);
             }
@@ -162,6 +162,10 @@ public class ClientController extends Thread implements IGuiObserver {
                 gameIsEnd = true;
                 gui.getPagesManager().sceneToEndGamePage("Need to finish game: Other player quit");
             }
+            break;
+            case Messages.CLEAR_PLAYERS_DATA:
+                gui.clearPlayersData();
+                break;
             default:
                 processCompoundMsg(response);
         }
@@ -184,6 +188,8 @@ public class ClientController extends Thread implements IGuiObserver {
             processGivenClientSignNumber(msg);
         else if (msg.contains(Messages.OTHER_PLAYER_NICK))
             processOtherPlayerNick(msg);
+        else if (msg.contains(Messages.DECISION_AFTER_GAME_FINISH))
+            gui.sceneToFinishGameDecisionPage(msg.split(Messages.DELIMITER)[1]);
         else System.out.println("Unknown message: " + msg); //TODO:tmp
     }
 

@@ -32,4 +32,6 @@ public class Messages {
     public static final String GIVEN_CLIENT_SIGN = "given_client_sign";
     public static final String OTHER_PLAYER_NICK = "other_player_nick";
     public static final String OTHER_PLAYER_QUIT = "other_player_quite";
+    public static final String DECISION_AFTER_GAME_FINISH = "decision_after_finish_game";
+    public static final String CLEAR_PLAYERS_DATA = "clear_players_data";
 }

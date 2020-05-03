@@ -17,6 +17,8 @@ public class ServerController implements IMsgObserver {
     private GameLogic gameLogic;
     private Server server;
     private boolean otherPlayerMadeChoice = false;
+    private boolean otherPlayerWantRepeat = false;
+    private boolean otherPlayerWantNewGame = true;
 
     //----------------------------------------------------------------------------------------------------------------//
     public ServerController(GameLogic gameLogic) {
@@ -40,8 +42,10 @@ public class ServerController implements IMsgObserver {
         else if (msg.contains(Messages.BOX_BTN_CLICKED)) boxClickedMsg(msg, clientSign);
         else if (msg.contains(Messages.SIGN_BTN_CLICKED)) signBtnClickedMsg(msg, clientSign);
         else if (msg.contains(Messages.AVATAR_BTN_CLICKED)) avatarBtnClickedMsg(msg, clientSign);
-        else if (msg.contains(Messages.BOARD_SIZE_CHOSEN) || msg.contains(Messages.REPEAT_GAME_BTN))
+        else if (msg.contains(Messages.BOARD_SIZE_CHOSEN))
             newGameBoardMsg(msg, clientSign);
+        else if (msg.contains(Messages.REPEAT_GAME_BTN))
+            repeatMsg(msg, clientSign);
         else if (msg.equals(Messages.STOP_CONNECTION)) {
             server.closeClient(clientSign);
             server.sendMessage(Messages.OTHER_PLAYER_QUIT, gameLogic.getNextPlayer(clientSign));
@@ -56,7 +60,33 @@ public class ServerController implements IMsgObserver {
     }
 
     private void startBtnMsg(char clientSign) {
-        server.sendMessage(Messages.SCENE_TO_NICK, clientSign);
+        otherPlayerWantRepeat = false;
+        if (otherPlayerWantNewGame) {
+            server.sendMessageToAll(Messages.CLEAR_PLAYERS_DATA);
+            server.sendMessage(Messages.SCENE_TO_NICK, clientSign);
+            server.sendMessage(Messages.SCENE_TO_NICK, gameLogic.getNextPlayer(clientSign));
+        } else {
+            otherPlayerWantNewGame = true;
+            otherPlayerDecisionMsg("start new game", clientSign);
+        }
+
+    }
+
+    private void repeatMsg(String msg, char clientSignId) {
+        otherPlayerWantNewGame = false;
+        if (otherPlayerWantRepeat) {
+            otherPlayerWantRepeat = false;
+            newGameBoardMsg(msg, clientSignId);
+        } else {
+            otherPlayerWantRepeat = true;
+            otherPlayerDecisionMsg("repeat actual game", clientSignId);
+        }
+    }
+
+    private void otherPlayerDecisionMsg(String msg, char actualPlayerSignId) {
+        server.sendMessage(Messages.WAITING_FOR_OTHER_PLAYER, actualPlayerSignId);
+        String decisionMsg = Messages.DECISION_AFTER_GAME_FINISH + Messages.DELIMITER + msg;
+        server.sendMessage(decisionMsg, gameLogic.getNextPlayer(actualPlayerSignId));
     }
 
     private void chosenNameMsg(char clientSign, String nick) {
@@ -69,6 +99,7 @@ public class ServerController implements IMsgObserver {
     }
 
     private void newGameBoardMsg(String msg, char clientSignId) {
+        otherPlayerWantNewGame = false;
         try {
             int boardSize = Integer.parseInt(msg.split(Messages.DELIMITER)[1]);
             gameLogic.resetBoard(boardSize);

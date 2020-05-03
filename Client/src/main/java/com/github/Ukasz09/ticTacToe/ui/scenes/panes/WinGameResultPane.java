@@ -10,12 +10,18 @@ public class WinGameResultPane extends GameResultPane {
     //----------------------------------------------------------------------------------------------------------------//
     public WinGameResultPane(double width, double positionX, double positionY, boolean rotated) {
         super(width, positionX, positionY);
-        double statueWidth = getPrefWidth() * SPRITE_WIDTH_PROPORTION;
         this.rotated = rotated;
-        winSprite = new ImageSprite(statueWidth, getSpriteHeight(), ImagesProperties.winAnimation(), getSpriteCenterPositionX(statueWidth), getLayoutY(), false);
+        initAnimSprite();
     }
 
     //----------------------------------------------------------------------------------------------------------------//
+    private void initAnimSprite() {
+        double spriteWidth = getPrefWidth() * SPRITE_WIDTH_PROPORTION;
+        double spriteHeight = getSpriteHeight();
+        double spritePosY = manager.getBottomFrameBorder() - spriteHeight;
+        winSprite = new ImageSprite(spriteWidth, spriteHeight, ImagesProperties.winAnimation(), getSpriteCenterPositionX(spriteWidth), spritePosY, false);
+    }
+
     @Override
     public void render() {
         if (rotated)

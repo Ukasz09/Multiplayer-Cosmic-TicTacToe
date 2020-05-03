@@ -20,6 +20,7 @@ import java.util.Set;
 
 public class Gui implements IGuiObservable {
     private final static String APPLICATION_TITLE = "Tic-Tac-Toe game";
+    private static final boolean FULL_SCREEN = true;
     public static final int PLAYERS_QTY = 2;
 
     private ViewManager manager;
@@ -42,7 +43,7 @@ public class Gui implements IGuiObservable {
     public Gui(EventHandler<KeyEvent> exitKeyEvent) {
         guiObservers = new HashSet<>();
         manager = ViewManager.getInstance();
-        manager.initialize(APPLICATION_TITLE, false, exitKeyEvent);
+        manager.initialize(APPLICATION_TITLE, FULL_SCREEN, exitKeyEvent);
         pagesManager = new PagesManager();
     }
 
@@ -134,6 +135,11 @@ public class Gui implements IGuiObservable {
         pagesManager.sceneToSignPage(getNextPlayerSign());
     }
 
+    public void sceneToFinishGameDecisionPage(String labelText) {
+        ImageView playerAvatar = playerViewProperties[getPlayerNumber()].getAvatar();
+        pagesManager.sceneToFinishGameDecisionPage(playerAvatar, labelText);
+    }
+
     public void addPlayerSignToBox(int rowIndex, int columnIndex, int playerNumber) {
         pagesManager.addPlayerSignToBox(rowIndex, columnIndex, getPlayerSignSheet(playerNumber));
     }
@@ -169,15 +175,16 @@ public class Gui implements IGuiObservable {
         guiObservers.forEach(o -> o.updateGuiObserver(event));
     }
 
-    public void clearActionNodes() {
-        manager.clearActionNodes();
-    }
-
     public void close() {
         manager.closeMainStage();
     }
 
     public PagesManager getPagesManager() {
         return pagesManager;
+    }
+
+    public void clearPlayersData() {
+        for (PlayerViewProperties p : playerViewProperties)
+            p.clearPlayerData();
     }
 }
