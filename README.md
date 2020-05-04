@@ -1,12 +1,11 @@
 ﻿# 🌠 Multiplayer Tic-Tac-Toe [![License](https://img.shields.io/badge/licence-MIT-blue)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) [![Status](https://img.shields.io/badge/status-finished-brightgreen)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe)
 
-- 💻 All resolutions support <br/>
-
 <br/>
 - :white_check_mark: TDD <br/>
 - :white_check_mark: Client-server - java socket programming <br/>
 <br/>
 
+## Gameplay
 ![gameplay image](https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/sizes.png)
 <p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/anim1.gif"></p>
 <p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/anim2.gif"></p>
