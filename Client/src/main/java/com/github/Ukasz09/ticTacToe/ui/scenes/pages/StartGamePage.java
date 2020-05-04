@@ -1,9 +1,7 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes.pages;
 
 import com.github.Ukasz09.ticTacToe.ui.backgrounds.GameBackground;
-import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsProperties;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
-import com.github.Ukasz09.ticTacToe.ui.backgrounds.ImageGameBackground;
 import com.github.Ukasz09.ticTacToe.ui.control.buttons.normal.GameControlBtn;
 import com.github.Ukasz09.ticTacToe.ui.sprites.ImageSprite;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImagesProperties;
@@ -15,8 +13,7 @@ import javafx.scene.image.ImageView;
 
 public class StartGamePage extends ChoosePage {
     private static final String HEADER_TEXT = "Cosmic Tic-Tac-Toe Game";
-    private static final double MUSIC_VOLUME = 0.8;
-    public static final GameBackground GAME_BACKGROUND = new ImageGameBackground(DEFAULT_BACKGROUND, SoundsProperties.gameBackground(MUSIC_VOLUME));
+    public static final GameBackground GAME_BACKGROUND = new GameBackground(DEFAULT_BACKGROUND);
 
     private final Image animImage = ImagesProperties.startAnimation();
     private ImageSprite startAnimation;
@@ -34,7 +31,7 @@ public class StartGamePage extends ChoosePage {
         double spriteWidth = manager.getRightFrameBorder() * 0.4;
         double spriteHeight = (manager.getBottomFrameBorder() - getHeaderPaneHeight()) / 2;
         double posX = getSpriteCenterPositionX(spriteWidth);
-        double posY = manager.getBottomFrameBorder() - spriteHeight ;
+        double posY = manager.getBottomFrameBorder() - spriteHeight;
         startAnimation = new ImageSprite(spriteWidth, spriteHeight, animImage, posX, posY, false);
     }
 

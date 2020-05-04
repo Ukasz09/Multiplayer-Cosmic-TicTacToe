@@ -16,10 +16,6 @@ public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphi
     private double timerStartTime;
 
     //-----------------------------------------------------------------------------------------------------------------//
-    public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheetProperty, boolean withImageViewInRoot) {
-        this(width, height, positionX, positionY, sheetProperty, sheetProperty.getAction(SpriteStates.STANDBY), withImageViewInRoot);
-    }
-
     public AnimatedSprite(double width, double height, double positionX, double positionY, ImageSheetProperty sheet, FrameStatePositions startedAnimationState,
                           boolean withImageViewInRoot) {
         super(width, height, ImagesProperties.schemeSpriteForImageView(), positionX, positionY, withImageViewInRoot);
@@ -35,7 +31,6 @@ public class AnimatedSprite extends ImageSprite implements IAnimatedSpriteGraphi
         int randomFrameIndex = sheet.getAction(SpriteStates.STANDBY).getRandomIndex();
         actualFramePositionX = sheet.getPositionOfIndex(randomFrameIndex).getX();
         actualFramePositionY = sheet.getPositionOfIndex(randomFrameIndex).getY();
-        System.out.println(actualFramePositionX + "," + actualFramePositionY); //todo: tmp
     }
 
     @Override

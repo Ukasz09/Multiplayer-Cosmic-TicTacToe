@@ -3,8 +3,6 @@ package com.github.Ukasz09.ticTacToe.ui.scenes.pages;
 import com.github.Ukasz09.ticTacToe.ui.Gui;
 import com.github.Ukasz09.ticTacToe.ui.scenes.panes.*;
 import com.github.Ukasz09.ticTacToe.ui.scenes.GameBoard;
-import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsPlayer;
-import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsProperties;
 import com.github.Ukasz09.ticTacToe.ui.sprites.properties.ImageSheetProperty;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.IGuiObserver;
@@ -13,17 +11,15 @@ import javafx.geometry.Orientation;
 import javafx.scene.image.ImageView;
 
 public class GameBoardPage extends ChoosePage implements IGuiObserver {
-    public static final String ACTUAL_PLAYER_MOVE_HEADER_TXT = "Your move";
-    public static final String OPPONENT_MOVE_HEADER_TXT = "Opponent move";
-    private static final String WIN_HEADER = "You win !";
-    private static final String LOSE_HEADER = "You lose !";
-    private static final String DRAW_HEADER_TEXT = "Unlucky. It's a draw! ";
-    private static final double SOUND_VOLUME = 1;
+    public static final String ACTUAL_PLAYER_MOVE_HEADER_TXT = "YOUR MOVE";
+    public static final String OPPONENT_MOVE_HEADER_TXT = "Waiting for opponent...";
+    private static final String WIN_HEADER = "YOU WIN";
+    private static final String LOSE_HEADER = "YOU LOSE";
+    private static final String DRAW_HEADER_TEXT = "Unlucky. IT'S A DRAW";
 
     private GameBoard gameBoard;
     private PlayerInfoPane[] playerInfoPanes;
     private GameResultPane gameResultPane = null;
-    private SoundsPlayer soundsPlayer;
 
 
     //-----------------------------------------------------------------------------------------------------------------//
@@ -111,8 +107,6 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         changePaneToGameResult(nextPlayerPaneIndex);
         addGameOverButtonsToPane(winningPlayerNumber);
         setHeaderText(WIN_HEADER);
-        soundsPlayer = SoundsProperties.winEffect(SOUND_VOLUME); //to prevent from garbage collector destroy before sound end
-        soundsPlayer.playSound();
     }
 
     public void sceneToLoseResultPage(int losePlayerNumber) {
@@ -121,8 +115,6 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         changePaneToGameResult(nextPlayerPaneIndex);
         addGameOverButtonsToPane(losePlayerNumber);
         setHeaderText(LOSE_HEADER);
-        soundsPlayer = SoundsProperties.drawEffect(SOUND_VOLUME); //to prevent from garbage collector destroy before sound end
-        soundsPlayer.playSound();
     }
 
     private void changePaneToGameResult(int paneIndex) {
@@ -175,12 +167,6 @@ public class GameBoardPage extends ChoosePage implements IGuiObserver {
         initDrawResultPane(1);
         changePaneToGameResult(1);
         setHeaderText(DRAW_HEADER_TEXT);
-        soundsPlayer = SoundsProperties.drawEffect(SOUND_VOLUME); //to prevent from garbage collector destroy before sound end
-        soundsPlayer.playSound();
-    }
-
-    public void animationIsEnable(boolean value) {
-        gameBoard.animationIsEnable(value);
     }
 
     @Override

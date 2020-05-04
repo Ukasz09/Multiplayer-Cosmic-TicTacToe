@@ -1,6 +1,6 @@
 package com.github.Ukasz09.ticTacToe.ui.scenes.pages;
 
-import com.github.Ukasz09.ticTacToe.ui.backgrounds.IBackground;
+import com.github.Ukasz09.ticTacToe.ui.backgrounds.GameBackground;
 import com.github.Ukasz09.ticTacToe.ui.scenes.panes.CenteredPane;
 import com.github.Ukasz09.ticTacToe.ui.scenes.panes.LabelPane;
 import com.github.Ukasz09.ticTacToe.logic.guiObserver.GuiEvents;
@@ -22,7 +22,7 @@ public abstract class ChoosePage extends Page implements IGuiObservable {
     private Set<IGuiObserver> observers;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public ChoosePage(IBackground background, String labelText, Orientation orientation, double horizontalGap) {
+    public ChoosePage(GameBackground background, String labelText, Orientation orientation, double horizontalGap) {
         super(background);
         observers = new HashSet<>();
         initializePage(labelText, orientation, horizontalGap);

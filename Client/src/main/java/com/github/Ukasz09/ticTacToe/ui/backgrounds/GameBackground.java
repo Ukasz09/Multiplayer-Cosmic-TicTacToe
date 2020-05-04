@@ -1,39 +1,30 @@
 package com.github.Ukasz09.ticTacToe.ui.backgrounds;
 
 import com.github.Ukasz09.ticTacToe.ui.ViewManager;
-import com.github.Ukasz09.ticTacToe.ui.sounds.SoundsPlayer;
+import com.github.Ukasz09.ticTacToe.ui.sprites.IDrawingGraphic;
+import javafx.scene.image.Image;
 
-public abstract class GameBackground implements IBackground {
-    private SoundsPlayer backgroundSound;
-    private boolean soundIsPlaying;
-    protected ViewManager manager;
+public class GameBackground implements IDrawingGraphic {
+    private Image backgroundImage;
+    private ViewManager manager = ViewManager.getInstance();
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameBackground(SoundsPlayer backgroundSound) {
-        manager = ViewManager.getInstance();
-        this.backgroundSound = backgroundSound;
-        soundIsPlaying = false;
+    public GameBackground(Image backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 
     //----------------------------------------------------------------------------------------------------------------//
     @Override
-    public boolean playBackgroundSound() {
-        if (backgroundSound == null)
-            return false;
-        if (soundIsPlaying)
-            backgroundSound.stopSound();
-        backgroundSound.playSound();
-        soundIsPlaying = true;
-        return true;
+    public void render() {
+        drawBackground();
     }
 
     @Override
-    public boolean stopBackgroundSound() {
-        if (soundIsPlaying && backgroundSound != null) {
-            backgroundSound.stopSound();
-            soundIsPlaying = false;
-            return true;
-        }
-        return false;
+    public void update() {
+        //nothing to do
+    }
+
+    private void drawBackground() {
+        manager.getGraphicContext().drawImage(backgroundImage, 0, 0, manager.getRightFrameBorder(), manager.getBottomFrameBorder());
     }
 }

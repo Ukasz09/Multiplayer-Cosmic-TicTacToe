@@ -30,13 +30,6 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
     }
 
     //----------------------------------------------------------------------------------------------------------------//
-    public void showHomePage() {
-        stopBackgroundSound();
-        sceneToHomePage();
-        setActualSceneVisible(true);
-        playBackgroundSound();
-    }
-
     public void sceneToServerAddrPage() {
         ServerAddrPage addrPage = new ServerAddrPage();
         addrPage.attachObserver(this);
@@ -51,6 +44,11 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         manager.clearActionNodes();
         EndGamePage endPage = new EndGamePage(optionalMsg);
         changeScene(endPage);
+    }
+
+    public void showHomePage() {
+        sceneToHomePage();
+        setActualSceneVisible(true);
     }
 
     private void sceneToHomePage() {
@@ -69,6 +67,7 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
 
     public void sceneToGamePage(int startedPlayerIndex, ImageView avatar1, ImageView avatar2, ImageSheetProperty sign1, ImageSheetProperty sign2, String nick1, String nick2) {
         manager.clearActionNodes();
+        System.gc();
         GameBoardPage gamePage = getGamePage(avatar1, avatar2, sign1, sign2, nick1, nick2, boardSize, startedPlayerIndex);
         gamePage.showVisibleOnlyActualPlayer(startedPlayerIndex);
         changeScene(gamePage);
@@ -81,16 +80,6 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         gameBoardPage.initLeftPlayerPane(avatar1, nick1, sign1, startedPlayerId);
         gameBoardPage.initRightPlayerPane(avatar2, nick2, sign2, Gui.getNextPlayerNumber(startedPlayerId));
         return gameBoardPage;
-    }
-
-    private void playBackgroundSound() {
-        if (actualScene != null)
-            actualScene.playBackgroundSound();
-    }
-
-    private void stopBackgroundSound() {
-        if (actualScene != null)
-            actualScene.stopBackgroundSound();
     }
 
     public void sceneToBoardSizePage() {
@@ -130,7 +119,6 @@ public class PagesManager implements IGuiObservable, IGuiObserver {
         removeActualSceneFromRoot();
         actualScene = page;
         setActualSceneVisible(true);
-        System.gc();
     }
 
     private void removeActualSceneFromRoot() {

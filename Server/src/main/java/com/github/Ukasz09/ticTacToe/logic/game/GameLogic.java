@@ -37,10 +37,10 @@ public class GameLogic {
     }
 
     public void resetBoard(int boardSize, int marksQtyForWin) throws IncorrectBoardSizeException {
+        this.marksQtyForWin = Math.max(marksQtyForWin, DEFAULT_MARKS_QTY_FOR_WIN);
         initWinningCoords();
         if (boardSize < DEFAULT_BOARD_SIZE)
             throw new IncorrectBoardSizeException();
-        this.marksQtyForWin = Math.max(marksQtyForWin, DEFAULT_MARKS_QTY_FOR_WIN);
 
         this.boardSize = boardSize;
         board = new char[boardSize][boardSize];

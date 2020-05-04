@@ -8,7 +8,6 @@ import javafx.scene.input.KeyCode;
 
 public class ServerAddrPage extends ChoosePage {
     private static final String LABEL_TEXT = "Input server address";
-    //    private static final String PROMPT_TEXT = "Input IPv4 address of server: ";
     private static final String PROMPT_TEXT = "IPv4 address:";
     private static final String INCORRECT_ADDR_TXT = "Incorrect server address or server is down";
     private static final String WAITING_TXT = "Trying to connect. Please wait..";

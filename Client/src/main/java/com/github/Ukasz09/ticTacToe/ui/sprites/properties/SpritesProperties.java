@@ -68,7 +68,7 @@ public class SpritesProperties {
         return ImageSheetProperty.builder()
                 .withImagePath(spritePath)
                 .withSizeOfOneFrame(267, 266)
-                .withDefaultDurationPerOneFrame(60)
+                .withDefaultDurationPerOneFrame(40)
                 .withAddActionState(SpriteStates.STANDBY, 24, 20)
                 .withAddActionState(SpriteStates.NO_ANIMATION, 0, 1)
                 .withAddActionState(SpriteStates.IS_WIN_BOX_ANIMATION, 0, 31)
