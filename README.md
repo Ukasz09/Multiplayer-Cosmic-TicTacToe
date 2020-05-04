@@ -1,54 +1,54 @@
-﻿# 🌠 Cosmic Tic-Tac-Toe [![License](https://img.shields.io/badge/licence-MIT-blue)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) [![Status](https://img.shields.io/badge/status-finished-brightgreen)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe)
+﻿# 🌠 Multiplayer Tic-Tac-Toe [![License](https://img.shields.io/badge/licence-MIT-blue)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) [![Status](https://img.shields.io/badge/status-finished-brightgreen)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe)
 
  
-Enhanced version of Tic-Tac-Toe game in cosmic atmosphere
-- Selectable various size of game map
-- Fun, various available avatars
-- Animated game signs instead traditional ❌⭕️
-- Nice, animated GUI
+Multiplayer Tic-Tac-Toe game in cosmic atmosphere
+- Various size of game map
+- Fun avatars, animation and game signs 
+- 💻 All resolutions support <br/>
+
 <br/>
-💻 All resolutions support <br/>
-🔉 Sounds and music <br/>
+- :white_check_mark: TDD <br/>
+- :white_check_mark: Client-server - java socket programming <br/>
 
-## Gameplay
-<p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/6.gif"></p>
-<p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/5a.gif"></p>
-<p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/1.gif"></p>
-<p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/3.gif"></p>
-<p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/4.gif"></p>
+![gameplay image](https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/sizes.png)
+<p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/anim1.gif"></p>
+<p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/anim2.gif"></p>
 
-## Screenshots 
-![gameplay image](https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/screen1.png)
-![gameplay image](https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/screen2.png)
 
 ## Game control
 - `Mouse`: intuitively, by clicking on individual elements
 - `Esc`: shortcut for end game button
 - `Enter`: shortcut for confirm button
 
-## How to use it
-If there is a problem with running, try to open it by console with command:
+## How to use it ?
+Actually I don't use any cloud hosting for my app, so it is possible to play only on localhost (LAN)  
 
-- Windows
- 
-```cmd
-java -jar TicTacToe.jar
+:zero:  One of the players need to run a server:
+1) open directory `Server`
+2) Run server with command
+```bash
+java -jar Server.jar
 ```
+You will see information about starting server and LAN server ip 
 
-- Linux 
+:one:	Both players need to run a client application <br/>
+1) open directory `Client`
+2) run `Client.jar` (just click on it)
+
+If there is a problem with running, try to open it by console with command:
 
 ```bash
 java -jar TicTacToe.jar
 ```
-If you will see errors about not having error like this:
+If you use Linux, you can see errors like this:
 
 ```bash
 java.lang.NoClassDefFoundError: javafx/application/Application
 ```
-it means that you don't have javafx libraries and you need to follow this steps: <br/>
-- Download javaFx libraries for linux [javafx-oracle.com](https://www.oracle.com/java/technologies/java-archive-javafx-downloads.html#javafx_sdk-1.3.1-oth-JPR)
-- Unpack files into your java library destination, for example: `/usr/lib/jvm/java-14-oracle`
-- Run script made by myself for you:
+it means that you don't have installed javafx libraries and you need to follow this steps: <br/>
+- Download javaFx libraries [javafx-oracle.com](https://www.oracle.com/java/technologies/java-archive-javafx-downloads.html#javafx_sdk-1.3.1-oth-JPR)
+- Unpack files into your java home destination, e.g. on Linux: `/usr/lib/jvm/java-14-oracle`
+- Run script `runGame.sh`:
   - `-d` or `--default` flag: open with default java installation folder
   - `-p=JAVA_PATH` or `--path=JAVA_PATH` flag: open with custom java installation folder by JAVA_PATH     
 
@@ -60,27 +60,24 @@ Examples: <br/>
 	./runGame.sh -p=/usr/lib/jvm/java-14-oracle
 	./runGame.sh --path=/usr/lib/jvm/java-14-oracle
 ```
+:two: Input server IP  (from server console)
+:three: Enjoy the game 😎
+
 
 ## Software design stuff
-**Used development process:**
-<br/><br/>
-✅ TDD (for game logic) <br/>
-
 **Used Designs Patterns:**
 <br/><br/>
-✅ MVC <br/>
 ✅ Singleton <br/>
 ✅ Observer <br/>
 ✅ Builder <br/>
 
 **Code overview:**
 <br/><br/>
-✔️ 66 classes (including enums and interfaces) <br/>
-✔️ over 3600 lines of code  <br/>
+✔️ over 4000 lines of code  <br/>
 
 ## Acknowledgements
 To my friends: [@Kaszti](https://github.com/wasyl078), [@Pawel](https://github.com/PRZYPRAWA), [@M1loseph](https://github.com/M1loseph)  [@Michu](https://github.com/michaltkacz) <br/>
-For supporting and expressing a desire to become some of the available avatars ✊
+For supporting and expressing a desire to become some of the available avatars 
 
 ___
 ## 📫 Contact 
