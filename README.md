@@ -1,14 +1,11 @@
 ﻿# 🌠 Multiplayer Tic-Tac-Toe [![License](https://img.shields.io/badge/licence-MIT-blue)](https://choosealicense.com/licenses/mit/) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe) [![Status](https://img.shields.io/badge/status-finished-brightgreen)](https://github.com/Ukasz09/TDD-Tic-Tac-Toe)
 
- 
-Multiplayer Tic-Tac-Toe game in cosmic atmosphere
-- Various size of game map
-- Fun avatars, animation and game signs 
 - 💻 All resolutions support <br/>
 
 <br/>
 - :white_check_mark: TDD <br/>
 - :white_check_mark: Client-server - java socket programming <br/>
+<br/>
 
 ![gameplay image](https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/sizes.png)
 <p align="center"><img width=95% src="https://raw.githubusercontent.com/Ukasz09/TDD-Tic-Tac-Toe/master/readmeImages/anim1.gif"></p>
@@ -60,7 +57,7 @@ Examples: <br/>
 	./runGame.sh -p=/usr/lib/jvm/java-14-oracle
 	./runGame.sh --path=/usr/lib/jvm/java-14-oracle
 ```
-:two: Input server IP  (from server console)
+:two: Input server IP  (from server console) <br/>
 :three: Enjoy the game 😎
 
 
@@ -73,7 +70,7 @@ Examples: <br/>
 
 **Code overview:**
 <br/><br/>
-✔️ over 4000 lines of code  <br/>
+✔️ nearly 5000 lines of code  <br/>
 
 ## Acknowledgements
 To my friends: [@Kaszti](https://github.com/wasyl078), [@Pawel](https://github.com/PRZYPRAWA), [@M1loseph](https://github.com/M1loseph)  [@Michu](https://github.com/michaltkacz) <br/>
