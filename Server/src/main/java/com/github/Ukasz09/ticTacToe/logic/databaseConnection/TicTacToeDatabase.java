@@ -38,7 +38,6 @@ public class TicTacToeDatabase {
 
     public boolean drop() {
         try {
-
             getMongoCollection().drop();
             return true;
         } catch (MongoException e) {

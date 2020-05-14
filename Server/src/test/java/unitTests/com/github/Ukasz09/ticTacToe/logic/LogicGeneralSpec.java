@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToe;
+package unitTests.com.github.Ukasz09.ticTacToe.logic;
 
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeBean;
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeDatabase;
@@ -17,6 +17,7 @@ public class LogicGeneralSpec {
     @BeforeEach
     final void initializeDefaultGameLogic() throws Exception {
         TicTacToeDatabase database = mock(TicTacToeDatabase.class);
+        doReturn(true).when(database).drop();
         doReturn(true).when(database).saveMove(any(TicTacToeBean.class));
         gameLogic = new GameLogic(database);
     }
@@ -41,7 +42,7 @@ public class LogicGeneralSpec {
 
         @Test
         void whenOccupiedThenException() throws IncorrectFieldException {
-            gameLogic.play(1, 2);
+            gameLogic.play(1, 2); //X
             assertThrows(IncorrectFieldException.class, () -> gameLogic.play(1, 2));
         }
     }

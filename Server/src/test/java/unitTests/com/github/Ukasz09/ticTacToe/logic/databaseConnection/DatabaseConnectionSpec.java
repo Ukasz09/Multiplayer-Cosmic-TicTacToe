@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToe;
+package unitTests.com.github.Ukasz09.ticTacToe.logic.databaseConnection;
 
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeBean;
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeDatabase;

@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToe;
+package unitTests.com.github.Ukasz09.ticTacToe.logic;
 
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeBean;
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeDatabase;
@@ -22,6 +22,7 @@ public class LogicDefaultBoardSizeSpec {
     @BeforeEach
     final void initializeDefaultGameLogic() throws Exception {
         database = mock(TicTacToeDatabase.class);
+        doReturn(true).when(database).drop();
         doReturn(true).when(database).saveMove(any(TicTacToeBean.class));
         gameLogic = new GameLogic(database);
     }

@@ -1,3 +1,5 @@
+// TODO: 14.05.2020 zmienic by drop by wykonywany dla gry z poszczegolnym id
+
 package com.github.Ukasz09.ticTacToe.logic.game;
 
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeBean;
@@ -7,7 +9,6 @@ import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectFieldExceptio
 import com.mongodb.MongoException;
 
 import java.awt.*;
-import java.net.UnknownHostException;
 import java.util.*;
 
 public class GameLogic {
@@ -22,6 +23,7 @@ public class GameLogic {
     private Point[] winningCoords;
     private int actualOffsetInWinningCoordsArr = 0;
     private TicTacToeDatabase database;
+    private int actualTurnNumber = 0;
 
     //----------------------------------------------------------------------------------------------------------------//
     public GameLogic(TicTacToeDatabase database) throws IncorrectBoardSizeException {
@@ -35,6 +37,8 @@ public class GameLogic {
     public GameLogic(int boardSize, int marksQtyForWin, TicTacToeDatabase database) throws IncorrectBoardSizeException {
         this.database = database;
         resetBoard(boardSize, marksQtyForWin);
+        if (!database.drop())
+            throw new MongoException("Can't clear database");
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -66,8 +70,7 @@ public class GameLogic {
         checkAxisIsCorrect(y);
         checkFieldIsNotMarked(x, y);
         setBox(x, y, actualPlayer);
-        // TODO: 14.05.2020 turn =1
-        if (!getDatabase().saveMove(new TicTacToeBean(1, x, y, actualPlayer)))
+        if (!getDatabase().saveMove(new TicTacToeBean(++actualTurnNumber, x, y, actualPlayer)))
             throw new MongoException("Can't save data into database");
         return getResult(x, y);
     }

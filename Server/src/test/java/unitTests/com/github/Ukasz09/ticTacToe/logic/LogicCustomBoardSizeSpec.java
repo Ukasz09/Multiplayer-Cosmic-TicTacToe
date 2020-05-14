@@ -1,4 +1,4 @@
-package com.github.Ukasz09.ticTacToe;
+package unitTests.com.github.Ukasz09.ticTacToe.logic;
 
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeBean;
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeDatabase;
@@ -21,6 +21,7 @@ public class LogicCustomBoardSizeSpec {
     @BeforeEach
     final void initializeLogicWith7x7Board() throws Exception {
         TicTacToeDatabase database = mock(TicTacToeDatabase.class);
+        doReturn(true).when(database).drop();
         doReturn(true).when(database).saveMove(any(TicTacToeBean.class));
         gameLogic = new GameLogic(7, GameLogic.DEFAULT_MARKS_QTY_FOR_WIN, database);
     }
@@ -167,6 +168,7 @@ public class LogicCustomBoardSizeSpec {
     void WhenAllBoxesFiledAndNoWinnerThenDraw() throws Exception {
         TicTacToeDatabase database = mock(TicTacToeDatabase.class);
         doReturn(true).when(database).saveMove(any(TicTacToeBean.class));
+        doReturn(true).when(database).drop();
         gameLogic = new GameLogic(3, database);
         gameLogic.play(0, 0); //X
         gameLogic.play(0, 1); //O
