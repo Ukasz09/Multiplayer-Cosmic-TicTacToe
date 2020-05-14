@@ -4,6 +4,7 @@ import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeBean;
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeDatabase;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectFieldException;
+import com.mongodb.MongoException;
 
 import java.awt.*;
 import java.net.UnknownHostException;
@@ -65,7 +66,9 @@ public class GameLogic {
         checkAxisIsCorrect(y);
         checkFieldIsNotMarked(x, y);
         setBox(x, y, actualPlayer);
-        getDatabase().saveMove(new TicTacToeBean(1, x, y, actualPlayer)); // TODO: 14.05.2020 turn =1
+        // TODO: 14.05.2020 turn =1
+        if (!getDatabase().saveMove(new TicTacToeBean(1, x, y, actualPlayer)))
+            throw new MongoException("Can't save data into database");
         return getResult(x, y);
     }
 

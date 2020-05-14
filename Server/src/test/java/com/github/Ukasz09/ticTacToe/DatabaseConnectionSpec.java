@@ -12,14 +12,14 @@ import java.net.UnknownHostException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class DatabaseTest {
+public class DatabaseConnectionSpec {
     private TicTacToeDatabase gameDatabase;
     private MongoCollection mongoCollectionMock;
     private TicTacToeBean bean;
 
     //----------------------------------------------------------------------------------------------------------------//
     @BeforeEach
-    public void initTicTacToeCollection() throws UnknownHostException {
+    public void initTicTacToeDatabase() throws UnknownHostException {
         gameDatabase = spy(new TicTacToeDatabase());
         mongoCollectionMock = mock(MongoCollection.class);
         bean = new TicTacToeBean(3, 2, 1, GameLogic.PLAYERS_ID[0]);
