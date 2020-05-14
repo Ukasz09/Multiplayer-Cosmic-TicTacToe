@@ -1,9 +1,11 @@
 package com.github.Ukasz09.ticTacToe.logic.game;
 
+import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeDatabase;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectFieldException;
 
 import java.awt.*;
+import java.net.UnknownHostException;
 import java.util.*;
 
 public class GameLogic {
@@ -17,17 +19,23 @@ public class GameLogic {
     private int marksQtyForWin = DEFAULT_MARKS_QTY_FOR_WIN;
     private Point[] winningCoords;
     private int actualOffsetInWinningCoordsArr = 0;
+    private TicTacToeDatabase database;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameLogic() throws IncorrectBoardSizeException {
-        this(DEFAULT_BOARD_SIZE);
+    public GameLogic() throws IncorrectBoardSizeException, UnknownHostException {
+        this(DEFAULT_BOARD_SIZE, new TicTacToeDatabase());
     }
 
-    public GameLogic(int boardSize) throws IncorrectBoardSizeException {
-        this(boardSize, DEFAULT_MARKS_QTY_FOR_WIN);
+    public GameLogic(TicTacToeDatabase database) throws IncorrectBoardSizeException {
+        this(DEFAULT_BOARD_SIZE, database);
     }
 
-    public GameLogic(int boardSize, int marksQtyForWin) throws IncorrectBoardSizeException {
+    public GameLogic(int boardSize, TicTacToeDatabase database) throws IncorrectBoardSizeException {
+        this(boardSize, DEFAULT_MARKS_QTY_FOR_WIN, database);
+    }
+
+    public GameLogic(int boardSize, int marksQtyForWin, TicTacToeDatabase database) throws IncorrectBoardSizeException {
+        this.database = database;
         resetBoard(boardSize, marksQtyForWin);
     }
 
@@ -209,5 +217,9 @@ public class GameLogic {
 
     public void setActualPlayerID(char playerSign) {
         this.actualPlayer = playerSign;
+    }
+
+    public TicTacToeDatabase getDatabase() {
+        return database;
     }
 }

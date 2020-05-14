@@ -1,18 +1,18 @@
 package com.github.Ukasz09.ticTacToe;
 
+import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeDatabase;
 import com.github.Ukasz09.ticTacToe.logic.game.GameLogic;
 import com.github.Ukasz09.ticTacToe.logic.game.GameResults;
-import com.github.Ukasz09.ticTacToe.logic.game.Player;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectFieldException;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectPlayerException;
 import org.junit.jupiter.api.*;
 
 import java.awt.*;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.github.Ukasz09.ticTacToe.logic.game.GameLogic.PLAYERS_ID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameLogicTests {
@@ -21,7 +21,7 @@ class GameLogicTests {
     @Nested
     class TestsForAnyBoardAndMarkQty {
         @BeforeEach
-        final void initializeDefaultTicTacGame() throws IncorrectBoardSizeException, IncorrectPlayerException {
+        final void initializeDefaultTicTacGame() throws Exception {
             gameLogic = new GameLogic();
         }
 
@@ -78,13 +78,13 @@ class GameLogicTests {
     @Nested
     class TestsForDefaultBoardAndMarkQty {
         @BeforeEach
-        final void initializeDefaultTicTacGame() throws IncorrectBoardSizeException, IncorrectPlayerException {
+        final void initializeDefaultTicTacGame() throws Exception {
             gameLogic = new GameLogic();
         }
 
         @Test
         void whenIncorrectBoardSizeThenIncorrectBoardException() {
-            assertThrows(IncorrectBoardSizeException.class, () -> gameLogic = new GameLogic(2));
+            assertThrows(IncorrectBoardSizeException.class, () -> gameLogic = new GameLogic(2, new TicTacToeDatabase()));
         }
 
 
@@ -146,8 +146,8 @@ class GameLogicTests {
             }
 
             @Test
-            void WhenAllBoxesFiledAndNoWinnerThenDraw() throws IncorrectBoardSizeException, IncorrectFieldException, IncorrectPlayerException {
-                gameLogic = new GameLogic(3);
+            void WhenAllBoxesFiledAndNoWinnerThenDraw() throws Exception {
+                gameLogic = new GameLogic(3, new TicTacToeDatabase());
                 gameLogic.markField(0, 0); //X
                 gameLogic.markField(0, 1); //O
                 gameLogic.markField(0, 2); //X
@@ -283,8 +283,8 @@ class GameLogicTests {
     @Nested
     class TestsFor7x7BoardAndDefaultMarkQty {
         @BeforeEach
-        final void initializeCustomTicTac() throws IncorrectBoardSizeException, IncorrectPlayerException {
-            gameLogic = new GameLogic(7, GameLogic.DEFAULT_MARKS_QTY_FOR_WIN);
+        final void initializeCustomTicTac() throws Exception {
+            gameLogic = new GameLogic(7, GameLogic.DEFAULT_MARKS_QTY_FOR_WIN, new TicTacToeDatabase());
         }
 
         @Nested
@@ -424,6 +424,19 @@ class GameLogicTests {
                 assertTrue(expectedWinningCoords.size() == actualWinningCoords.size() &&
                         actualWinningCoords.containsAll(expectedWinningCoords) && expectedWinningCoords.containsAll(actualWinningCoords));
             }
+        }
+    }
+
+    @Nested
+    class DatabaseCommunication {
+        @BeforeEach
+        final void initializeDefaultTicTacGame() throws Exception {
+            gameLogic = new GameLogic();
+        }
+
+        @Test
+        public void whenInstantiatedThenSetDatabase() {
+            assertNotNull(gameLogic.getDatabase());
         }
     }
 }
