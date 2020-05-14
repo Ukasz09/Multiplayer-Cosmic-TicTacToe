@@ -156,7 +156,7 @@ public class ServerController implements IMsgObserver {
 
     private GameResults markField(int coordsX, int coordsY, int playerId) {
         try {
-            GameResults result = gameLogic.markField(coordsX, coordsY);
+            GameResults result = gameLogic.play(coordsX, coordsY);
             server.sendMessageToAll(Messages.ADD_SIGN_TO_BOX + Messages.DELIMITER + coordsX + Messages.DELIMITER + coordsY + Messages.DELIMITER + playerId);
             return result;
         } catch (IncorrectFieldException e) {

@@ -1,5 +1,6 @@
 package com.github.Ukasz09.ticTacToe.logic.game;
 
+import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeBean;
 import com.github.Ukasz09.ticTacToe.logic.databaseConnection.TicTacToeDatabase;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectBoardSizeException;
 import com.github.Ukasz09.ticTacToe.logic.game.exceptions.IncorrectFieldException;
@@ -22,10 +23,6 @@ public class GameLogic {
     private TicTacToeDatabase database;
 
     //----------------------------------------------------------------------------------------------------------------//
-    public GameLogic() throws IncorrectBoardSizeException, UnknownHostException {
-        this(DEFAULT_BOARD_SIZE, new TicTacToeDatabase());
-    }
-
     public GameLogic(TicTacToeDatabase database) throws IncorrectBoardSizeException {
         this(DEFAULT_BOARD_SIZE, database);
     }
@@ -62,12 +59,13 @@ public class GameLogic {
             winningCoords[i] = new Point(-1, -1);
     }
 
-    public GameResults markField(int x, int y) throws IncorrectFieldException {
+    public GameResults play(int x, int y) throws IncorrectFieldException {
         changePlayerToNext();
         checkAxisIsCorrect(x);
         checkAxisIsCorrect(y);
         checkFieldIsNotMarked(x, y);
         setBox(x, y, actualPlayer);
+        getDatabase().saveMove(new TicTacToeBean(1, x, y, actualPlayer)); // TODO: 14.05.2020 turn =1
         return getResult(x, y);
     }
 
